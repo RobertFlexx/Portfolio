@@ -4454,7 +4454,6 @@ noscript {
   }
 }
 
-// Respect the user's motion setting without reducing the interface.
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
