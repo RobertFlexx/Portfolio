@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d8ff45">
+    <meta name="description" content="An animated breakdown of how Robert Flexx's static Elm and SCSS portfolio is built.">
+    <meta property="og:title" content="Build Manifest — Robert Flexx">
+    <meta property="og:description" content="Elm, SCSS, static files, and no mystery meat.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <title>Build Manifest — Robert Flexx</title>
+  </head>
+  <body>
+    <noscript>This page needs JavaScript enabled to start the Elm application.</noscript>
+    <div id="app"></div>
+    <script src="build-page.js"></script>
+    <script>
+      Elm.Build.init({ node: document.getElementById("app") });
+    </script>
+  </body>
+</html>
