@@ -150,13 +150,11 @@ viewHeader model =
                 ]
             , a
                 [ class "site-nav__link"
-                , href "source.html"
-                , target "_blank"
-                , rel "noreferrer"
+                , href "build.html"
                 , onClick CloseMenu
                 ]
                 [ span [ class "site-nav__index" ] [ text "05" ]
-                , text "Source"
+                , text "This site"
                 ]
             , a
                 [ class "site-nav__link site-nav__link--contact"
@@ -755,11 +753,8 @@ viewFooter =
         , div [ class "footer__links" ]
             [ a [ href "#top" ] [ text "Top ↑" ]
             , a
-                [ href "source.html"
-                , target "_blank"
-                , rel "noreferrer"
-                ]
-                [ text "Source code ↗" ]
+                [ href "build.html" ]
+                [ text "How it’s built →" ]
             , a
                 [ href "raylib.html"
                 , target "_blank"

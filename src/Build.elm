@@ -40,6 +40,7 @@ view model =
         , main_ []
             [ viewHero
             , viewConsole model
+            , viewSourcePortal
             , viewPipeline
             , viewScss
             , viewReceipt
@@ -57,11 +58,11 @@ viewHeader =
             ]
         , p [] [ text "RF / BUILD MANIFEST" ]
         , a
-            [ href "https://github.com/RobertFlexx"
+            [ href "https://github.com/RobertFlexx/Portfolio"
             , target "_blank"
             , rel "noreferrer"
             ]
-            [ text "GITHUB ↗" ]
+            [ text "SOURCE ↗" ]
         ]
 
 
@@ -69,7 +70,7 @@ viewHero : Html Msg
 viewHero =
     section [ class "build-hero" ]
         [ div [ class "build-hero__copy" ]
-            [ p [ class "build-kicker" ] [ text "VIEW SOURCE / WITHOUT VIEWING SOURCE" ]
+            [ p [ class "build-kicker" ] [ text "THE SITE / TAKEN APART" ]
             , h1 []
                 [ span [] [ text "WHAT’S" ]
                 , span [ class "build-hero__outline" ] [ text "UNDER" ]
@@ -228,11 +229,108 @@ codeLine ( number, source ) =
         ]
 
 
+viewSourcePortal : Html Msg
+viewSourcePortal =
+    section [ class "source-portal" ]
+        [ div [ class "build-section-heading build-section-heading--dark" ]
+            [ p [ class "build-kicker" ] [ text "02 / THE ACTUAL SOURCE" ]
+            , h2 [] [ text "Here’s the real code." ]
+            , p [] [ text "Four scraps from the files running this place. The complete repository is sitting in the middle." ]
+            ]
+        , div [ class "source-portal__stage" ]
+            [ div [ class "source-portal__wires", attribute "aria-hidden" "true" ]
+                [ span [] [], span [] [], span [] [], span [] [] ]
+            , sourceSnippet
+                "01"
+                "src/Main.elm"
+                "ELM"
+                "source-snippet--elm"
+                [ "view model ="
+                , "    div [ class \"site-shell\" ]"
+                , "        [ viewHeader model"
+                , "        , viewProjects model"
+                , "        ]"
+                ]
+            , sourceSnippet
+                "02"
+                "src/styles.scss"
+                "SCSS"
+                "source-snippet--scss"
+                [ "$acid: #d8ff45;"
+                , ""
+                , ".section-pad {"
+                , "  padding: clamp(5rem, 12vw, 11rem);"
+                , "}"
+                ]
+            , a
+                [ class "source-core"
+                , href "https://github.com/RobertFlexx/Portfolio"
+                , target "_blank"
+                , rel "noreferrer"
+                , attribute "aria-label" "Open the source code for Robert Flexx's portfolio on GitHub"
+                ]
+                [ span [ class "source-core__eyebrow" ] [ text "PUBLIC REPOSITORY / 001" ]
+                , strong []
+                    [ span [] [ text "OPEN" ]
+                    , span [] [ text "THE SOURCE" ]
+                    ]
+                , p [] [ text "RobertFlexx / Portfolio" ]
+                , div []
+                    [ text "READ ON GITHUB"
+                    , span [ attribute "aria-hidden" "true" ] [ text "↗" ]
+                    ]
+                ]
+            , sourceSnippet
+                "03"
+                ".github/workflows/pages.yml"
+                "YAML"
+                "source-snippet--pages"
+                [ "on:"
+                , "  push:"
+                , "    branches:"
+                , "      - main"
+                , ""
+                , "jobs:"
+                , "  deploy:"
+                ]
+            , sourceSnippet
+                "04"
+                "raylib-game.js"
+                "JAVASCRIPT"
+                "source-snippet--game"
+                [ "const UpdateGame = timestamp => {"
+                , "  updateGame(dt)"
+                , "  BeginDrawing()"
+                , "  drawShip(shakeX, shakeY)"
+                , "  EndDrawing()"
+                , "}"
+                ]
+            ]
+        , div [ class "source-portal__foot" ]
+            [ span [] [ text "ELM / SCSS / HTML / JAVASCRIPT / WASM" ]
+            , p [] [ text "No screenshots pretending to be proof. Every file is there." ]
+            ]
+        ]
+
+
+sourceSnippet : String -> String -> String -> String -> List String -> Html Msg
+sourceSnippet index filename language className lines =
+    div [ class ("source-snippet " ++ className) ]
+        [ div [ class "source-snippet__top" ]
+            [ span [] [ text (index ++ " / " ++ filename) ]
+            , span [] [ text language ]
+            ]
+        , pre [] [ code [] [ text (String.join "\n" lines) ] ]
+        , div [ class "source-snippet__signal", attribute "aria-hidden" "true" ]
+            [ span [] [], span [] [], span [] [] ]
+        ]
+
+
 viewPipeline : Html Msg
 viewPipeline =
     section [ class "build-pipeline" ]
         [ div [ class "build-section-heading build-section-heading--dark" ]
-            [ p [ class "build-kicker" ] [ text "02 / BUILD PIPELINE" ]
+            [ p [ class "build-kicker" ] [ text "03 / BUILD PIPELINE" ]
             , h2 [] [ text "Source goes in. Static comes out." ]
             , p [] [ text "No backend waiting to fall over. No database yearning for credentials. Just a deterministic little production line." ]
             ]
@@ -278,7 +376,7 @@ viewScss : Html Msg
 viewScss =
     section [ class "scss-showcase" ]
         [ div [ class "build-section-heading" ]
-            [ p [ class "build-kicker" ] [ text "03 / SCSS, ACTUALLY USED" ]
+            [ p [ class "build-kicker" ] [ text "04 / SCSS, ACTUALLY USED" ]
             , h2 [] [ text "Not CSS wearing a fake moustache." ]
             , p [] [ text "The stylesheet uses Sass as a design tool, not just as a file extension somebody forgot to remove." ]
             ]
@@ -309,7 +407,7 @@ viewReceipt : Html Msg
 viewReceipt =
     section [ class "build-receipt" ]
         [ div [ class "build-receipt__copy" ]
-            [ p [ class "build-kicker" ] [ text "04 / THE RECEIPT" ]
+            [ p [ class "build-kicker" ] [ text "05 / THE RECEIPT" ]
             , h2 [] [ text "Small stack. Full experience." ]
             , p []
                 [ text "The page is static, but it is not dead. Elm owns the interactions. SCSS owns the visual behavior. The browser does what browsers are already extremely good at. Everyone leaves satisfied." ]

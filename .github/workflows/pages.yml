@@ -23,7 +23,7 @@ jobs:
       - name: Prepare site
         run: |
           mkdir -p _site/assets _site/vendor/raylib-wasm
-          cp index.html main.js styles.css favicon.svg raylib.html raylib.css raylib-game.js source.html _site/
+          cp index.html main.js styles.css favicon.svg build.html build-page.js raylib.html raylib.css raylib-game.js source.html _site/
           cp assets/raylib-logo.png _site/assets/
           cp vendor/raylib-wasm/raylib.js vendor/raylib-wasm/raylib.wasm vendor/raylib-wasm/raylib_emscripten.js vendor/raylib-wasm/raylib_wc.js vendor/raylib-wasm/LICENSE vendor/raylib-wasm/RAYLIB-LICENSE _site/vendor/raylib-wasm/
       - uses: actions/upload-pages-artifact@v3

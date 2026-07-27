@@ -3128,6 +3128,342 @@ noscript {
   }
 }
 
+.source-portal {
+  position: relative;
+  padding: clamp(rem(90), 12vw, rem(180)) clamp(rem(20), 4vw, rem(64));
+  overflow: hidden;
+  border-top: rem(1) solid $line-dark;
+  border-bottom: rem(1) solid $line-dark;
+  background: #0c0e0b;
+  color: $paper;
+
+  &::before {
+    position: absolute;
+    top: 7%;
+    left: 50%;
+    width: clamp(0rem, 72vw, rem(1080));
+    height: clamp(0rem, 72vw, rem(1080));
+    border: rem(1) solid rgba($acid, 0.13);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 7vw rgba($blue, 0.025),
+      0 0 0 14vw rgba($acid, 0.018);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .build-section-heading {
+    margin-bottom: clamp(rem(46), 7vw, rem(78));
+  }
+
+  &__stage {
+    position: relative;
+    min-height: clamp(rem(760), 72vw, rem(980));
+    max-width: rem(1320);
+    margin: 0 auto;
+    overflow: hidden;
+    border: rem(1) solid rgba($paper, 0.25);
+    background:
+      linear-gradient(rgba($acid, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($acid, 0.035) 1px, transparent 1px),
+      radial-gradient(circle at center, rgba($acid, 0.08), transparent 32%);
+    background-size: rem(28) rem(28), rem(28) rem(28), auto;
+    isolation: isolate;
+
+    &::before {
+      position: absolute;
+      top: rem(18);
+      left: rem(20);
+      color: $muted-dark;
+      content: "SOURCE MAP / LIVE";
+      font-family: "SFMono-Regular", "Cascadia Code", monospace;
+      font-size: rem(8);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    &::after {
+      position: absolute;
+      right: rem(18);
+      bottom: rem(16);
+      width: rem(8);
+      height: rem(8);
+      border-radius: 50%;
+      background: $acid;
+      box-shadow: 0 0 rem(16) $acid;
+      content: "";
+      animation: status-pulse 2.4s ease-in-out infinite;
+    }
+  }
+
+  &__wires {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 48%;
+      height: rem(1);
+      background: linear-gradient(90deg, rgba($acid, 0.72), rgba($blue, 0.08), transparent 78%);
+      background-size: 200% 100%;
+      transform-origin: left;
+      animation: source-wire-flow 3.2s linear infinite;
+
+      &:nth-child(1) {
+        transform: rotate(-146deg);
+      }
+
+      &:nth-child(2) {
+        transform: rotate(-34deg);
+        animation-delay: 600ms;
+      }
+
+      &:nth-child(3) {
+        transform: rotate(146deg);
+        animation-delay: 1.2s;
+      }
+
+      &:nth-child(4) {
+        transform: rotate(34deg);
+        animation-delay: 1.8s;
+      }
+    }
+  }
+
+  &__foot {
+    @extend %micro-label;
+    display: flex;
+    justify-content: space-between;
+    gap: rem(30);
+    max-width: rem(1320);
+    margin: rem(24) auto 0;
+    color: $muted-dark;
+    font-size: rem(8);
+
+    p {
+      color: $paper-warm;
+      text-align: right;
+    }
+  }
+}
+
+.source-core {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(rem(250), 24vw, rem(345));
+  aspect-ratio: 1;
+  padding: clamp(rem(24), 3vw, rem(42));
+  border: rem(2) solid $ink;
+  background: $acid;
+  box-shadow: rem(13) rem(13) 0 $blue, rem(26) rem(26) 0 $coral;
+  color: $ink;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  transition: box-shadow 220ms ease, transform 220ms ease;
+
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: -1;
+    border: rem(1) solid rgba($paper, 0.28);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+  }
+
+  &::before {
+    inset: rem(-55);
+    border-style: dashed;
+    animation: spin 32s linear infinite;
+  }
+
+  &::after {
+    inset: rem(-100);
+    border-color: rgba($acid, 0.12);
+    animation: spin-reverse 48s linear infinite;
+  }
+
+  &:hover,
+  &:focus-visible {
+    box-shadow: rem(7) rem(7) 0 $blue, rem(17) rem(17) 0 $coral;
+    transform: translate(-50%, -50%) rotate(0) scale(1.035);
+  }
+
+  &__eyebrow {
+    @extend %micro-label;
+    font-size: rem(8);
+  }
+
+  strong {
+    display: flex;
+    flex-direction: column;
+    margin-block: auto;
+    font-family: "Arial Narrow", "Roboto Condensed", "Helvetica Neue", sans-serif;
+    font-size: clamp(rem(47), 5.3vw, rem(74));
+    font-weight: 900;
+    letter-spacing: -0.07em;
+    line-height: 0.78;
+  }
+
+  > p {
+    margin-bottom: rem(22);
+    font-family: "SFMono-Regular", "Cascadia Code", monospace;
+    font-size: clamp(rem(10), 0.9vw, rem(13));
+  }
+
+  > div {
+    @extend %micro-label;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: rem(13);
+    border-top: rem(1) solid rgba($ink, 0.45);
+
+    span {
+      font-size: rem(20);
+      transition: transform 180ms ease;
+    }
+  }
+
+  &:hover > div span,
+  &:focus-visible > div span {
+    transform: translate(rem(3), rem(-3));
+  }
+}
+
+.source-snippet {
+  --snippet-accent: #{$acid};
+  --snippet-tilt: -2deg;
+  position: absolute;
+  z-index: 4;
+  width: clamp(rem(255), 29vw, rem(400));
+  min-height: rem(220);
+  overflow: hidden;
+  border: rem(1) solid rgba($paper, 0.42);
+  background: rgba(#121510, 0.96);
+  box-shadow: rem(8) rem(8) 0 rgba($paper, 0.07);
+  animation: source-card-float 6s ease-in-out infinite;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: rem(3);
+    background: var(--snippet-accent);
+    content: "";
+  }
+
+  &:hover {
+    border-color: var(--snippet-accent);
+    box-shadow: rem(12) rem(12) 0 rgba($paper, 0.08);
+    animation-play-state: paused;
+  }
+
+  &__top {
+    @extend %micro-label;
+    display: flex;
+    justify-content: space-between;
+    gap: rem(16);
+    padding: rem(13) rem(15);
+    border-bottom: rem(1) solid $line-dark;
+    color: $muted-dark;
+    font-size: rem(7);
+
+    span:first-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    span:last-child {
+      flex: none;
+      color: var(--snippet-accent);
+    }
+  }
+
+  pre {
+    margin: 0;
+    padding: rem(20);
+    overflow-x: auto;
+    color: $paper;
+    font-family: "SFMono-Regular", "Cascadia Code", "Liberation Mono", monospace;
+    font-size: clamp(rem(9), 0.9vw, rem(12));
+    line-height: 1.75;
+    white-space: pre;
+  }
+
+  &__signal {
+    position: absolute;
+    right: rem(13);
+    bottom: rem(11);
+    display: flex;
+    gap: rem(4);
+
+    span {
+      width: rem(4);
+      height: rem(4);
+      border-radius: 50%;
+      background: var(--snippet-accent);
+      animation: data-dot 1.2s ease-in-out infinite;
+
+      &:nth-child(2) {
+        animation-delay: 150ms;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 300ms;
+      }
+    }
+  }
+
+  &--elm {
+    --snippet-accent: #{$blue};
+    --snippet-tilt: -2.5deg;
+    top: 9%;
+    left: 4%;
+  }
+
+  &--scss {
+    --snippet-accent: #{$red};
+    --snippet-tilt: 2deg;
+    top: 8%;
+    right: 4%;
+    animation-delay: 900ms;
+  }
+
+  &--pages {
+    --snippet-accent: #{$acid};
+    --snippet-tilt: 1.5deg;
+    bottom: 8%;
+    left: 6%;
+    animation-delay: 1.8s;
+  }
+
+  &--game {
+    --snippet-accent: #{$violet};
+    --snippet-tilt: -2deg;
+    right: 5%;
+    bottom: 7%;
+    animation-delay: 2.7s;
+  }
+}
+
 .build-pipeline {
   padding: clamp(rem(90), 12vw, rem(180)) clamp(rem(20), 4vw, rem(64));
   overflow: hidden;
@@ -3517,6 +3853,23 @@ noscript {
   50% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes source-card-float {
+  0%,
+  100% {
+    transform: rotate(var(--snippet-tilt)) translateY(rem(-5));
+  }
+
+  50% {
+    transform: rotate(var(--snippet-tilt)) translateY(rem(8));
+  }
+}
+
+@keyframes source-wire-flow {
+  to {
+    background-position: -200% 0;
   }
 }
 
@@ -3964,6 +4317,50 @@ noscript {
 
     > p:last-child {
       max-width: rem(620);
+    }
+  }
+
+  .source-portal {
+    &__stage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: rem(24);
+      min-height: 0;
+      padding: rem(42) rem(30);
+      overflow: hidden;
+    }
+
+    &__wires {
+      display: none;
+    }
+
+    &__foot {
+      align-items: flex-start;
+    }
+  }
+
+  .source-snippet {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: rem(220);
+    --snippet-tilt: 0deg;
+  }
+
+  .source-core {
+    position: relative;
+    top: auto;
+    left: auto;
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: rem(310);
+    margin: rem(54) 0;
+    transform: rotate(-1deg);
+
+    &:hover,
+    &:focus-visible {
+      transform: translateY(rem(-5)) rotate(0) scale(1.025);
     }
   }
 
@@ -4454,6 +4851,57 @@ noscript {
     min-width: rem(620);
   }
 
+  .source-portal {
+    &__stage {
+      grid-template-columns: 1fr;
+      gap: rem(16);
+      padding: rem(18);
+    }
+
+    &__foot {
+      flex-direction: column;
+      gap: rem(9);
+
+      p {
+        text-align: left;
+      }
+    }
+  }
+
+  .source-core {
+    order: -1;
+    grid-row: auto;
+    grid-column: 1;
+    width: 100%;
+    max-width: rem(300);
+    min-height: rem(270);
+    margin: rem(58) 0 rem(42);
+    aspect-ratio: auto;
+    padding: rem(26);
+
+    &::before {
+      inset: rem(-38);
+    }
+
+    &::after {
+      inset: rem(-70);
+    }
+
+    strong {
+      font-size: clamp(rem(48), 16vw, rem(64));
+    }
+  }
+
+  .source-snippet {
+    min-height: rem(185);
+
+    pre {
+      padding: rem(16);
+      font-size: rem(9);
+      line-height: 1.65;
+    }
+  }
+
   .scss-grid {
     grid-template-columns: 1fr;
   }
@@ -4929,7 +5377,8 @@ noscript {
 
   .build-hero__copy,
   .build-section,
-  .build-receipt {
+  .build-receipt,
+  .source-portal {
     padding-right: calc(#{rem(16)} + env(safe-area-inset-right));
     padding-left: calc(#{rem(16)} + env(safe-area-inset-left));
   }
