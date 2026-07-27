@@ -1,3 +1,7 @@
 node_modules/
 elm-stuff/
 .elm-cache/
+styles.css
+main.js
+favicon.svg
+build-page.js
