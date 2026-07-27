@@ -193,7 +193,7 @@ viewConsolePanel active =
                 , ( "09", "    --language-color: #{$color};" )
                 , ( "10", "  }" )
                 , ( "11", "}" )
-                , ( "12", "// write the rule once; let Sass do the repetitive touching" )
+                , ( "12", "write the rule once; let Sass do the repetitive touching" )
                 ]
 
 

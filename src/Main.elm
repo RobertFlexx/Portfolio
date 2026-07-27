@@ -120,7 +120,7 @@ view model =
 viewHeader : Model -> Html Msg
 viewHeader model =
     header [ class "site-header" ]
-        [ a [ class "wordmark", href "#top", onClick CloseMenu, attribute "aria-label" "Robert Flexx — home" ]
+        [ a [ class "wordmark", href "#top", onClick CloseMenu, attribute "aria-label" "Robert Flexx, home" ]
             [ span [ class "wordmark__mark", attribute "aria-hidden" "true" ]
                 [ span [] [ text "R" ]
                 , span [] [ text "F" ]
@@ -133,13 +133,30 @@ viewHeader model =
                 , ( "site-nav--open", model.menuOpen )
                 ]
             , attribute "aria-label" "Primary navigation"
+            , id "primary-navigation"
             ]
             [ navLink "#work" "01" "Work"
             , navLink "#games" "02" "Games"
             , navLink "#about" "03" "About"
-            , a [ class "site-nav__link", href "build.html", onClick CloseMenu ]
+            , a
+                [ class "site-nav__link site-nav__link--raylib"
+                , href "raylib.html"
+                , target "_blank"
+                , rel "noreferrer"
+                , onClick CloseMenu
+                ]
                 [ span [ class "site-nav__index" ] [ text "04" ]
-                , text "This site"
+                , text "Raylib ♥"
+                ]
+            , a
+                [ class "site-nav__link"
+                , href "source.html"
+                , target "_blank"
+                , rel "noreferrer"
+                , onClick CloseMenu
+                ]
+                [ span [ class "site-nav__index" ] [ text "05" ]
+                , text "Source"
                 ]
             , a
                 [ class "site-nav__link site-nav__link--contact"
@@ -157,8 +174,15 @@ viewHeader model =
                 ]
             , type_ "button"
             , onClick ToggleMenu
-            , attribute "aria-label" "Toggle navigation"
+            , attribute "aria-label"
+                (if model.menuOpen then
+                    "Close navigation"
+
+                 else
+                    "Open navigation"
+                )
             , attribute "aria-expanded" (boolString model.menuOpen)
+            , attribute "aria-controls" "primary-navigation"
             ]
             [ span [] []
             , span [] []
@@ -415,7 +439,7 @@ viewTraction =
                 (List.map viewTractionRepo tractionRepos)
             ]
         , p [ class "traction__snapshot" ]
-            [ text "PUBLIC GITHUB SNAPSHOT / 26 JUL 2026 — COUNTS WILL MOVE; THE CODE SHOULD TOO." ]
+            [ text "PUBLIC GITHUB SNAPSHOT / 26 JUL 2026: COUNTS WILL MOVE; THE CODE SHOULD TOO." ]
         ]
 
 
@@ -578,7 +602,7 @@ blockquoteView =
             , span [] [ text "ORDER." ]
             ]
         , div [ class "axiom__coordinates" ]
-            [ span [] [ text "R/F — 26" ]
+            [ span [] [ text "R/F / 26" ]
             , span [] [ text "34.05° N / 118.24° W" ]
             ]
         ]
@@ -688,7 +712,7 @@ viewWebFriends =
                 , p [] [ text "Python / backend / databases / web design" ]
                 ]
             , div [ class "friend-reference__reveal" ]
-                [ span [] [ text "HOVER IDEA BORROWED WITH LOVE" ]
+                [ span [] [ text "IDEA BORROWED WITH LOVE" ]
                 , strong [] [ text "GO SAY HELLO" ]
                 , span [ class "friend-reference__big-arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
                 ]
@@ -730,7 +754,18 @@ viewFooter =
         , p [] [ text "BUILT IN ELM + SCSS" ]
         , div [ class "footer__links" ]
             [ a [ href "#top" ] [ text "Top ↑" ]
-            , a [ href "build.html" ] [ text "How it’s built →" ]
+            , a
+                [ href "source.html"
+                , target "_blank"
+                , rel "noreferrer"
+                ]
+                [ text "Source code ↗" ]
+            , a
+                [ href "raylib.html"
+                , target "_blank"
+                , rel "noreferrer"
+                ]
+                [ text "Raylib ♥ ↗" ]
             , a
                 [ href "https://kokonico.me"
                 , target "_blank"
@@ -777,7 +812,7 @@ projects =
       , language = "SCALA"
       , kind = Games
       , summary = "Scala Native bindings that want to play."
-      , detail = "Early experimental raylib 6.0 bindings for Scala Native—because game development gets more interesting when two ecosystems start touching."
+      , detail = "Early experimental raylib 6.0 bindings for Scala Native, because game development gets more interesting when two ecosystems start touching."
       , url = "https://github.com/RobertFlexx/rayscal"
       , tone = "project--yellow"
       , stars = 6
@@ -788,7 +823,7 @@ projects =
       , language = "SCALA"
       , kind = Games
       , summary = "Cubes, code, and absolutely no rent."
-      , detail = "A free and open-source block voxel game in Scala—familiar terrain with a homegrown implementation underneath the pixels."
+      , detail = "A free and open-source block voxel game in Scala, with familiar terrain and a homegrown implementation underneath the pixels."
       , url = "https://github.com/RobertFlexx/blockbox"
       , tone = "project--magenta"
       , stars = 2

@@ -125,6 +125,7 @@ a {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 button {
@@ -193,7 +194,6 @@ noscript {
   animation: status-pulse 2.8s ease-in-out infinite;
 }
 
-// Header --------------------------------------------------------------------
 
 .site-header {
   position: fixed;
@@ -290,6 +290,10 @@ noscript {
       transform: translate(rem(2), rem(-2));
     }
 
+    &--raylib {
+      color: $acid;
+    }
+
     &--contact {
       margin-left: rem(4);
       padding-inline: rem(20);
@@ -354,7 +358,6 @@ noscript {
   }
 }
 
-// Hero ----------------------------------------------------------------------
 
 .hero {
   position: relative;
@@ -433,9 +436,13 @@ noscript {
     &--outline {
       align-self: flex-end;
       margin-right: 4.5vw;
-      color: transparent;
+      color: $paper;
       -webkit-text-stroke: clamp(rem(1), 0.15vw, rem(3)) $paper;
       transform-origin: right;
+
+      @supports (-webkit-text-stroke: 1px black) {
+        color: transparent;
+      }
     }
   }
 
@@ -720,7 +727,6 @@ noscript {
   }
 }
 
-// Moving strip ---------------------------------------------------------------
 
 .ticker {
   position: relative;
@@ -755,7 +761,6 @@ noscript {
   }
 }
 
-// Provenance -----------------------------------------------------------------
 
 .provenance {
   position: relative;
@@ -832,8 +837,12 @@ noscript {
       line-height: 0.82;
 
       span:last-child {
-        color: transparent;
+        color: $ink;
         -webkit-text-stroke: clamp(rem(1), 0.12vw, rem(2)) $ink;
+
+        @supports (-webkit-text-stroke: 1px black) {
+          color: transparent;
+        }
       }
     }
   }
@@ -876,7 +885,6 @@ noscript {
   }
 }
 
-// Shared heading -------------------------------------------------------------
 
 .section-heading {
   display: grid;
@@ -906,7 +914,6 @@ noscript {
   }
 }
 
-// Projects ------------------------------------------------------------------
 
 .projects {
   position: relative;
@@ -1126,7 +1133,6 @@ noscript {
   font-size: rem(9);
 }
 
-// GitHub signal --------------------------------------------------------------
 
 .traction {
   position: relative;
@@ -1405,7 +1411,6 @@ noscript {
   }
 }
 
-// Game development -----------------------------------------------------------
 
 .game-dev {
   position: relative;
@@ -1460,8 +1465,12 @@ noscript {
 
   &__outline {
     align-self: flex-end;
-    color: transparent;
+    color: $paper;
     -webkit-text-stroke: clamp(rem(1), 0.13vw, rem(2)) $paper;
+
+    @supports (-webkit-text-stroke: 1px black) {
+      color: transparent;
+    }
   }
 
   &__stage {
@@ -1884,7 +1893,6 @@ noscript {
   }
 }
 
-// About ---------------------------------------------------------------------
 
 .about {
   position: relative;
@@ -1924,8 +1932,12 @@ noscript {
       line-height: 0.86;
 
       span {
-        color: transparent;
+        color: $paper;
         -webkit-text-stroke: rem(1) $paper;
+
+        @supports (-webkit-text-stroke: 1px black) {
+          color: transparent;
+        }
       }
     }
   }
@@ -2061,7 +2073,6 @@ noscript {
   }
 }
 
-// Repository lab -------------------------------------------------------------
 
 .repo-lab {
   position: relative;
@@ -2182,7 +2193,6 @@ noscript {
   }
 }
 
-// Languages -----------------------------------------------------------------
 
 .stack {
   background: $paper;
@@ -2337,7 +2347,6 @@ noscript {
   }
 }
 
-// Web friends ----------------------------------------------------------------
 
 .web-friends {
   display: grid;
@@ -2414,7 +2423,7 @@ noscript {
     h3 {
       margin: rem(13) 0 rem(15);
       font-family: "Arial Narrow", "Helvetica Neue", sans-serif;
-      font-size: clamp(rem(70), 9vw, rem(135));
+      font-size: clamp(rem(66), 8vw, rem(116));
       font-weight: 900;
       letter-spacing: -0.075em;
       line-height: 0.78;
@@ -2441,7 +2450,10 @@ noscript {
     flex-direction: column;
     justify-content: flex-end;
     height: 55%;
-    padding: clamp(rem(22), 3vw, rem(40));
+    padding:
+      clamp(rem(22), 3vw, rem(40))
+      clamp(rem(22), 3vw, rem(40))
+      clamp(rem(78), 7vw, rem(108));
     background: $blue;
     color: $ink;
     transform: translateY(100%);
@@ -2454,10 +2466,13 @@ noscript {
     }
 
     strong {
+      max-width: calc(100% - #{rem(76)});
+      padding-right: rem(20);
       font-family: "Arial Narrow", "Helvetica Neue", sans-serif;
-      font-size: clamp(rem(43), 6vw, rem(88));
+      font-size: clamp(rem(40), 5.2vw, rem(76));
       letter-spacing: -0.065em;
-      line-height: 0.8;
+      line-height: 0.84;
+      text-wrap: balance;
     }
   }
 
@@ -2487,15 +2502,23 @@ noscript {
   &__foot {
     margin-top: auto;
     transition: color 220ms ease;
+
+    span {
+      padding: rem(5) rem(7);
+      transition: background 220ms ease, color 220ms ease;
+    }
   }
 
   &:hover &__foot,
   &:focus-visible &__foot {
-    color: $ink;
+    color: $paper;
+
+    span {
+      background: $ink;
+    }
   }
 }
 
-// Contact -------------------------------------------------------------------
 
 .contact {
   position: relative;
@@ -2563,8 +2586,12 @@ noscript {
     transition: color 220ms ease;
 
     &--outline {
-      color: transparent;
+      color: $paper;
       -webkit-text-stroke: clamp(rem(1), 0.12vw, rem(2)) $paper;
+
+      @supports (-webkit-text-stroke: 1px black) {
+        color: transparent;
+      }
     }
   }
 
@@ -2635,7 +2662,6 @@ noscript {
   }
 }
 
-// Build manifest page ========================================================
 
 .build-page {
   min-height: 100vh;
@@ -2731,8 +2757,12 @@ noscript {
   }
 
   &__outline {
-    color: transparent;
+    color: $ink;
     -webkit-text-stroke: clamp(rem(1), 0.13vw, rem(2)) $ink;
+
+    @supports (-webkit-text-stroke: 1px black) {
+      color: transparent;
+    }
   }
 
   &__lede {
@@ -3490,7 +3520,6 @@ noscript {
   }
 }
 
-// Motion --------------------------------------------------------------------
 
 .reveal {
   opacity: 0;
@@ -3589,7 +3618,6 @@ noscript {
   }
 }
 
-// Responsive ----------------------------------------------------------------
 
 @include below("large") {
   .site-nav {
@@ -4291,11 +4319,13 @@ noscript {
     box-shadow: rem(8) rem(8) 0 rgba($ink, 0.12);
 
     &__identity h3 {
-      font-size: clamp(rem(63), 19vw, rem(94));
+      font-size: clamp(rem(60), 17vw, rem(88));
     }
 
     &__reveal strong {
-      font-size: clamp(rem(39), 13vw, rem(62));
+      max-width: calc(100% - #{rem(58)});
+      padding-right: rem(10);
+      font-size: clamp(rem(36), 11vw, rem(54));
     }
   }
 
@@ -4451,6 +4481,532 @@ noscript {
     a {
       justify-self: start;
     }
+  }
+}
+
+@media (max-width: 860px) {
+  body:has(.site-nav--open) {
+    overflow: hidden;
+  }
+
+  .site-nav {
+    padding-top: calc(#{rem(92)} + env(safe-area-inset-top));
+    padding-right: calc(#{rem(20)} + env(safe-area-inset-right));
+    padding-bottom: calc(#{rem(28)} + env(safe-area-inset-bottom));
+    padding-left: calc(#{rem(20)} + env(safe-area-inset-left));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 860px) and (max-height: 620px) {
+  .site-nav {
+    justify-content: flex-start;
+  }
+
+  .site-nav__link {
+    flex: none;
+    min-height: rem(48);
+    padding-block: rem(9);
+    font-size: clamp(rem(25), 6.5vw, rem(34));
+
+    &--contact {
+      min-height: rem(50);
+      margin-top: rem(14);
+      padding: rem(13) rem(16);
+      font-size: rem(11);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    scroll-padding-top: calc(#{rem(64)} + env(safe-area-inset-top));
+  }
+
+  body {
+    min-width: 0;
+    background-size: rem(36) rem(36);
+  }
+
+  body::before {
+    display: none;
+  }
+
+  .site-shell {
+    width: 100%;
+  }
+
+  .section-pad {
+    padding:
+      rem(76)
+      calc(#{rem(16)} + env(safe-area-inset-right))
+      rem(78)
+      calc(#{rem(16)} + env(safe-area-inset-left));
+  }
+
+  .site-header {
+    height: calc(#{rem(64)} + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+    padding-right: calc(#{rem(12)} + env(safe-area-inset-right));
+    padding-left: calc(#{rem(16)} + env(safe-area-inset-left));
+  }
+
+  .wordmark__mark {
+    width: rem(34);
+    height: rem(34);
+    line-height: rem(32);
+  }
+
+  .menu-toggle {
+    width: rem(48);
+    height: rem(48);
+
+    span {
+      left: rem(10);
+      width: rem(28);
+
+      &:first-child {
+        top: rem(18);
+      }
+
+      &:last-child {
+        top: rem(28);
+      }
+    }
+
+    &--open span {
+      top: rem(23);
+    }
+  }
+
+  .site-nav__link {
+    min-height: rem(58);
+    padding-block: rem(12);
+    font-size: clamp(rem(29), 9vw, rem(42));
+
+    &--contact {
+      min-height: rem(54);
+      margin-top: rem(20);
+      padding: rem(16);
+      font-size: rem(11);
+    }
+  }
+
+  .hero {
+    padding:
+      calc(#{rem(96)} + env(safe-area-inset-top))
+      calc(#{rem(16)} + env(safe-area-inset-right))
+      rem(74)
+      calc(#{rem(16)} + env(safe-area-inset-left));
+
+    &__eyebrow {
+      max-width: rem(280);
+      margin-bottom: rem(30);
+      font-size: rem(9);
+      line-height: 1.55;
+    }
+
+    &__title {
+      font-size: clamp(rem(64), 20vw, rem(96));
+      line-height: 0.78;
+    }
+
+    &__lower {
+      gap: rem(42);
+      margin-top: rem(48);
+    }
+
+    &__lede {
+      font-size: rem(17);
+      line-height: 1.5;
+    }
+
+    &__actions {
+      gap: rem(13);
+      margin-top: rem(30);
+    }
+  }
+
+  .button {
+    min-width: 0;
+    min-height: rem(54);
+    padding: rem(16) rem(18);
+  }
+
+  .text-link {
+    min-height: rem(44);
+    padding-block: rem(12);
+  }
+
+  .system-panel {
+    &__top {
+      gap: rem(12);
+      font-size: rem(8);
+    }
+
+    &__visual {
+      min-height: rem(190);
+    }
+
+    &__log {
+      line-height: 1.55;
+    }
+  }
+
+  .section-heading {
+    gap: rem(22);
+    margin-bottom: rem(38);
+
+    h2 {
+      font-size: clamp(rem(43), 13vw, rem(64));
+      line-height: 0.92;
+    }
+
+    &__aside {
+      padding-left: rem(16);
+      font-size: rem(15);
+    }
+  }
+
+  .project-filters {
+    margin-right: rem(-16);
+    padding-right: rem(16);
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .filter {
+    min-height: rem(44);
+    padding: rem(12) rem(14);
+    scroll-snap-align: start;
+  }
+
+  .project {
+    &__link {
+      min-height: rem(156);
+      padding-block: rem(23);
+    }
+
+    &__title-row {
+      display: block;
+    }
+
+    &__name {
+      font-size: clamp(rem(35), 11.5vw, rem(50));
+      line-height: 0.94;
+      overflow-wrap: anywhere;
+    }
+
+    &__summary {
+      font-size: rem(14);
+      line-height: 1.4;
+    }
+
+    &__meta {
+      gap: rem(9);
+    }
+
+    &__signals {
+      gap: rem(5);
+    }
+  }
+
+  .traction {
+    &__intro {
+      gap: rem(28);
+      margin-bottom: rem(44);
+
+      h2 {
+        font-size: clamp(rem(45), 13.5vw, rem(64));
+      }
+    }
+
+    &__spotlight {
+      min-height: rem(380);
+      padding: rem(24);
+
+      h3 {
+        font-size: clamp(rem(48), 15vw, rem(70));
+      }
+    }
+
+    &__big-number {
+      font-size: clamp(rem(104), 36vw, rem(136));
+    }
+  }
+
+  .github-stat {
+    min-height: rem(92);
+    padding: rem(17);
+  }
+
+  .traction-row {
+    grid-template-columns: rem(24) minmax(0, 1fr) rem(42) rem(20);
+    gap: rem(9);
+    min-height: rem(86);
+    padding: rem(15) rem(12);
+
+    &__repo h3 {
+      font-size: rem(19);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .game-dev {
+    &__heading {
+      gap: rem(24);
+      margin-bottom: rem(45);
+
+      h2 {
+        font-size: clamp(rem(48), 15vw, rem(70));
+        line-height: 0.78;
+      }
+    }
+
+    &__footer {
+      gap: rem(24);
+      margin-top: rem(28);
+    }
+  }
+
+  .game-viewport {
+    min-height: rem(410);
+
+    &__hud,
+    &__readout {
+      padding: rem(12);
+      font-size: rem(8);
+    }
+
+    &__chrome strong {
+      font-size: clamp(rem(31), 12vw, rem(49));
+    }
+  }
+
+  .game-project {
+    min-height: rem(190);
+    padding: rem(21);
+
+    h3 {
+      margin-top: rem(42);
+    }
+  }
+
+  .about {
+    gap: rem(18);
+
+    &__lead h2 {
+      font-size: clamp(rem(48), 15vw, rem(68));
+    }
+
+    &__body {
+      font-size: rem(16);
+      line-height: 1.62;
+    }
+
+    &__statement {
+      font-size: clamp(rem(25), 8vw, rem(35));
+    }
+  }
+
+  .principles {
+    margin-top: rem(48);
+  }
+
+  .principle {
+    grid-template-columns: rem(34) 1fr;
+    gap: rem(12);
+  }
+
+  .axiom {
+    min-height: rem(330);
+    padding:
+      rem(34)
+      calc(#{rem(16)} + env(safe-area-inset-right))
+      rem(38)
+      calc(#{rem(16)} + env(safe-area-inset-left));
+
+    > p {
+      font-size: clamp(rem(48), 15vw, rem(70));
+      line-height: 0.78;
+    }
+  }
+
+  .repo-lab__all {
+    min-height: rem(54);
+    align-items: center;
+  }
+
+  .lab-repo {
+    min-height: rem(210);
+    padding: rem(20);
+  }
+
+  .language-card {
+    min-height: rem(178);
+    padding: rem(20);
+
+    &__name {
+      font-size: clamp(rem(46), 15vw, rem(62));
+    }
+  }
+
+  .stack__footnote {
+    margin-top: rem(24);
+  }
+
+  .web-friends {
+    gap: rem(38);
+
+    &__heading h2 {
+      font-size: clamp(rem(45), 13vw, rem(62));
+      line-height: 0.94;
+    }
+  }
+
+  .friend-reference {
+    min-height: rem(430);
+    padding: rem(20);
+
+    &__identity h3 {
+      font-size: clamp(rem(52), 16vw, rem(72));
+      line-height: 0.86;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .contact {
+    min-height: auto;
+
+    &__pre {
+      align-items: flex-start;
+      margin: rem(58) 0 rem(30);
+      line-height: 1.55;
+    }
+
+    &__line {
+      gap: rem(12);
+      font-size: clamp(rem(42), 14vw, rem(60));
+      line-height: 0.9;
+    }
+
+    &__meta {
+      gap: rem(18);
+      margin-top: rem(68);
+      line-height: 1.55;
+
+      a {
+        min-height: rem(44);
+        padding-block: rem(12);
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+
+  .footer {
+    gap: rem(18);
+    padding:
+      rem(22)
+      calc(#{rem(16)} + env(safe-area-inset-right))
+      calc(#{rem(22)} + env(safe-area-inset-bottom))
+      calc(#{rem(16)} + env(safe-area-inset-left));
+
+    &__links {
+      gap: rem(4) rem(14);
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        min-height: rem(44);
+      }
+    }
+  }
+
+  .build-hero__copy,
+  .build-section,
+  .build-receipt {
+    padding-right: calc(#{rem(16)} + env(safe-area-inset-right));
+    padding-left: calc(#{rem(16)} + env(safe-area-inset-left));
+  }
+
+  .build-reactor {
+    min-height: rem(480);
+  }
+
+  .build-console__screen {
+    min-height: rem(430);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .friend-reference {
+    min-height: 0;
+    transform: none;
+
+    &__identity {
+      margin: rem(58) 0 rem(38);
+      transform: none;
+    }
+
+    &__reveal {
+      position: relative;
+      inset: auto;
+      height: auto;
+      min-height: rem(150);
+      margin-inline: rem(-20);
+      padding: rem(20) rem(68) rem(20) rem(20);
+      transform: none;
+
+      > span:first-child {
+        margin-bottom: rem(38);
+      }
+
+      strong {
+        max-width: none;
+        padding-right: 0;
+        font-size: clamp(rem(35), 11vw, rem(48));
+      }
+    }
+
+    &__big-arrow {
+      right: rem(20);
+      bottom: rem(16);
+      font-size: rem(45);
+    }
+
+    &__foot {
+      margin: 0 rem(-20) rem(-20);
+      padding: rem(17) rem(20);
+      background: $blue;
+      color: $ink;
+    }
+  }
+
+  .friend-reference:hover,
+  .friend-reference:focus-visible {
+    transform: none;
+  }
+
+  .friend-reference:hover .friend-reference__identity,
+  .friend-reference:focus-visible .friend-reference__identity {
+    transform: none;
+  }
+
+  .friend-reference:hover .friend-reference__foot,
+  .friend-reference:focus-visible .friend-reference__foot {
+    color: $ink;
+  }
+
+  .button:active,
+  .repo-lab__all:active,
+  .game-project:active,
+  .lab-repo:active {
+    transform: translateY(rem(2));
   }
 }
 
