@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, a, article, button, div, footer, h1, h2, h3, header, main_, nav, p, section, span, strong, text)
+import Html exposing (Html, a, article, button, div, footer, h1, h2, h3, header, i, main_, nav, p, section, small, span, strong, text)
 import Html.Attributes exposing (attribute, class, classList, href, id, rel, target, type_)
 import Html.Events exposing (onClick)
 
@@ -569,6 +569,25 @@ viewAbout =
                 [ text "I bounce between operating systems, shells, editors, file traversal, graphics, games, language experiments, and whatever else refuses to leave me alone at 2 a.m. I care about code you can read, behavior you can predict, and software that does not need a venture-capital bedtime story to justify existing. And sometimes I make fuck ass shit." ]
             , p [ class "about__aside-copy" ]
                 [ text "My preferred relationship with software is simple: clear boundaries, low overhead, and no mysterious process still running the next morning." ]
+            , div [ class "origin-story" ]
+                [ div [ class "origin-story__rail", attribute "aria-hidden" "true" ]
+                    [ span []
+                        [ span [] [ text "2018" ]
+                        , small [] [ text "FIRST LINE" ]
+                        ]
+                    , i [] []
+                    , span []
+                        [ span [] [ text "2021" ]
+                        , small [] [ text "THE WEB" ]
+                        ]
+                    ]
+                , div [ class "origin-story__copy" ]
+                    [ span [ class "origin-story__label" ] [ text "04TH GRADE / RUBY / ROBOTICS" ]
+                    , h3 [] [ text "It started with a robot." ]
+                    , p []
+                        [ text "In 2018, fourth-grade me learned Ruby to script robotics. It was my first language, and the start of the whole thing. I moved into web development in 2021 and have been coding, breaking, learning, and building ever since." ]
+                    ]
+                ]
             , div [ class "principles" ]
                 [ principle "01" "Fast is a feature" "If the delay is visible, the implementation is flirting with the wrong abstraction."
                 , principle "02" "Readable under pressure" "Future me should not need candles, wine, and three hours to understand the control flow."
@@ -691,33 +710,84 @@ viewWebFriends =
             [ p [ class "kicker" ] [ text "07 / GOOD PEOPLE ON THE WIRE" ]
             , h2 [] [ text "The internet is better with friends in it." ]
             , p []
-                [ text "Kokonico builds with Python, backend systems, databases, and the web. Their portfolio also sends some love toward tedit, fastfind, and ObeliskOS, so consider this the packet coming back." ]
+                [ text "Kokonico works across Python, backend systems, databases, and the web. Moritisimor is in Germany, calls code a paintbrush, and keeps making runtimes, virtual machines, CLI tools, and small useful things." ]
             ]
-        , a
-            [ class "friend-reference"
-            , href "https://kokonico.me"
-            , target "_blank"
-            , rel "noreferrer"
-            , attribute "aria-label" "Visit Kokonico's portfolio"
+        , div [ class "web-friends__cards" ]
+            [ viewKokonicoFriend
+            , viewMoritisimorFriend
             ]
-            [ div [ class "friend-reference__top" ]
-                [ span [] [ text "FRIEND / 001" ]
-                , span [ class "friend-reference__status" ] [ text "ONLINE ↗" ]
+        ]
+
+
+viewKokonicoFriend : Html Msg
+viewKokonicoFriend =
+    a
+        [ class "friend-reference"
+        , href "https://kokonico.me"
+        , target "_blank"
+        , rel "noreferrer"
+        , attribute "aria-label" "Visit Kokonico's portfolio"
+        ]
+        [ div [ class "friend-reference__top" ]
+            [ span [] [ text "FRIEND / 001" ]
+            , span [ class "friend-reference__status" ] [ text "ONLINE ↗" ]
+            ]
+        , div [ class "friend-reference__identity" ]
+            [ span [ class "friend-reference__eyebrow" ] [ text "KKNC WEBWEAR™" ]
+            , h3 [] [ text "Kokonico" ]
+            , p [] [ text "Python / backend / databases / web design" ]
+            ]
+        , div [ class "friend-reference__reveal" ]
+            [ span [] [ text "IDEA BORROWED WITH LOVE" ]
+            , strong [] [ text "GO SAY HELLO" ]
+            , span [ class "friend-reference__big-arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
+            ]
+        , div [ class "friend-reference__foot" ]
+            [ span [] [ text "KOKONICO.ME" ]
+            , span [] [ text "OPEN PORTFOLIO" ]
+            ]
+        ]
+
+
+viewMoritisimorFriend : Html Msg
+viewMoritisimorFriend =
+    a
+        [ class "friend-reference friend-reference--moritisimor"
+        , href "https://github.com/Moritisimor/"
+        , target "_blank"
+        , rel "noreferrer"
+        , attribute "aria-label" "Visit Moritisimor on GitHub"
+        ]
+        [ div [ class "friend-reference__flag", attribute "aria-hidden" "true" ]
+            [ span [] []
+            , span [] []
+            , span [] []
+            ]
+        , div [ class "friend-reference__top" ]
+            [ span [] [ text "FRIEND / 002" ]
+            , span [ class "friend-reference__status" ] [ text "GERMANY / DE ↗" ]
+            ]
+        , div [ class "friend-reference__identity" ]
+            [ span [ class "friend-reference__eyebrow" ] [ text "ARTIST WITH A COMPILER" ]
+            , h3 []
+                [ text "Moriti"
+                , span [] [ text "simor" ]
                 ]
-            , div [ class "friend-reference__identity" ]
-                [ span [ class "friend-reference__eyebrow" ] [ text "KKNC WEBWEAR™" ]
-                , h3 [] [ text "Kokonico" ]
-                , p [] [ text "Python / backend / databases / web design" ]
+            , p [] [ text "Go / Rust / Dart / C / runtimes and small tools" ]
+            , div [ class "friend-reference__signals", attribute "aria-label" "Featured repositories" ]
+                [ span [] [ text "SATURNJS" ]
+                , span [] [ text "ATOMVM" ]
+                , span [] [ text "CUPID" ]
                 ]
-            , div [ class "friend-reference__reveal" ]
-                [ span [] [ text "IDEA BORROWED WITH LOVE" ]
-                , strong [] [ text "GO SAY HELLO" ]
-                , span [ class "friend-reference__big-arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-                ]
-            , div [ class "friend-reference__foot" ]
-                [ span [] [ text "KOKONICO.ME" ]
-                , span [] [ text "OPEN PORTFOLIO" ]
-                ]
+            ]
+        , div [ class "friend-reference__reveal friend-reference__reveal--germany" ]
+            [ span [] [ text "I AM AN ARTIST AND CODE IS MY PAINTBRUSH." ]
+            , strong [] [ text "OPEN GITHUB" ]
+            , span [ class "friend-reference__big-arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
+            ]
+        , div [ class "friend-reference__foot" ]
+            [ span [] [ text "GITHUB.COM/MORITISIMOR" ]
+            , span [] [ text "VIEW THE WORK" ]
             ]
         ]
 
@@ -767,6 +837,12 @@ viewFooter =
                 , rel "noreferrer"
                 ]
                 [ text "Kokonico ↗" ]
+            , a
+                [ href "https://github.com/Moritisimor/"
+                , target "_blank"
+                , rel "noreferrer"
+                ]
+                [ text "Moritisimor ↗" ]
             , a
                 [ href "https://github.com/RobertFlexx"
                 , target "_blank"
