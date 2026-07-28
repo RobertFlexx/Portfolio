@@ -11,6 +11,48 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://github.com/RobertFlexx">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <script>
+      (function syncBirthdayThemes() {
+        const now = new Date();
+        const birthdayThemes = [
+          {
+            className: "moritisimor-birthday",
+            month: 7,
+            day: 28,
+            timeZone: "Europe/Berlin"
+          },
+          { className: "kokonico-birthday", month: 10, day: 24 },
+          { className: "robert-birthday", month: 11, day: 21 }
+        ];
+
+        birthdayThemes.forEach(({ className, month, day, timeZone }) => {
+          let currentMonth = now.getMonth() + 1;
+          let currentDay = now.getDate();
+
+          if (timeZone) {
+            const dateParts = new Intl.DateTimeFormat("en-US", {
+              timeZone,
+              month: "numeric",
+              day: "numeric"
+            }).formatToParts(now);
+            const partValue = (type) =>
+              Number(dateParts.find((part) => part.type === type).value);
+
+            currentMonth = partValue("month");
+            currentDay = partValue("day");
+          }
+
+          const isBirthday = currentMonth === month && currentDay === day;
+          document.documentElement.classList.toggle(className, isBirthday);
+        });
+
+        const nextMinute = 60000 - (now.getTime() % 60000) + 50;
+        window.setTimeout(
+          syncBirthdayThemes,
+          nextMinute
+        );
+      })();
+    </script>
     <link rel="stylesheet" href="styles.css">
     <title>Robert Flexx | Systems Developer</title>
   </head>

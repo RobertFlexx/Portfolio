@@ -24,7 +24,7 @@ $language-colors: (
   "cpp": $blue,
   "ruby": $red,
   "nim": $acid,
-  "c": $paper,
+  "c": #a7aaa3,
   "zig": $orange,
   "odin": $violet,
   "rust": $coral,
@@ -2632,11 +2632,212 @@ noscript {
   }
 }
 
+.kokonico-birthday {
+  .web-friends__cards > .friend-reference:first-child {
+    border-color: #b8a2ff;
+    background:
+      radial-gradient(circle at 78% 22%, rgba(#ff5f8f, 0.2), transparent 26%),
+      linear-gradient(rgba(#d8ff45, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(#b8a2ff, 0.055) 1px, transparent 1px),
+      #15131d;
+    background-size: auto, rem(24) rem(24), rem(24) rem(24), auto;
+    box-shadow: rem(9) rem(9) 0 #ff5f8f, rem(17) rem(17) 0 #d8ff45;
+
+    &::before {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background:
+        linear-gradient(35deg, transparent 40%, #d8ff45 40% 60%, transparent 60%)
+          8% 29% / #{rem(14)} #{rem(14)} no-repeat,
+        linear-gradient(-48deg, transparent 42%, #ff5f8f 42% 58%, transparent 58%)
+          89% 42% / #{rem(15)} #{rem(15)} no-repeat,
+        linear-gradient(60deg, transparent 43%, #b8a2ff 43% 57%, transparent 57%)
+          14% 68% / #{rem(13)} #{rem(13)} no-repeat,
+        linear-gradient(-30deg, transparent 42%, #56a8ff 42% 58%, transparent 58%)
+          84% 73% / #{rem(15)} #{rem(15)} no-repeat,
+        radial-gradient(circle, #ff5f8f 0 rem(3), transparent rem(4))
+          19% 46% / #{rem(9)} #{rem(9)} no-repeat,
+        radial-gradient(circle, #d8ff45 0 rem(3), transparent rem(4))
+          91% 58% / #{rem(9)} #{rem(9)} no-repeat;
+      content: "";
+      pointer-events: none;
+    }
+
+    &::after {
+      position: absolute;
+      z-index: 1;
+      top: clamp(rem(72), 6vw, rem(92));
+      right: clamp(rem(22), 2.5vw, rem(35));
+      width: clamp(rem(31), 3vw, rem(43));
+      height: clamp(rem(38), 3.6vw, rem(52));
+      border: rem(2) solid #e9e7df;
+      border-radius: 52% 48% 50% 50% / 46% 46% 54% 54%;
+      background: linear-gradient(145deg, #d8ff45, #8fbc00);
+      box-shadow:
+        rem(-29) rem(17) 0 rem(-2) #ff5f8f,
+        rem(-27) rem(18) 0 0 #e9e7df,
+        rem(23) rem(20) 0 rem(-4) #b8a2ff,
+        rem(22) rem(21) 0 rem(-2) #e9e7df;
+      content: "";
+      opacity: 0.92;
+      pointer-events: none;
+      transform: rotate(6deg);
+      animation: birthday-balloon-float 4.2s ease-in-out infinite;
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: #d8ff45;
+      box-shadow: rem(7) rem(7) 0 #ff5f8f, rem(14) rem(14) 0 #d8ff45;
+    }
+
+    .friend-reference__status {
+      color: #d8ff45;
+    }
+
+    .friend-reference__identity {
+      h3 {
+        position: relative;
+        width: fit-content;
+        color: #f7f4ff;
+        text-shadow: rem(4) rem(4) 0 rgba(#7c5cff, 0.45);
+
+        &::before {
+          position: absolute;
+          z-index: 2;
+          bottom: calc(100% + #{rem(10)});
+          left: clamp(rem(18), 2vw, rem(30));
+          width: clamp(rem(44), 3.8vw, rem(57));
+          height: clamp(rem(47), 4vw, rem(62));
+          border-bottom: rem(7) solid #e9e7df;
+          background:
+            radial-gradient(
+              circle at 50% 8%,
+              #d8ff45 0 rem(6),
+              #e9e7df rem(6) rem(8),
+              transparent rem(8)
+            ),
+            repeating-linear-gradient(
+              112deg,
+              #b8a2ff 0 rem(10),
+              #ff5f8f rem(10) rem(20),
+              #d8ff45 rem(20) rem(30)
+            );
+          box-sizing: border-box;
+          clip-path: polygon(
+            43% 0,
+            57% 0,
+            61% 15%,
+            100% 88%,
+            88% 100%,
+            12% 100%,
+            0 88%,
+            39% 15%
+          );
+          content: "";
+          filter: drop-shadow(0 rem(3) 0 #7c5cff);
+          pointer-events: none;
+          transform: rotate(-8deg);
+          transform-origin: 50% 100%;
+          animation: birthday-hat-bob 2.8s ease-in-out infinite;
+        }
+
+        &::after {
+          position: absolute;
+          z-index: 2;
+          top: 55%;
+          left: calc(100% + #{rem(10)});
+          width: clamp(rem(60), 5vw, rem(78));
+          height: clamp(rem(16), 1.4vw, rem(20));
+          border: rem(2) solid #e9e7df;
+          border-radius: rem(8) rem(2) rem(2) rem(8);
+          background:
+            linear-gradient(135deg, transparent 75%, #e9e7df 75% 85%, transparent 85%)
+              right center / rem(13) 100% no-repeat,
+            radial-gradient(circle at rem(7) 50%, #7c5cff 0 rem(5), transparent rem(6)),
+            repeating-linear-gradient(
+              90deg,
+              #ff5f8f 0 rem(9),
+              #d8ff45 rem(9) rem(18),
+              #b8a2ff rem(18) rem(27)
+            );
+          clip-path: polygon(0 25%, 84% 25%, 100% 0, 94% 50%, 100% 100%, 84% 75%, 0 75%);
+          content: "";
+          pointer-events: none;
+          transform: rotate(9deg);
+          transform-origin: left center;
+          animation: kokonico-party-blower-pop 2.8s ease-in-out infinite;
+        }
+      }
+
+      p {
+        color: #c7c1d8;
+      }
+    }
+
+    .friend-reference__eyebrow {
+      color: #b8a2ff;
+
+      &::after {
+        display: block;
+        width: fit-content;
+        margin-top: rem(12);
+        margin-left: clamp(rem(86), 7.5vw, rem(112));
+        padding: rem(6) rem(9);
+        border: rem(2) solid #e9e7df;
+        background: #ff5f8f;
+        box-shadow: rem(4) rem(4) 0 #7c5cff;
+        color: #111310;
+        content: "✦ HAPPY BIRTHDAY, KOKONICO! ✦";
+        font-size: clamp(rem(7), 0.58vw, rem(9));
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        white-space: nowrap;
+        transform: rotate(-2deg);
+      }
+    }
+
+    .friend-reference__reveal {
+      background:
+        linear-gradient(145deg, rgba(#b8a2ff, 0.92), rgba(#ff5f8f, 0.94)),
+        #7c5cff;
+    }
+
+    .friend-reference__foot {
+      color: #d8ff45;
+    }
+  }
+}
+
 .friend-reference--moritisimor {
   border-color: $ink;
   background: #f4f1e8;
   box-shadow: rem(10) rem(10) 0 #dd0000, rem(18) rem(18) 0 #ffce00;
   color: $ink;
+
+  &::before {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background:
+      linear-gradient(38deg, transparent 42%, #dd0000 42% 58%, transparent 58%)
+        8% 31% / #{rem(13)} #{rem(13)} no-repeat,
+      linear-gradient(-28deg, transparent 43%, #ffce00 43% 57%, transparent 57%)
+        91% 38% / #{rem(15)} #{rem(15)} no-repeat,
+      linear-gradient(62deg, transparent 43%, #111 43% 57%, transparent 57%)
+        83% 66% / #{rem(12)} #{rem(12)} no-repeat,
+      linear-gradient(-52deg, transparent 43%, #dd0000 43% 57%, transparent 57%)
+        12% 72% / #{rem(14)} #{rem(14)} no-repeat,
+      radial-gradient(circle, #ffce00 0 rem(3), transparent rem(4))
+        18% 45% / #{rem(9)} #{rem(9)} no-repeat,
+      radial-gradient(circle, #dd0000 0 rem(3), transparent rem(4))
+        88% 53% / #{rem(9)} #{rem(9)} no-repeat;
+    content: none;
+    opacity: 0.9;
+    pointer-events: none;
+  }
 
   &:hover,
   &:focus-visible {
@@ -2686,6 +2887,8 @@ noscript {
     padding-top: rem(58);
 
     h3 {
+      position: relative;
+      width: fit-content;
       font-size: clamp(rem(50), 4.5vw, rem(73));
       line-height: 0.79;
 
@@ -2693,16 +2896,102 @@ noscript {
         display: block;
         color: #c80000;
       }
+
+      &::before {
+        position: absolute;
+        z-index: 2;
+        bottom: calc(100% + #{rem(9)});
+        left: clamp(rem(18), 2vw, rem(30));
+        width: clamp(rem(43), 3.7vw, rem(56));
+        height: clamp(rem(46), 4vw, rem(61));
+        background:
+          radial-gradient(
+            circle at 50% 8%,
+            #dd0000 0 rem(6),
+            $ink rem(6) rem(8),
+            transparent rem(8)
+          ),
+          repeating-linear-gradient(
+            112deg,
+            #ffce00 0 rem(10),
+            #dd0000 rem(10) rem(20),
+            #f4f1e8 rem(20) rem(30)
+          );
+        border-bottom: rem(7) solid $ink;
+        box-sizing: border-box;
+        clip-path: polygon(
+          43% 0,
+          57% 0,
+          61% 15%,
+          100% 88%,
+          88% 100%,
+          12% 100%,
+          0 88%,
+          39% 15%
+        );
+        content: none;
+        filter: drop-shadow(0 rem(3) 0 $ink);
+        pointer-events: none;
+        transform: rotate(-8deg);
+        transform-origin: 50% 100%;
+        animation: birthday-hat-bob 2.8s ease-in-out infinite;
+      }
+
+      &::after {
+        position: absolute;
+        z-index: 2;
+        top: 55%;
+        left: calc(100% + #{rem(11)});
+        width: clamp(rem(63), 5.5vw, rem(82));
+        height: clamp(rem(16), 1.4vw, rem(20));
+        border: rem(2) solid $ink;
+        border-radius: rem(8) rem(2) rem(2) rem(8);
+        background:
+          linear-gradient(135deg, transparent 75%, $ink 75% 85%, transparent 85%)
+            right center / rem(13) 100% no-repeat,
+          radial-gradient(circle at rem(7) 50%, #111 0 rem(5), transparent rem(6)),
+          repeating-linear-gradient(
+            90deg,
+            #dd0000 0 rem(9),
+            #ffce00 rem(9) rem(18)
+        );
+        clip-path: polygon(0 25%, 84% 25%, 100% 0, 94% 50%, 100% 100%, 84% 75%, 0 75%);
+        content: none;
+        pointer-events: none;
+        transform: rotate(10deg);
+        transform-origin: left center;
+        animation: party-blower-pop 2.8s ease-in-out infinite;
+      }
     }
 
     p {
       max-width: rem(320);
       color: #575a53;
+      transition: opacity 160ms ease, transform 220ms ease;
     }
   }
 
   .friend-reference__eyebrow {
     color: $muted-light;
+
+    &::after {
+      display: block;
+      width: fit-content;
+      margin-top: rem(12);
+      margin-left: clamp(rem(86), 7.5vw, rem(112));
+      padding: rem(6) rem(9);
+      border: rem(2) solid $ink;
+      background: #ffce00;
+      box-shadow: rem(4) rem(4) 0 #dd0000;
+      color: $ink;
+      content: none;
+      font-size: clamp(rem(7), 0.62vw, rem(9));
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      line-height: 1;
+      white-space: nowrap;
+      transform: rotate(-2deg);
+    }
   }
 
   .friend-reference__signals {
@@ -2767,9 +3056,53 @@ noscript {
   }
 }
 
+.moritisimor-birthday {
+  .friend-reference--moritisimor {
+    &::before,
+    .friend-reference__identity h3::before,
+    .friend-reference__identity h3::after {
+      content: "";
+    }
+
+    .friend-reference__eyebrow::after {
+      content: "✦ HAPPY BIRTHDAY! ✦";
+    }
+  }
+}
+
+@keyframes birthday-hat-bob {
+  0%,
+  100% {
+    transform: rotate(-8deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(-3deg) translateY(rem(-4));
+  }
+}
+
+@keyframes party-blower-pop {
+  0%,
+  18%,
+  100% {
+    transform: rotate(10deg) scaleX(0.28);
+  }
+
+  30%,
+  70% {
+    transform: rotate(10deg) scaleX(1);
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .friend-reference--moritisimor:hover .friend-reference__signals,
   .friend-reference--moritisimor:focus-visible .friend-reference__signals {
+    opacity: 0;
+    transform: translateY(rem(-10));
+  }
+
+  .friend-reference--moritisimor:hover .friend-reference__identity > p,
+  .friend-reference--moritisimor:focus-visible .friend-reference__identity > p {
     opacity: 0;
     transform: translateY(rem(-10));
   }
@@ -2914,6 +3247,470 @@ noscript {
 
     a:hover {
       color: $acid;
+    }
+  }
+}
+
+.robert-birthday {
+  scroll-padding-top: rem(108);
+
+  body {
+    background:
+      linear-gradient(rgba(#b8a2ff, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(#ffce00, 0.04) 1px, transparent 1px),
+      #17101f;
+    background-size: rem(38) rem(38);
+  }
+
+  body::after {
+    position: fixed;
+    z-index: 99;
+    inset: -12%;
+    background:
+      linear-gradient(38deg, transparent 40%, #ffce00 40% 60%, transparent 60%)
+        7% 16% / #{rem(16)} #{rem(16)} no-repeat,
+      linear-gradient(-48deg, transparent 42%, #ff5f8f 42% 58%, transparent 58%)
+        21% 72% / #{rem(15)} #{rem(15)} no-repeat,
+      linear-gradient(65deg, transparent 43%, #b8a2ff 43% 57%, transparent 57%)
+        36% 32% / #{rem(14)} #{rem(14)} no-repeat,
+      linear-gradient(-28deg, transparent 41%, #56a8ff 41% 59%, transparent 59%)
+        53% 84% / #{rem(17)} #{rem(17)} no-repeat,
+      linear-gradient(52deg, transparent 42%, #ff644a 42% 58%, transparent 58%)
+        69% 24% / #{rem(15)} #{rem(15)} no-repeat,
+      linear-gradient(-62deg, transparent 43%, #d8ff45 43% 57%, transparent 57%)
+        86% 68% / #{rem(14)} #{rem(14)} no-repeat,
+      radial-gradient(circle, #ff5f8f 0 rem(4), transparent rem(5))
+        13% 48% / #{rem(11)} #{rem(11)} no-repeat,
+      radial-gradient(circle, #ffce00 0 rem(4), transparent rem(5))
+        44% 12% / #{rem(11)} #{rem(11)} no-repeat,
+      radial-gradient(circle, #b8a2ff 0 rem(4), transparent rem(5))
+        74% 53% / #{rem(11)} #{rem(11)} no-repeat,
+      radial-gradient(circle, #56a8ff 0 rem(4), transparent rem(5))
+        94% 35% / #{rem(11)} #{rem(11)} no-repeat;
+    content: "";
+    opacity: 0.72;
+    pointer-events: none;
+    animation: robert-confetti-drift 9s ease-in-out infinite alternate;
+  }
+
+  ::selection {
+    background: #ff5f8f;
+    color: #111310;
+  }
+
+  .site-header {
+    border-color: rgba(#ffce00, 0.62);
+    background: rgba(#24142f, 0.94);
+    box-shadow: 0 rem(5) 0 rgba(#ff5f8f, 0.82);
+
+    &::after {
+      position: absolute;
+      z-index: 101;
+      top: 100%;
+      right: 0;
+      left: 0;
+      padding: rem(7) rem(20);
+      border-bottom: rem(1) solid #111310;
+      background:
+        linear-gradient(
+          90deg,
+          #ffce00 0 25%,
+          #ff5f8f 25% 50%,
+          #b8a2ff 50% 75%,
+          #56a8ff 75% 100%
+        );
+      color: #111310;
+      content: "✦ NOVEMBER 21 / HAPPY BIRTHDAY ROBERTFLEXX / BIRTHDAY BUILD LIVE ✦";
+      font-family: "SFMono-Regular", "Cascadia Code", monospace;
+      font-size: clamp(rem(7), 0.7vw, rem(10));
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+
+  .wordmark__mark {
+    border-color: #ffce00;
+    background: #ffce00;
+    color: #111310;
+    box-shadow: rem(3) rem(3) 0 #ff5f8f;
+  }
+
+  .site-nav__link--contact,
+  .button--primary {
+    border-color: #ffce00;
+    background: #ffce00;
+    color: #111310;
+    box-shadow: rem(4) rem(4) 0 #ff5f8f;
+  }
+
+  .hero {
+    background:
+      radial-gradient(circle at 82% 30%, rgba(#ff5f8f, 0.2), transparent 25%),
+      radial-gradient(circle at 22% 70%, rgba(#b8a2ff, 0.2), transparent 31%),
+      linear-gradient(135deg, #17101f, #24112e 55%, #14192c);
+
+    &::before {
+      position: absolute;
+      z-index: 1;
+      top: clamp(rem(148), 15vw, rem(225));
+      right: clamp(rem(32), 9vw, rem(145));
+      width: clamp(rem(68), 8vw, rem(118));
+      height: clamp(rem(82), 9.5vw, rem(140));
+      border: rem(3) solid #f7f2e7;
+      border-radius: 52% 48% 50% 50% / 46% 46% 54% 54%;
+      background: linear-gradient(145deg, #ffce00, #ff9d39);
+      box-shadow:
+        clamp(rem(-70), -5vw, rem(-45)) clamp(rem(44), 4vw, rem(66)) 0 rem(-7) #ff5f8f,
+        clamp(rem(-68), -4.8vw, rem(-43)) clamp(rem(45), 4vw, rem(68)) 0 rem(-4) #f7f2e7,
+        clamp(rem(56), 5vw, rem(78)) clamp(rem(48), 4.5vw, rem(72)) 0 rem(-9) #b8a2ff,
+        clamp(rem(55), 4.8vw, rem(76)) clamp(rem(49), 4.5vw, rem(74)) 0 rem(-6) #f7f2e7;
+      content: "";
+      opacity: 0.88;
+      pointer-events: none;
+      transform: rotate(5deg);
+      animation: robert-balloon-float 4.8s ease-in-out infinite;
+    }
+
+    &::after {
+      background: linear-gradient(to bottom, transparent, rgba(#ffce00, 0.55), transparent);
+    }
+  }
+
+  .hero__eyebrow {
+    color: #f7f2e7;
+
+    &::after {
+      padding: rem(6) rem(9);
+      border: rem(1) solid #f7f2e7;
+      background: #ff5f8f;
+      box-shadow: rem(4) rem(4) 0 #b8a2ff;
+      color: #111310;
+      content: "NOV 21 / LEVEL-UP DAY";
+      font-size: rem(8);
+      font-weight: 900;
+      transform: rotate(-2deg);
+    }
+  }
+
+  .hero__line--solid {
+    position: relative;
+    background: linear-gradient(92deg, #ffce00 0 35%, #ff7a97 58%, #b8a2ff 100%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 rem(8) 0 rgba(#ff5f8f, 0.13);
+
+    &::after {
+      position: absolute;
+      z-index: 3;
+      top: clamp(rem(-62), -4.4vw, rem(-38));
+      left: 8%;
+      width: clamp(rem(78), 8.5vw, rem(132));
+      height: clamp(rem(44), 5vw, rem(76));
+      background:
+        linear-gradient(
+          90deg,
+          #ffce00 0 22%,
+          #ff5f8f 22% 44%,
+          #b8a2ff 44% 66%,
+          #56a8ff 66% 78%,
+          #ffce00 78% 100%
+        );
+      clip-path: polygon(
+        0 24%,
+        23% 58%,
+        38% 0,
+        55% 58%,
+        76% 5%,
+        100% 54%,
+        91% 100%,
+        8% 100%
+      );
+      content: "";
+      filter: drop-shadow(0 rem(5) 0 #111310);
+      pointer-events: none;
+      transform: rotate(-5deg);
+      animation: robert-crown-bounce 3.4s ease-in-out infinite;
+    }
+  }
+
+  .hero__line--outline {
+    color: #ffce00;
+    -webkit-text-stroke-color: #ffce00;
+    text-shadow: rem(6) rem(6) 0 rgba(#7c5cff, 0.32);
+  }
+
+  .status-dot,
+  .orbit__core {
+    background: #ff5f8f;
+    box-shadow: 0 0 0 rem(5) rgba(#ff5f8f, 0.17);
+  }
+
+  .orbit {
+    border-color: rgba(#b8a2ff, 0.72);
+
+    &::before {
+      background: #ffce00;
+    }
+  }
+
+  .system-panel {
+    border-color: rgba(#b8a2ff, 0.72);
+    background: rgba(#1d1427, 0.9);
+    box-shadow: rem(10) rem(10) 0 rgba(#ff5f8f, 0.25);
+  }
+
+  .ticker {
+    background: linear-gradient(
+      90deg,
+      #ffce00,
+      #ff5f8f,
+      #b8a2ff,
+      #56a8ff,
+      #ffce00
+    );
+    background-size: 260% 100%;
+    animation: birthday-gradient-slide 9s linear infinite;
+  }
+
+  .provenance,
+  .repo-lab,
+  .web-friends {
+    background:
+      radial-gradient(circle at 90% 10%, rgba(#ff5f8f, 0.18), transparent 22%),
+      #eee5ff;
+  }
+
+  .projects,
+  .stack {
+    background:
+      linear-gradient(rgba(#ff5f8f, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(#7c5cff, 0.04) 1px, transparent 1px),
+      #fff7df;
+    background-size: rem(32) rem(32);
+  }
+
+  .filter--active,
+  .repo-lab__all {
+    border-color: #7c5cff;
+    background: #7c5cff;
+    color: #fff;
+    box-shadow: rem(4) rem(4) 0 #ff5f8f;
+  }
+
+  .traction {
+    background:
+      radial-gradient(circle at 20% 15%, rgba(#b8a2ff, 0.15), transparent 28%),
+      #1d1428;
+  }
+
+  .traction__intro h2 span,
+  .github-stat span,
+  .principle__index {
+    color: #ffce00;
+  }
+
+  .traction__spotlight {
+    background: linear-gradient(145deg, #ffce00, #ff8ea8 72%);
+  }
+
+  .game-dev {
+    background:
+      radial-gradient(circle at 82% 10%, rgba(#ffce00, 0.1), transparent 24%),
+      #160d27;
+  }
+
+  .about {
+    background:
+      radial-gradient(circle at 10% 38%, rgba(#7c5cff, 0.18), transparent 28%),
+      #17101f;
+  }
+
+  .about__statement span,
+  .origin-story__rail > span:last-child {
+    color: #ffce00;
+  }
+
+  .about__aside-copy {
+    border-color: #ff5f8f;
+    background: rgba(#b8a2ff, 0.07);
+  }
+
+  .origin-story {
+    box-shadow: rem(10) rem(10) 0 rgba(#ff5f8f, 0.55);
+  }
+
+  .axiom {
+    background: linear-gradient(120deg, #ffce00, #ff7a97 52%, #b8a2ff);
+  }
+
+  .language-card {
+    border-color: rgba(#7c5cff, 0.5);
+    box-shadow: rem(5) rem(5) 0 rgba(#ff5f8f, 0.13);
+  }
+
+  .contact {
+    background:
+      radial-gradient(circle at 76% 64%, rgba(#ff5f8f, 0.16), transparent 28%),
+      linear-gradient(145deg, #17101f, #24132e);
+
+    .kicker,
+    .contact__pre {
+      color: #b8a2ff;
+    }
+  }
+
+  .contact__pre::after {
+    padding: rem(6) rem(9);
+    border: rem(1) solid #ffce00;
+    background: #ffce00;
+    color: #111310;
+    content: "CAKE ACCEPTED / BUGS DEFERRED";
+    font-size: rem(8);
+    font-weight: 900;
+    transform: rotate(1.5deg);
+  }
+
+  .contact__line:first-child {
+    color: #ffce00;
+  }
+
+  .contact__line--outline {
+    color: #ff5f8f;
+    -webkit-text-stroke-color: #ff5f8f;
+  }
+
+  .footer {
+    border-color: rgba(#ffce00, 0.45);
+    background: #24142f;
+    color: #b8a2ff;
+  }
+
+  .footer__monogram {
+    background: #ffce00;
+    box-shadow: rem(4) rem(4) 0 #ff5f8f;
+  }
+}
+
+@keyframes birthday-balloon-float {
+  0%,
+  100% {
+    transform: rotate(6deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(2deg) translateY(rem(-7));
+  }
+}
+
+@keyframes kokonico-party-blower-pop {
+  0%,
+  18%,
+  100% {
+    transform: rotate(9deg) scaleX(0.28);
+  }
+
+  30%,
+  70% {
+    transform: rotate(9deg) scaleX(1);
+  }
+}
+
+@keyframes robert-confetti-drift {
+  from {
+    transform: translate3d(0, rem(-8), 0) rotate(-1deg);
+  }
+
+  to {
+    transform: translate3d(rem(9), rem(14), 0) rotate(1.5deg);
+  }
+}
+
+@keyframes robert-balloon-float {
+  0%,
+  100% {
+    transform: rotate(5deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(1deg) translateY(rem(-12));
+  }
+}
+
+@keyframes robert-crown-bounce {
+  0%,
+  100% {
+    transform: rotate(-5deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(-2deg) translateY(rem(-6));
+  }
+}
+
+@keyframes birthday-gradient-slide {
+  to {
+    background-position: 260% 0;
+  }
+}
+
+@include below("small") {
+  .kokonico-birthday {
+    .web-friends__cards > .friend-reference:first-child {
+      .friend-reference__eyebrow::after {
+        margin-left: rem(68);
+        content: "✦ HAPPY BIRTHDAY, KOKO! ✦";
+        font-size: rem(6.5);
+      }
+
+      &::after {
+        right: rem(18);
+        opacity: 0.68;
+      }
+    }
+  }
+
+  .robert-birthday {
+    scroll-padding-top: rem(100);
+
+    body::after {
+      opacity: 0.48;
+    }
+
+    .site-header::after {
+      padding-inline: rem(8);
+      content: "✦ NOV 21 / HAPPY BIRTHDAY ROBERTFLEXX ✦";
+      font-size: rem(6.5);
+      letter-spacing: 0.08em;
+    }
+
+    .hero {
+      padding-top: rem(145);
+
+      &::before {
+        top: rem(175);
+        right: rem(-10);
+        opacity: 0.48;
+      }
+    }
+
+    .hero__eyebrow {
+      flex-wrap: wrap;
+
+      &::after {
+        content: "NOV 21 / BIRTHDAY MODE";
+      }
+    }
+
+    .hero__line--solid::after {
+      left: 5%;
+    }
+
+    .contact__pre {
+      flex-wrap: wrap;
     }
   }
 }
