@@ -1,9 +1,10 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser
 import Html exposing (Html, a, article, button, div, footer, h1, h2, h3, header, i, main_, nav, p, section, small, span, strong, text)
-import Html.Attributes exposing (attribute, class, classList, href, id, rel, target, type_)
+import Html.Attributes exposing (attribute, class, classList, href, id, rel, style, target, type_)
 import Html.Events exposing (onClick)
+import Json.Decode as Decode exposing (Decoder)
 
 
 type Filter
@@ -16,6 +17,7 @@ type Filter
 type alias Model =
     { activeFilter : Filter
     , menuOpen : Bool
+    , github : Maybe GithubData
     }
 
 
@@ -23,6 +25,7 @@ type Msg
     = SetFilter Filter
     | ToggleMenu
     | CloseMenu
+    | ReceiveGithubData Decode.Value
 
 
 type alias Project =
@@ -46,13 +49,22 @@ type alias Language =
     }
 
 
-type alias TractionRepo =
-    { rank : String
-    , name : String
+type alias GithubRepo =
+    { name : String
+    , description : String
     , language : String
     , stars : Int
-    , signal : String
     , url : String
+    }
+
+
+type alias GithubData =
+    { generatedAt : String
+    , publicRepoCount : Int
+    , totalStars : Int
+    , primaryLanguageCount : Int
+    , pinned : List GithubRepo
+    , topRepositories : List GithubRepo
     }
 
 
@@ -73,13 +85,16 @@ type alias LabRepo =
     }
 
 
+port githubDataReceived : (Decode.Value -> msg) -> Sub msg
+
+
 main : Program () Model Msg
 main =
     Browser.element
-        { init = \_ -> ( { activeFilter = All, menuOpen = False }, Cmd.none )
+        { init = \_ -> ( { activeFilter = All, menuOpen = False, github = Nothing }, Cmd.none )
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = \_ -> githubDataReceived ReceiveGithubData
         }
 
 
@@ -95,6 +110,14 @@ update msg model =
         CloseMenu ->
             ( { model | menuOpen = False }, Cmd.none )
 
+        ReceiveGithubData value ->
+            case Decode.decodeValue githubDataDecoder value of
+                Ok github ->
+                    ( { model | github = Just github }, Cmd.none )
+
+                Err _ ->
+                    ( model, Cmd.none )
+
 
 view : Model -> Html Msg
 view model =
@@ -105,11 +128,11 @@ view model =
             , viewTicker
             , viewProvenance
             , viewProjects model
-            , viewTraction
+            , viewTraction model.github
             , viewGameDev
             , viewAbout
-            , viewRepoLab
-            , viewLanguages
+            , viewRepoLab model.github
+            , viewLanguages model.github
             , viewWebFriends
             , viewContact
             ]
@@ -328,12 +351,15 @@ viewProvenance =
 viewProjects : Model -> Html Msg
 viewProjects model =
     let
+        selectedProjects =
+            projectsFromGithub model.github
+
         visibleProjects =
             List.filter
                 (\project ->
                     model.activeFilter == All || project.kind == model.activeFilter
                 )
-                projects
+                selectedProjects
     in
     section [ class "projects section-pad", id "work" ]
         [ div [ class "section-heading" ]
@@ -345,10 +371,10 @@ viewProjects model =
                 [ text "No startup-founder perfume. These are real tools, operating-system experiments, and graphics work that compile, run, and occasionally misbehave in interesting ways." ]
             ]
         , div [ class "project-filters", attribute "aria-label" "Filter projects" ]
-            [ filterButton model.activeFilter All "All / 09"
-            , filterButton model.activeFilter Systems "Systems / 02"
-            , filterButton model.activeFilter Tools "Tools / 05"
-            , filterButton model.activeFilter Games "Games / 02"
+            [ filterButton model.activeFilter All (filterLabel "All" All selectedProjects)
+            , filterButton model.activeFilter Systems (filterLabel "Systems" Systems selectedProjects)
+            , filterButton model.activeFilter Tools (filterLabel "Tools" Tools selectedProjects)
+            , filterButton model.activeFilter Games (filterLabel "Games" Games selectedProjects)
             ]
         , div [ class "project-list" ]
             (List.map viewProject visibleProjects)
@@ -367,6 +393,19 @@ filterButton current value label =
         , attribute "aria-pressed" (boolString (current == value))
         ]
         [ text label ]
+
+
+filterLabel : String -> Filter -> List Project -> String
+filterLabel label selected projectList =
+    let
+        count =
+            if selected == All then
+                List.length projectList
+
+            else
+                List.length (List.filter (\project -> project.kind == selected) projectList)
+    in
+    label ++ " / " ++ twoDigit count
 
 
 viewProject : Project -> Html Msg
@@ -400,8 +439,31 @@ viewProject project =
         ]
 
 
-viewTraction : Html Msg
-viewTraction =
+viewTraction : Maybe GithubData -> Html Msg
+viewTraction github =
+    let
+        rankedRepos =
+            github
+                |> Maybe.map .topRepositories
+                |> Maybe.andThen nonEmptyList
+                |> Maybe.withDefault tractionRepos
+
+        spotlight =
+            List.head rankedRepos
+                |> Maybe.withDefault fallbackSpotlight
+
+        maxStars =
+            rankedRepos
+                |> List.map .stars
+                |> List.maximum
+                |> Maybe.withDefault 1
+
+        statValue accessor fallback =
+            github
+                |> Maybe.map accessor
+                |> Maybe.withDefault fallback
+                |> String.fromInt
+    in
     section [ class "traction section-pad", id "traction" ]
         [ div [ class "traction__intro" ]
             [ div []
@@ -412,20 +474,20 @@ viewTraction =
                     ]
                 ]
             , div [ class "traction__stats" ]
-                [ githubStat "44" "PUBLIC REPOS"
-                , githubStat "126" "STARS EARNED"
-                , githubStat "29" "PRIMARY LANGS"
+                [ githubStat (statValue .publicRepoCount 59) "PUBLIC REPOS"
+                , githubStat (statValue .totalStars 137) "STARS EARNED"
+                , githubStat (statValue .primaryLanguageCount 34) "PRIMARY LANGS"
                 ]
             ]
         , div [ class "traction__body" ]
             [ div [ class "traction__spotlight" ]
                 [ p [ class "traction__flag" ] [ text "MOST TRACTION" ]
-                , div [ class "traction__big-number" ] [ text "17" ]
-                , h3 [] [ text "fastfind" ]
+                , div [ class "traction__big-number" ] [ text (String.fromInt spotlight.stars) ]
+                , h3 [] [ text spotlight.name ]
                 , p []
-                    [ text "One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age." ]
+                    [ text (repoDetail spotlight) ]
                 , a
-                    [ href "https://github.com/RobertFlexx/fastfind"
+                    [ href spotlight.url
                     , target "_blank"
                     , rel "noreferrer"
                     ]
@@ -434,10 +496,10 @@ viewTraction =
                     ]
                 ]
             , div [ class "traction__ranking" ]
-                (List.map viewTractionRepo tractionRepos)
+                (List.indexedMap (viewTractionRepo maxStars) rankedRepos)
             ]
         , p [ class "traction__snapshot" ]
-            [ text "PUBLIC GITHUB SNAPSHOT / 26 JUL 2026: COUNTS WILL MOVE; THE CODE SHOULD TOO." ]
+            [ text (githubSnapshotLabel github) ]
         ]
 
 
@@ -449,21 +511,25 @@ githubStat value label =
         ]
 
 
-viewTractionRepo : TractionRepo -> Html Msg
-viewTractionRepo repo =
+viewTractionRepo : Int -> Int -> GithubRepo -> Html Msg
+viewTractionRepo maxStars index repo =
+    let
+        meterWidth =
+            max 4 (round (toFloat repo.stars / toFloat (max 1 maxStars) * 100))
+    in
     a
         [ class "traction-row"
         , href repo.url
         , target "_blank"
         , rel "noreferrer"
         ]
-        [ span [ class "traction-row__rank" ] [ text repo.rank ]
+        [ span [ class "traction-row__rank" ] [ text (twoDigit (index + 1)) ]
         , div [ class "traction-row__repo" ]
             [ h3 [] [ text repo.name ]
             , span [] [ text repo.language ]
             ]
         , div [ class "traction-row__meter", attribute "aria-hidden" "true" ]
-            [ span [ class ("traction-row__fill traction-row__fill--" ++ repo.signal) ] [] ]
+            [ span [ class "traction-row__fill", style "--meter-width" (String.fromInt meterWidth ++ "%") ] [] ]
         , span [ class "traction-row__stars" ] [ text ("★ " ++ String.fromInt repo.stars) ]
         , span [ class "traction-row__arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
         ]
@@ -625,8 +691,14 @@ blockquoteView =
         ]
 
 
-viewRepoLab : Html Msg
-viewRepoLab =
+viewRepoLab : Maybe GithubData -> Html Msg
+viewRepoLab github =
+    let
+        repoCount =
+            github
+                |> Maybe.map .publicRepoCount
+                |> Maybe.withDefault 59
+    in
     section [ class "repo-lab section-pad", id "lab" ]
         [ div [ class "section-heading" ]
             [ div []
@@ -644,7 +716,7 @@ viewRepoLab =
             , target "_blank"
             , rel "noreferrer"
             ]
-            [ span [] [ text "44 PUBLIC REPOSITORIES" ]
+            [ span [] [ text (String.fromInt repoCount ++ " PUBLIC REPOSITORIES") ]
             , span [] [ text "OPEN THE WHOLE DRAWER ↗" ]
             ]
         ]
@@ -668,8 +740,14 @@ viewLabRepo index repo =
         ]
 
 
-viewLanguages : Html Msg
-viewLanguages =
+viewLanguages : Maybe GithubData -> Html Msg
+viewLanguages github =
+    let
+        languageCount =
+            github
+                |> Maybe.map .primaryLanguageCount
+                |> Maybe.withDefault 34
+    in
     section [ class "stack section-pad", id "stack" ]
         [ div [ class "section-heading section-heading--stack" ]
             [ div []
@@ -685,7 +763,7 @@ viewLanguages =
             (List.indexedMap viewLanguage languages)
         , div [ class "stack__footnote" ]
             [ span [] [ text "*" ]
-            , p [] [ text "These are the regulars, not the body count. Public repos currently span 29 primary languages because commitment issues can be productive." ]
+            , p [] [ text ("These are the regulars, not the body count. Public repos currently span " ++ String.fromInt languageCount ++ " primary languages because commitment issues can be productive.") ]
             ]
         ]
 
@@ -886,7 +964,7 @@ projects =
       , detail = "Early experimental raylib 6.0 bindings for Scala Native, because game development gets more interesting when two ecosystems start touching."
       , url = "https://github.com/RobertFlexx/rayscal"
       , tone = "project--yellow"
-      , stars = 6
+      , stars = 7
       }
     , { index = "004"
       , name = "blockbox"
@@ -957,44 +1035,87 @@ projects =
     ]
 
 
-tractionRepos : List TractionRepo
+pinnedProjectTemplates : List Project
+pinnedProjectTemplates =
+    [ { index = "000"
+      , name = "rookcc"
+      , command = "$ rcc source.c"
+      , language = "PASCAL"
+      , kind = Tools
+      , summary = "A C compiler that brought its own linker."
+      , detail = "A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools."
+      , url = "https://github.com/RobertFlexx/rookcc"
+      , tone = "project--magenta"
+      , stars = 0
+      }
+    , { index = "000"
+      , name = "pawnasm"
+      , command = "$ pawnasm input.asm"
+      , language = "COMPONENT PASCAL"
+      , kind = Tools
+      , summary = "Assembles the old-fashioned way: alone."
+      , detail = "A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase."
+      , url = "https://github.com/RobertFlexx/pawnasm"
+      , tone = "project--red"
+      , stars = 0
+      }
+    , { index = "000"
+      , name = "knightlinker"
+      , command = "$ kld main.o"
+      , language = "ADA"
+      , kind = Tools
+      , summary = "Links without calling for backup."
+      , detail = "A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats."
+      , url = "https://github.com/RobertFlexx/knightlinker"
+      , tone = "project--blue"
+      , stars = 0
+      }
+    ]
+
+
+tractionRepos : List GithubRepo
 tractionRepos =
-    [ { rank = "01"
-      , name = "fastfind"
+    [ { name = "fastfind"
+      , description = "One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age."
       , language = "NIM"
       , stars = 17
-      , signal = "100"
       , url = "https://github.com/RobertFlexx/fastfind"
       }
-    , { rank = "02"
-      , name = "ObeliskOS"
+    , { name = "ObeliskOS"
+      , description = "A standalone UNIX-like operating system built from nothing: custom kernel, userland direction, package ecosystem, and a deeply unreasonable amount of scope."
       , language = "C"
       , stars = 12
-      , signal = "71"
       , url = "https://github.com/RobertFlexx/ObeliskOS"
       }
-    , { rank = "03"
-      , name = "rayscal"
+    , { name = "rayscal"
+      , description = "Early experimental raylib 6.0 bindings for Scala Native."
       , language = "SCALA"
-      , stars = 6
-      , signal = "35"
+      , stars = 7
       , url = "https://github.com/RobertFlexx/rayscal"
       }
-    , { rank = "04"
-      , name = "RSH"
+    , { name = "RSH"
+      , description = "A Ruby shell with built-ins, autosuggestions, history tools, aliases, scripting, and quality-of-life features."
       , language = "RUBY"
       , stars = 4
-      , signal = "24"
       , url = "https://github.com/RobertFlexx/RSH"
       }
-    , { rank = "05"
-      , name = "UnixImage"
+    , { name = "UnixImage"
+      , description = "A GTK and CLI disk-image writer for UNIX and UNIX-like systems."
       , language = "C / GTK"
       , stars = 4
-      , signal = "24"
       , url = "https://github.com/RobertFlexx/UnixImage"
       }
     ]
+
+
+fallbackSpotlight : GithubRepo
+fallbackSpotlight =
+    { name = "fastfind"
+    , description = "One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age."
+    , language = "NIM"
+    , stars = 17
+    , url = "https://github.com/RobertFlexx/fastfind"
+    }
 
 
 gameProjects : List GameProject
@@ -1002,7 +1123,7 @@ gameProjects =
     [ { index = "G.01"
       , name = "rayscal"
       , language = "SCALA / RAYLIB"
-      , copy = "Scala Native bindings for raylib 6.0. Six stars and counting for making Scala put on game-dev clothes."
+      , copy = "Scala Native bindings for raylib 6.0, making Scala put on game-dev clothes."
       , url = "https://github.com/RobertFlexx/rayscal"
       }
     , { index = "G.02"
@@ -1102,6 +1223,148 @@ languages =
     ]
 
 
+projectsFromGithub : Maybe GithubData -> List Project
+projectsFromGithub github =
+    case github |> Maybe.map .pinned |> Maybe.andThen nonEmptyList of
+        Just pinnedRepos ->
+            List.indexedMap githubRepoToProject pinnedRepos
+
+        Nothing ->
+            projects
+
+
+githubRepoToProject : Int -> GithubRepo -> Project
+githubRepoToProject index repo =
+    let
+        projectIndex =
+            threeDigit (index + 1)
+
+        liveDescription fallback =
+            if String.isEmpty (String.trim repo.description) then
+                fallback
+
+            else
+                repo.description
+    in
+    case findProject repo.name of
+        Just template ->
+            { template
+                | index = projectIndex
+                , name = repo.name
+                , language = String.toUpper repo.language
+                , detail = liveDescription template.detail
+                , url = repo.url
+                , stars = repo.stars
+            }
+
+        Nothing ->
+            { index = projectIndex
+            , name = repo.name
+            , command = "$ open /" ++ String.toLower repo.name
+            , language = String.toUpper repo.language
+            , kind = Tools
+            , summary = "Pinned now. Built to be opened."
+            , detail = liveDescription "A current GitHub pin. Open the repository for the code, notes, and latest state of the experiment."
+            , url = repo.url
+            , tone = toneForIndex index
+            , stars = repo.stars
+            }
+
+
+findProject : String -> Maybe Project
+findProject repoName =
+    (projects ++ pinnedProjectTemplates)
+        |> List.filter (\project -> String.toLower project.name == String.toLower repoName)
+        |> List.head
+
+
+repoDetail : GithubRepo -> String
+repoDetail repo =
+    case findProject repo.name of
+        Just project ->
+            project.detail
+
+        Nothing ->
+            if String.isEmpty (String.trim repo.description) then
+                "A public repository earning attention on GitHub. Open it for the code, context, and current state."
+
+            else
+                repo.description
+
+
+toneForIndex : Int -> String
+toneForIndex index =
+    case modBy 9 index of
+        0 ->
+            "project--acid"
+
+        1 ->
+            "project--coral"
+
+        2 ->
+            "project--yellow"
+
+        3 ->
+            "project--magenta"
+
+        4 ->
+            "project--red"
+
+        5 ->
+            "project--blue"
+
+        6 ->
+            "project--violet"
+
+        7 ->
+            "project--green"
+
+        _ ->
+            "project--orange"
+
+
+githubSnapshotLabel : Maybe GithubData -> String
+githubSnapshotLabel github =
+    case github of
+        Just data ->
+            "AUTOMATIC GITHUB SNAPSHOT / "
+                ++ String.left 10 data.generatedAt
+                ++ ": PINS + COUNTS REFRESH EVERY SIX HOURS."
+
+        Nothing ->
+            "PUBLIC GITHUB SNAPSHOT / CONNECTING TO THE LIVE FEED."
+
+
+nonEmptyList : List a -> Maybe (List a)
+nonEmptyList values =
+    if List.isEmpty values then
+        Nothing
+
+    else
+        Just values
+
+
+githubDataDecoder : Decoder GithubData
+githubDataDecoder =
+    Decode.map6 GithubData
+        (Decode.field "generatedAt" Decode.string)
+        (Decode.field "publicRepoCount" Decode.int)
+        (Decode.field "totalStars" Decode.int)
+        (Decode.field "primaryLanguageCount" Decode.int)
+        (Decode.field "pinned" (Decode.list githubRepoDecoder))
+        (Decode.field "topRepositories" (Decode.list githubRepoDecoder))
+
+
+githubRepoDecoder : Decoder GithubRepo
+githubRepoDecoder =
+    Decode.map5 GithubRepo
+        (Decode.field "name" Decode.string)
+        (Decode.field "description" Decode.string)
+        (Decode.field "language" Decode.string)
+        (Decode.field "stars" Decode.int)
+        (Decode.field "url" Decode.string)
+
+
 boolString : Bool -> String
 boolString value =
     if value then
@@ -1114,6 +1377,18 @@ boolString value =
 twoDigit : Int -> String
 twoDigit value =
     if value < 10 then
+        "0" ++ String.fromInt value
+
+    else
+        String.fromInt value
+
+
+threeDigit : Int -> String
+threeDigit value =
+    if value < 10 then
+        "00" ++ String.fromInt value
+
+    else if value < 100 then
         "0" ++ String.fromInt value
 
     else

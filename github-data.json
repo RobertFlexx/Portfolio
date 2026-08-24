@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-08-24T06:08:17Z",
+  "publicRepoCount": 59,
+  "totalStars": 137,
+  "primaryLanguageCount": 34,
+  "pinned": [
+    {
+      "name": "fastfind",
+      "description": "Fast, smart file search with fuzzy matching and natural language queries",
+      "language": "Nim",
+      "stars": 17,
+      "url": "https://github.com/RobertFlexx/fastfind"
+    },
+    {
+      "name": "ObeliskOS",
+      "description": "A standalone UNIX-like OS, based on absolutely nothing, born out of pain and nightmares.",
+      "language": "C",
+      "stars": 12,
+      "url": "https://github.com/RobertFlexx/ObeliskOS"
+    },
+    {
+      "name": "rayscal",
+      "description": "Early experimental Scala Native bindings for raylib 6.0",
+      "language": "Scala",
+      "stars": 7,
+      "url": "https://github.com/RobertFlexx/rayscal"
+    },
+    {
+      "name": "rookcc",
+      "description": "rookcc, also known as 'rcc', is a simple standalone C compiler, with its own optimization toolchain and linker, without invoking external tools.",
+      "language": "Pascal",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/rookcc"
+    },
+    {
+      "name": "pawnasm",
+      "description": "A lean standalone Intel-syntax assembler supporting common NASM conventions, built as a simple and educational codebase.",
+      "language": "Component Pascal",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/pawnasm"
+    },
+    {
+      "name": "knightlinker",
+      "description": "A standalone Ada 2022 linker for the RookCC toolchain, emitting multiple executable and record formats without invoking another linker.",
+      "language": "Ada",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/knightlinker"
+    }
+  ],
+  "topRepositories": [
+    {
+      "name": "fastfind",
+      "description": "Fast, smart file search with fuzzy matching and natural language queries",
+      "language": "Nim",
+      "stars": 17,
+      "url": "https://github.com/RobertFlexx/fastfind"
+    },
+    {
+      "name": "ObeliskOS",
+      "description": "A standalone UNIX-like OS, based on absolutely nothing, born out of pain and nightmares.",
+      "language": "C",
+      "stars": 12,
+      "url": "https://github.com/RobertFlexx/ObeliskOS"
+    },
+    {
+      "name": "rayscal",
+      "description": "Early experimental Scala Native bindings for raylib 6.0",
+      "language": "Scala",
+      "stars": 7,
+      "url": "https://github.com/RobertFlexx/rayscal"
+    },
+    {
+      "name": "Free-Simula",
+      "description": "A compiler for Standard Simula and a modernized Free Simula dialect.",
+      "language": "Pascal",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/Free-Simula"
+    },
+    {
+      "name": "raid",
+      "description": "A low-level recursive filesystem traversal tool in Zig: fast, predictable, and minimal.",
+      "language": "Zig",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/raid"
+    }
+  ]
+}

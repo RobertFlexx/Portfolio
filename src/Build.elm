@@ -156,13 +156,13 @@ viewConsolePanel active =
     case active of
         Architecture ->
             div [ class "architecture-panel panel-enter" ]
-                [ architectureLayer "01" "MODEL" "One explicit record holds the active project filter and mobile navigation state."
+                [ architectureLayer "01" "MODEL" "One explicit record holds the active project filter, mobile navigation state, and decoded GitHub snapshot."
                 , architectureLink
-                , architectureLayer "02" "UPDATE" "Messages are boring on purpose: filter, open, close. Predictable beats clever."
+                , architectureLayer "02" "UPDATE" "Messages are boring on purpose: filter, open, close, receive data. Predictable beats clever."
                 , architectureLink
                 , architectureLayer "03" "VIEW" "Elm renders semantic HTML from typed data for projects, games, languages, and repository signals."
                 , architectureLink
-                , architectureLayer "04" "STATIC OUTPUT" "The compiler produces main.js. A static host serves it beside styles.css and index.html."
+                , architectureLayer "04" "STATIC + FRESH" "The compiler produces main.js. GitHub Actions adds a token-free public snapshot beside the static files."
                 ]
 
         ElmSource ->
@@ -171,14 +171,14 @@ viewConsolePanel active =
                 , ( "02", "    = SetFilter Filter" )
                 , ( "03", "    | ToggleMenu" )
                 , ( "04", "    | CloseMenu" )
-                , ( "05", "" )
-                , ( "06", "update msg model =" )
-                , ( "07", "    case msg of" )
-                , ( "08", "        SetFilter selected ->" )
-                , ( "09", "            ( { model | activeFilter = selected }, Cmd.none )" )
-                , ( "10", "" )
-                , ( "11", "        ToggleMenu ->" )
-                , ( "12", "            ( { model | menuOpen = not model.menuOpen }, Cmd.none )" )
+                , ( "05", "    | ReceiveGithubData Decode.Value" )
+                , ( "06", "" )
+                , ( "07", "update msg model =" )
+                , ( "08", "    case msg of" )
+                , ( "09", "        ReceiveGithubData value ->" )
+                , ( "10", "            Decode.decodeValue" )
+                , ( "11", "                githubDataDecoder" )
+                , ( "12", "                value" )
                 ]
 
         ScssSource ->
@@ -287,11 +287,11 @@ viewSourcePortal =
                 "source-snippet--pages"
                 [ "on:"
                 , "  push:"
-                , "    branches:"
-                , "      - main"
+                , "  schedule:"
+                , "    - cron: '17 */6 * * *'"
                 , ""
-                , "jobs:"
-                , "  deploy:"
+                , "run: node scripts/"
+                , "  fetch-github-data.mjs"
                 ]
             , sourceSnippet
                 "04"
@@ -343,7 +343,7 @@ viewPipeline =
             , pipelineArrow "sassc -t compressed"
             , pipelineStage "04" "styles.css" "28 KB / COMPRESSED" "pipeline-stage--output"
             , pipelineJoin
-            , pipelineStage "05" "static host" "SERVE THE FILES" "pipeline-stage--deploy"
+            , pipelineStage "05" "static host" "SNAPSHOT + FILES" "pipeline-stage--deploy"
             ]
         ]
 
@@ -410,7 +410,7 @@ viewReceipt =
             [ p [ class "build-kicker" ] [ text "05 / THE RECEIPT" ]
             , h2 [] [ text "Small stack. Full experience." ]
             , p []
-                [ text "The page is static, but it is not dead. Elm owns the interactions. SCSS owns the visual behavior. The browser does what browsers are already extremely good at. Everyone leaves satisfied." ]
+                [ text "The page is static, but it is not dead. Elm owns the interactions. SCSS owns the visual behavior. A six-hour GitHub snapshot keeps the pins and stars honest without shipping credentials. Everyone leaves satisfied." ]
             , a [ href "index.html" ]
                 [ text "BACK TO THE PORTFOLIO"
                 , span [ attribute "aria-hidden" "true" ] [ text "→" ]
@@ -420,7 +420,7 @@ viewReceipt =
             [ receiptItem "0" "BACKEND SERVICES"
             , receiptItem "0" "RUNTIME API CALLS"
             , receiptItem "2" "COMPILED ASSETS"
-            , receiptItem "100%" "HAND-DIRECTED"
+            , receiptItem "6H" "GITHUB REFRESH"
             ]
         , div [ class "build-receipt__stamp", attribute "aria-hidden" "true" ]
             [ span [] [ text "COMPILED" ]

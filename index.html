@@ -61,7 +61,20 @@
     <div id="app"></div>
     <script src="main.js"></script>
     <script>
-      Elm.Main.init({ node: document.getElementById("app") });
+      const app = Elm.Main.init({ node: document.getElementById("app") });
+
+      fetch("github-data.json", { cache: "no-store" })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`GitHub snapshot request failed: ${response.status}`);
+          }
+
+          return response.json();
+        })
+        .then((snapshot) => app.ports.githubDataReceived.send(snapshot))
+        .catch((error) => {
+          console.warn("Using the built-in GitHub snapshot fallback.", error);
+        });
     </script>
   </body>
 </html>
