@@ -42,6 +42,7 @@ view model =
             , viewConsole model
             , viewSourcePortal
             , viewPipeline
+            , viewDecisions
             , viewScss
             , viewReceipt
             ]
@@ -79,7 +80,7 @@ viewHero =
             , p [ class "build-hero__lede" ]
                 [ text "The short answer is "
                 , span [] [ text "Elm + SCSS." ]
-                , text " The longer answer is typed state, hand-built views, generated design rules, two compiled assets, and an unreasonable amount of attention to whether a one-pixel line feels horny enough."
+                , text " The longer answer is typed state, hand-built views, Sass tokens and loops, two compiled assets, and an unreasonable amount of attention to whether a one-pixel line feels right."
                 ]
             ]
         , div [ class "build-reactor", attribute "aria-label" "Animated technology stack diagram" ]
@@ -128,7 +129,7 @@ viewConsole model =
             , div [ class "build-console__screen" ]
                 [ viewConsolePanel model.activeView ]
             , div [ class "build-console__footer" ]
-                [ span [] [ text "ELM 0.19.2" ]
+                [ span [] [ text "ELM 0.19.1" ]
                 , span [] [ text "SCSS / LIBSASS" ]
                 , span [ class "build-console__online" ] [ text "COMPILED CLEAN" ]
                 ]
@@ -341,10 +342,36 @@ viewPipeline =
             , pipelineJoin
             , pipelineStage "03" "src/styles.scss" "TOKENS + MOTION" "pipeline-stage--scss"
             , pipelineArrow "sassc -t compressed"
-            , pipelineStage "04" "styles.css" "28 KB / COMPRESSED" "pipeline-stage--output"
+            , pipelineStage "04" "styles.css" "MINIFIED STYLESHEET" "pipeline-stage--output"
             , pipelineJoin
             , pipelineStage "05" "static host" "SNAPSHOT + FILES" "pipeline-stage--deploy"
             ]
+        ]
+
+
+viewDecisions : Html Msg
+viewDecisions =
+    section [ class "build-decisions" ]
+        [ div [ class "build-decisions__intro" ]
+            [ p [ class "build-kicker" ] [ text "04 / RULES I KEPT" ]
+            , h2 [] [ text "A few decisions did the heavy lifting." ]
+            , p [] [ text "This page has plenty of motion. The site underneath it is deliberately boring in the places that matter: files, links, state, and deployment." ]
+            ]
+        , div [ class "decision-ledger" ]
+            [ decisionRow "01" "STATIC ON PURPOSE" "Every page can be served by the dumbest HTTP server in the room. There is no backend waiting for a password."
+            , decisionRow "02" "TYPED WHERE IT HELPS" "Elm owns the stateful portfolio and this inspector. The raylib mural stays plain HTML because it does not need a model."
+            , decisionRow "03" "MOTION EARNS ITS RENT" "Animation shows direction, state, or hierarchy. Reduced-motion rules shut the machinery down without breaking the page."
+            , decisionRow "04" "THE REPO IS THE PROOF" "The source link stays visible. If a claim sounds suspicious, the files are one click away."
+            ]
+        ]
+
+
+decisionRow : String -> String -> String -> Html Msg
+decisionRow index title copy =
+    div [ class "decision-row" ]
+        [ span [] [ text index ]
+        , h3 [] [ text title ]
+        , p [] [ text copy ]
         ]
 
 
@@ -376,7 +403,7 @@ viewScss : Html Msg
 viewScss =
     section [ class "scss-showcase" ]
         [ div [ class "build-section-heading" ]
-            [ p [ class "build-kicker" ] [ text "04 / SCSS, ACTUALLY USED" ]
+            [ p [ class "build-kicker" ] [ text "05 / SCSS, ACTUALLY USED" ]
             , h2 [] [ text "Not CSS wearing a fake moustache." ]
             , p [] [ text "The stylesheet uses Sass as a design tool, not just as a file extension somebody forgot to remove." ]
             ]
@@ -407,7 +434,7 @@ viewReceipt : Html Msg
 viewReceipt =
     section [ class "build-receipt" ]
         [ div [ class "build-receipt__copy" ]
-            [ p [ class "build-kicker" ] [ text "05 / THE RECEIPT" ]
+            [ p [ class "build-kicker" ] [ text "06 / THE RECEIPT" ]
             , h2 [] [ text "Small stack. Full experience." ]
             , p []
                 [ text "The page is static, but it is not dead. Elm owns the interactions. SCSS owns the visual behavior. A six-hour GitHub snapshot keeps the pins and stars honest without shipping credentials. Everyone leaves satisfied." ]
@@ -425,7 +452,7 @@ viewReceipt =
         , div [ class "build-receipt__stamp", attribute "aria-hidden" "true" ]
             [ span [] [ text "COMPILED" ]
             , strong [] [ text "CLEAN" ]
-            , span [] [ text "26.07.2026" ]
+            , span [] [ text "STATIC / LOCAL" ]
             ]
         ]
 

@@ -7419,6 +7419,44 @@ var $author$project$Main$viewProjects = function (model) {
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
+						$elm$html$Html$Attributes$class('project-list__head'),
+						A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$span,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('INDEX')
+							])),
+						A2(
+						$elm$html$Html$span,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('PROJECT / COMMAND')
+							])),
+						A2(
+						$elm$html$Html$span,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('WHAT IT DOES')
+							])),
+						A2(
+						$elm$html$Html$span,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('STACK / SIGNAL')
+							]))
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
 						$elm$html$Html$Attributes$class('project-list')
 					]),
 				A2($elm$core$List$map, $author$project$Main$viewProject, visibleProjects))
@@ -7429,7 +7467,7 @@ var $author$project$Main$viewProvenance = A2(
 	_List_fromArray(
 		[
 			$elm$html$Html$Attributes$class('provenance'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Code provenance statement')
+			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Build provenance statement')
 		]),
 	_List_fromArray(
 		[
@@ -7447,21 +7485,21 @@ var $author$project$Main$viewProvenance = A2(
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('ANTI')
+							$elm$html$Html$text('HAND')
 						])),
 					A2(
 					$elm$html$Html$strong,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('AI SLOP')
+							$elm$html$Html$text('BUILT')
 						])),
 					A2(
 					$elm$html$Html$span,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('CODE')
+							$elm$html$Html$text('SITE')
 						]))
 				])),
 			A2(
@@ -7480,7 +7518,7 @@ var $author$project$Main$viewProvenance = A2(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('HUMAN-DIRECTED SOFTWARE / EST. BEFORE THE PROMPT ERA')
+							$elm$html$Html$text('NO TEMPLATE / SOURCE IN THE OPEN')
 						])),
 					A2(
 					$elm$html$Html$h2,
@@ -7492,14 +7530,14 @@ var $author$project$Main$viewProvenance = A2(
 							_List_Nil,
 							_List_fromArray(
 								[
-									$elm$html$Html$text('MADE BEFORE AI WAS GOOD')
+									$elm$html$Html$text('THE CODE IS PUBLIC.')
 								])),
 							A2(
 							$elm$html$Html$span,
 							_List_Nil,
 							_List_fromArray(
 								[
-									$elm$html$Html$text('AT WEBDEV.')
+									$elm$html$Html$text('THE TASTE IS MINE.')
 								]))
 						]))
 				])),
@@ -7516,7 +7554,7 @@ var $author$project$Main$viewProvenance = A2(
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('No generated startup perfume. No fake case studies. No six-layer component abstraction built to center a div.')
+							$elm$html$Html$text('No template, no fake case studies, and no six-layer component abstraction built to center a div. The odd choices are deliberate; the source is there if you want receipts.')
 						])),
 					A2(
 					$elm$html$Html$div,

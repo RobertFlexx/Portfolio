@@ -324,21 +324,21 @@ viewTicker =
 
 viewProvenance : Html Msg
 viewProvenance =
-    section [ class "provenance", attribute "aria-label" "Code provenance statement" ]
+    section [ class "provenance", attribute "aria-label" "Build provenance statement" ]
         [ div [ class "provenance__stamp", attribute "aria-hidden" "true" ]
-            [ span [] [ text "ANTI" ]
-            , strong [] [ text "AI SLOP" ]
-            , span [] [ text "CODE" ]
+            [ span [] [ text "HAND" ]
+            , strong [] [ text "BUILT" ]
+            , span [] [ text "SITE" ]
             ]
         , div [ class "provenance__statement" ]
-            [ p [ class "provenance__label" ] [ text "HUMAN-DIRECTED SOFTWARE / EST. BEFORE THE PROMPT ERA" ]
+            [ p [ class "provenance__label" ] [ text "NO TEMPLATE / SOURCE IN THE OPEN" ]
             , h2 []
-                [ span [] [ text "MADE BEFORE AI WAS GOOD" ]
-                , span [] [ text "AT WEBDEV." ]
+                [ span [] [ text "THE CODE IS PUBLIC." ]
+                , span [] [ text "THE TASTE IS MINE." ]
                 ]
             ]
         , div [ class "provenance__notes" ]
-            [ p [] [ text "No generated startup perfume. No fake case studies. No six-layer component abstraction built to center a div." ]
+            [ p [] [ text "No template, no fake case studies, and no six-layer component abstraction built to center a div. The odd choices are deliberate; the source is there if you want receipts." ]
             , div []
                 [ span [] [ text "READABLE" ]
                 , span [] [ text "DIRECT" ]
@@ -375,6 +375,12 @@ viewProjects model =
             , filterButton model.activeFilter Systems (filterLabel "Systems" Systems selectedProjects)
             , filterButton model.activeFilter Tools (filterLabel "Tools" Tools selectedProjects)
             , filterButton model.activeFilter Games (filterLabel "Games" Games selectedProjects)
+            ]
+        , div [ class "project-list__head", attribute "aria-hidden" "true" ]
+            [ span [] [ text "INDEX" ]
+            , span [] [ text "PROJECT / COMMAND" ]
+            , span [] [ text "WHAT IT DOES" ]
+            , span [] [ text "STACK / SIGNAL" ]
             ]
         , div [ class "project-list" ]
             (List.map viewProject visibleProjects)

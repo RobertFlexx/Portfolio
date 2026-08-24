@@ -74,7 +74,8 @@ a:focus-visible {
 p,
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0;
 }
 
@@ -235,7 +236,7 @@ h3 {
   margin: clamp(28px, 5vh, 56px) 0 30px;
   font-size: clamp(72px, 13vw, 210px);
   font-weight: 950;
-  letter-spacing: -0.09em;
+  letter-spacing: -0.065em;
   line-height: 0.72;
 }
 
@@ -257,6 +258,41 @@ h3 {
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.18;
+}
+
+.ray-hero__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 690px;
+  margin-top: clamp(34px, 6vh, 62px);
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--ink);
+}
+
+.ray-hero__facts > div {
+  min-width: 0;
+  padding: 15px 17px;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: rgba(245, 242, 232, 0.16);
+}
+
+.ray-hero__facts strong {
+  display: block;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 950;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.ray-hero__facts span {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  line-height: 1.35;
 }
 
 .ray-hero__actions,
@@ -524,11 +560,12 @@ h3 {
 .rayscal__intro h2 {
   font-size: clamp(76px, 15vw, 240px);
   font-weight: 950;
-  letter-spacing: -0.1em;
+  letter-spacing: -0.02em;
   line-height: 0.75;
 }
 
 .rayscal__intro h2 span {
+  display: block;
   color: var(--paper);
   -webkit-text-stroke: 2px var(--paper);
 }
@@ -755,6 +792,165 @@ h3 {
 .rayscal__features code {
   color: var(--yellow);
   font-family: var(--mono);
+}
+
+.binding-shelf {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(90px, 11vw, 155px);
+}
+
+.binding-shelf__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(270px, 0.55fr);
+  gap: 32px 60px;
+  align-items: end;
+  margin-bottom: clamp(42px, 6vw, 76px);
+}
+
+.binding-shelf__heading .section-index {
+  grid-column: 1 / -1;
+  color: var(--yellow);
+}
+
+.binding-shelf__heading h3 {
+  max-width: 900px;
+  font-size: clamp(48px, 7vw, 108px);
+  font-weight: 950;
+  letter-spacing: -0.075em;
+  line-height: 0.84;
+}
+
+.binding-shelf__heading > p:last-child {
+  max-width: 510px;
+  padding-left: 22px;
+  border-left: 1px solid rgba(245, 242, 232, 0.28);
+  color: #aeb2a7;
+  font-size: clamp(15px, 1.35vw, 19px);
+  line-height: 1.55;
+}
+
+.binding-shelf__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  border-top: 1px solid rgba(245, 242, 232, 0.32);
+  border-left: 1px solid rgba(245, 242, 232, 0.32);
+}
+
+.binding-card {
+  --binding-accent: var(--yellow);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-column: span 4;
+  min-height: 330px;
+  padding: clamp(20px, 2.4vw, 34px);
+  overflow: hidden;
+  border-right: 1px solid rgba(245, 242, 232, 0.32);
+  border-bottom: 1px solid rgba(245, 242, 232, 0.32);
+  background: #151711;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.binding-card:first-child,
+.binding-card:nth-child(2) {
+  grid-column: span 6;
+}
+
+.binding-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: var(--binding-accent);
+  content: "";
+}
+
+.binding-card::after {
+  position: absolute;
+  right: -20px;
+  bottom: -58px;
+  color: rgba(245, 242, 232, 0.025);
+  content: "↗";
+  font-size: 180px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.binding-card:hover,
+.binding-card:focus-visible {
+  z-index: 1;
+  background: var(--binding-accent);
+  color: var(--ink);
+  transform: translateY(-5px);
+}
+
+.binding-card--scala { --binding-accent: var(--yellow); }
+.binding-card--oberon { --binding-accent: #56a8ff; }
+.binding-card--modula { --binding-accent: #ff735d; }
+.binding-card--fstar { --binding-accent: #b79cff; }
+.binding-card--mojo { --binding-accent: #ff9e3d; }
+
+.binding-card__top,
+.binding-card__foot,
+.binding-card__language {
+  position: relative;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+}
+
+.binding-card__top,
+.binding-card__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  color: #969b90;
+}
+
+.binding-card__language {
+  margin-top: clamp(50px, 6vw, 76px);
+  color: var(--binding-accent);
+}
+
+.binding-card h4 {
+  position: relative;
+  z-index: 1;
+  margin: 10px 0 16px;
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 950;
+  letter-spacing: -0.075em;
+  line-height: 0.9;
+  overflow-wrap: anywhere;
+}
+
+.binding-card > p:not(.binding-card__language) {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  color: #b7bbb1;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.binding-card__foot {
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.binding-card:hover .binding-card__top,
+.binding-card:hover .binding-card__foot,
+.binding-card:hover .binding-card__language,
+.binding-card:hover > p,
+.binding-card:focus-visible .binding-card__top,
+.binding-card:focus-visible .binding-card__foot,
+.binding-card:focus-visible .binding-card__language,
+.binding-card:focus-visible > p {
+  color: rgba(17, 18, 15, 0.72);
 }
 
 .contribute {
@@ -1120,6 +1316,20 @@ raylib-game {
   .binding-orbit__ring--two {
     width: 570px;
     height: 570px;
+  }
+
+  .binding-shelf__heading {
+    grid-template-columns: 1fr;
+  }
+
+  .binding-shelf__heading > p:last-child {
+    max-width: 700px;
+  }
+
+  .binding-card,
+  .binding-card:first-child,
+  .binding-card:nth-child(2) {
+    grid-column: span 6;
   }
 
   .playground__heading {
@@ -1598,6 +1808,49 @@ raylib-game {
     padding: 22px;
   }
 
+  .binding-shelf {
+    margin-top: 76px;
+  }
+
+  .binding-shelf__heading {
+    gap: 24px;
+    margin-bottom: 36px;
+  }
+
+  .binding-shelf__heading h3 {
+    font-size: clamp(43px, 13vw, 61px);
+    line-height: 0.9;
+  }
+
+  .binding-shelf__heading > p:last-child {
+    padding-left: 17px;
+    font-size: 15px;
+  }
+
+  .binding-card,
+  .binding-card:first-child,
+  .binding-card:nth-child(2) {
+    grid-column: 1 / -1;
+    min-height: 290px;
+    padding: 22px;
+  }
+
+  .binding-card__language {
+    margin-top: 48px;
+  }
+
+  .binding-card h4 {
+    font-size: clamp(42px, 15vw, 60px);
+  }
+
+  .ray-hero__facts > div {
+    padding: 13px 10px;
+  }
+
+  .ray-hero__facts dd {
+    font-size: 7px;
+  }
+
   .contribute {
     min-height: auto;
     padding:
@@ -1760,6 +2013,25 @@ raylib-game {
   .repo-monument:hover {
     box-shadow: 18px 18px 0 var(--yellow), 36px 36px 0 rgba(245, 242, 232, 0.1);
     transform: none;
+  }
+
+  .binding-card:hover {
+    background: #151711;
+    color: var(--paper);
+    transform: none;
+  }
+
+  .binding-card:hover .binding-card__top,
+  .binding-card:hover .binding-card__foot {
+    color: #969b90;
+  }
+
+  .binding-card:hover .binding-card__language {
+    color: var(--binding-accent);
+  }
+
+  .binding-card:hover > p:not(.binding-card__language) {
+    color: #b7bbb1;
   }
 
   .ray-button:active,

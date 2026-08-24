@@ -5505,7 +5505,7 @@ var $author$project$Build$viewConsole = function (model) {
 								_List_Nil,
 								_List_fromArray(
 									[
-										$elm$html$Html$text('ELM 0.19.2')
+										$elm$html$Html$text('ELM 0.19.1')
 									])),
 								A2(
 								$elm$html$Html$span,
@@ -5528,6 +5528,94 @@ var $author$project$Build$viewConsole = function (model) {
 					]))
 			]));
 };
+var $author$project$Build$decisionRow = F3(
+	function (index, title, copy) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('decision-row')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$span,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(index)
+						])),
+					A2(
+					$elm$html$Html$h3,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(title)
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(copy)
+						]))
+				]));
+	});
+var $author$project$Build$viewDecisions = A2(
+	$elm$html$Html$section,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('build-decisions')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('build-decisions__intro')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('build-kicker')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('04 / RULES I KEPT')
+						])),
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('A few decisions did the heavy lifting.')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('This page has plenty of motion. The site underneath it is deliberately boring in the places that matter: files, links, state, and deployment.')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('decision-ledger')
+				]),
+			_List_fromArray(
+				[
+					A3($author$project$Build$decisionRow, '01', 'STATIC ON PURPOSE', 'Every page can be served by the dumbest HTTP server in the room. There is no backend waiting for a password.'),
+					A3($author$project$Build$decisionRow, '02', 'TYPED WHERE IT HELPS', 'Elm owns the stateful portfolio and this inspector. The raylib mural stays plain HTML because it does not need a model.'),
+					A3($author$project$Build$decisionRow, '03', 'MOTION EARNS ITS RENT', 'Animation shows direction, state, or hierarchy. Reduced-motion rules shut the machinery down without breaking the page.'),
+					A3($author$project$Build$decisionRow, '04', 'THE REPO IS THE PROOF', 'The source link stays visible. If a claim sounds suspicious, the files are one click away.')
+				]))
+		]));
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
 var $elm$html$Html$Attributes$href = function (url) {
@@ -5721,7 +5809,7 @@ var $author$project$Build$viewHero = A2(
 								[
 									$elm$html$Html$text('Elm + SCSS.')
 								])),
-							$elm$html$Html$text(' The longer answer is typed state, hand-built views, generated design rules, two compiled assets, and an unreasonable amount of attention to whether a one-pixel line feels horny enough.')
+							$elm$html$Html$text(' The longer answer is typed state, hand-built views, Sass tokens and loops, two compiled assets, and an unreasonable amount of attention to whether a one-pixel line feels right.')
 						]))
 				])),
 			A2(
@@ -5948,7 +6036,7 @@ var $author$project$Build$viewPipeline = A2(
 					$author$project$Build$pipelineJoin,
 					A4($author$project$Build$pipelineStage, '03', 'src/styles.scss', 'TOKENS + MOTION', 'pipeline-stage--scss'),
 					$author$project$Build$pipelineArrow('sassc -t compressed'),
-					A4($author$project$Build$pipelineStage, '04', 'styles.css', '28 KB / COMPRESSED', 'pipeline-stage--output'),
+					A4($author$project$Build$pipelineStage, '04', 'styles.css', 'MINIFIED STYLESHEET', 'pipeline-stage--output'),
 					$author$project$Build$pipelineJoin,
 					A4($author$project$Build$pipelineStage, '05', 'static host', 'SNAPSHOT + FILES', 'pipeline-stage--deploy')
 				]))
@@ -6003,7 +6091,7 @@ var $author$project$Build$viewReceipt = A2(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('05 / THE RECEIPT')
+							$elm$html$Html$text('06 / THE RECEIPT')
 						])),
 					A2(
 					$elm$html$Html$h2,
@@ -6081,7 +6169,7 @@ var $author$project$Build$viewReceipt = A2(
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('26.07.2026')
+							$elm$html$Html$text('STATIC / LOCAL')
 						]))
 				]))
 		]));
@@ -6158,7 +6246,7 @@ var $author$project$Build$viewScss = A2(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('04 / SCSS, ACTUALLY USED')
+							$elm$html$Html$text('05 / SCSS, ACTUALLY USED')
 						])),
 					A2(
 					$elm$html$Html$h2,
@@ -6459,6 +6547,7 @@ var $author$project$Build$view = function (model) {
 						$author$project$Build$viewConsole(model),
 						$author$project$Build$viewSourcePortal,
 						$author$project$Build$viewPipeline,
+						$author$project$Build$viewDecisions,
 						$author$project$Build$viewScss,
 						$author$project$Build$viewReceipt
 					])),
