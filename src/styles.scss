@@ -1485,7 +1485,10 @@ noscript {
     }
 
     > p {
-      max-width: rem(450);
+      grid-column: 1 / -1;
+      justify-self: center;
+      max-width: rem(760);
+      text-align: center;
       color: #aeb0b8;
       font-size: clamp(rem(16), 1.4vw, rem(20));
       line-height: 1.52;
