@@ -80,87 +80,6 @@ function A9(fun, a, b, c, d, e, f, g, h, i) {
 
 
 
-var _List_Nil = { $: 0 };
-var _List_Nil_UNUSED = { $: '[]' };
-
-function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
-
-
-var _List_cons = F2(_List_Cons);
-
-function _List_fromArray(arr)
-{
-	var out = _List_Nil;
-	for (var i = arr.length; i--; )
-	{
-		out = _List_Cons(arr[i], out);
-	}
-	return out;
-}
-
-function _List_toArray(xs)
-{
-	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
-	{
-		out.push(xs.a);
-	}
-	return out;
-}
-
-var _List_map2 = F3(function(f, xs, ys)
-{
-	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
-	{
-		arr.push(A2(f, xs.a, ys.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map3 = F4(function(f, xs, ys, zs)
-{
-	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A3(f, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map4 = F5(function(f, ws, xs, ys, zs)
-{
-	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
-{
-	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_sortBy = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		return _Utils_cmp(f(a), f(b));
-	}));
-});
-
-var _List_sortWith = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		var ord = A2(f, a, b);
-		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
-	}));
-});
-
-
-
 var _JsArray_empty = [];
 
 function _JsArray_singleton(value)
@@ -790,6 +709,87 @@ function _Utils_ap(xs, ys)
 	}
 	return root;
 }
+
+
+
+var _List_Nil = { $: 0 };
+var _List_Nil_UNUSED = { $: '[]' };
+
+function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
+
+
+var _List_cons = F2(_List_Cons);
+
+function _List_fromArray(arr)
+{
+	var out = _List_Nil;
+	for (var i = arr.length; i--; )
+	{
+		out = _List_Cons(arr[i], out);
+	}
+	return out;
+}
+
+function _List_toArray(xs)
+{
+	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		out.push(xs.a);
+	}
+	return out;
+}
+
+var _List_map2 = F3(function(f, xs, ys)
+{
+	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
+	{
+		arr.push(A2(f, xs.a, ys.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map3 = F4(function(f, xs, ys, zs)
+{
+	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A3(f, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map4 = F5(function(f, ws, xs, ys, zs)
+{
+	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
+{
+	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_sortBy = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		return _Utils_cmp(f(a), f(b));
+	}));
+});
+
+var _List_sortWith = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		var ord = A2(f, a, b);
+		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
+	}));
+});
 
 
 
@@ -4370,8 +4370,6 @@ function _Browser_load(url)
 		}
 	}));
 }
-var $elm$core$Basics$EQ = 1;
-var $elm$core$Basics$LT = 0;
 var $elm$core$List$cons = _List_cons;
 var $elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var $elm$core$Array$foldr = F3(
@@ -4449,12 +4447,15 @@ var $elm$core$Set$toList = function (_v0) {
 	var dict = _v0;
 	return $elm$core$Dict$keys(dict);
 };
+var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
+var $elm$core$Basics$LT = 0;
 var $author$project$Main$All = 0;
+var $author$project$Main$DismissMenu = {$: 3};
 var $elm$core$Basics$False = 1;
 var $elm$core$Maybe$Nothing = {$: 1};
 var $author$project$Main$ReceiveGithubData = function (a) {
-	return {$: 3, a: a};
+	return {$: 5, a: a};
 };
 var $elm$core$Result$Err = function (a) {
 	return {$: 1, a: a};
@@ -4849,6 +4850,8 @@ var $elm$core$Result$isOk = function (result) {
 		return false;
 	}
 };
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$json$Json$Decode$map = _Json_map1;
 var $elm$json$Json$Decode$map2 = _Json_map2;
 var $elm$json$Json$Decode$succeed = _Json_succeed;
@@ -5157,23 +5160,450 @@ var $elm$core$Task$perform = F2(
 			A2($elm$core$Task$map, toMessage, task));
 	});
 var $elm$browser$Browser$element = _Browser_element;
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$value = _Json_decodeValue;
 var $author$project$Main$githubDataReceived = _Platform_incomingPort('githubDataReceived', $elm$json$Json$Decode$value);
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$browser$Browser$Events$Document = 0;
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 0, a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {ap: pids, az: subs};
+	});
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
+var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (!node) {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Dict$Black = 1;
+var $elm$core$Dict$RBNode_elm_builtin = F5(
+	function (a, b, c, d, e) {
+		return {$: -1, a: a, b: b, c: c, d: d, e: e};
+	});
+var $elm$core$Dict$Red = 0;
+var $elm$core$Dict$balance = F5(
+	function (color, key, value, left, right) {
+		if ((right.$ === -1) && (!right.a)) {
+			var _v1 = right.a;
+			var rK = right.b;
+			var rV = right.c;
+			var rLeft = right.d;
+			var rRight = right.e;
+			if ((left.$ === -1) && (!left.a)) {
+				var _v3 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var lLeft = left.d;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					0,
+					key,
+					value,
+					A5($elm$core$Dict$RBNode_elm_builtin, 1, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, 1, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					rK,
+					rV,
+					A5($elm$core$Dict$RBNode_elm_builtin, 0, key, value, left, rLeft),
+					rRight);
+			}
+		} else {
+			if ((((left.$ === -1) && (!left.a)) && (left.d.$ === -1)) && (!left.d.a)) {
+				var _v5 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var _v6 = left.d;
+				var _v7 = _v6.a;
+				var llK = _v6.b;
+				var llV = _v6.c;
+				var llLeft = _v6.d;
+				var llRight = _v6.e;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					0,
+					lK,
+					lV,
+					A5($elm$core$Dict$RBNode_elm_builtin, 1, llK, llV, llLeft, llRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, 1, key, value, lRight, right));
+			} else {
+				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
+			}
+		}
+	});
+var $elm$core$Basics$compare = _Utils_compare;
+var $elm$core$Dict$insertHelp = F3(
+	function (key, value, dict) {
+		if (dict.$ === -2) {
+			return A5($elm$core$Dict$RBNode_elm_builtin, 0, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
+		} else {
+			var nColor = dict.a;
+			var nKey = dict.b;
+			var nValue = dict.c;
+			var nLeft = dict.d;
+			var nRight = dict.e;
+			var _v1 = A2($elm$core$Basics$compare, key, nKey);
+			switch (_v1) {
+				case 0:
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						A3($elm$core$Dict$insertHelp, key, value, nLeft),
+						nRight);
+				case 1:
+					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
+				default:
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						nLeft,
+						A3($elm$core$Dict$insertHelp, key, value, nRight));
+			}
+		}
+	});
+var $elm$core$Dict$insert = F3(
+	function (key, value, dict) {
+		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
+		if ((_v0.$ === -1) && (!_v0.a)) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, 1, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === -2) {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {ag: event, al: key};
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (!node) {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.ap,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (!_v0.$) {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var event = _v0.ag;
+		var key = _v0.al;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.az);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$onKeyDown = A2($elm$browser$Browser$Events$on, 0, 'keydown');
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Main$FocusReturned = {$: 4};
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Task$onError = _Scheduler_onError;
+var $elm$core$Task$attempt = F2(
+	function (resultToMessage, task) {
+		return $elm$core$Task$command(
+			A2(
+				$elm$core$Task$onError,
+				A2(
+					$elm$core$Basics$composeL,
+					A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+					$elm$core$Result$Err),
+				A2(
+					$elm$core$Task$andThen,
+					A2(
+						$elm$core$Basics$composeL,
+						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+						$elm$core$Result$Ok),
+					task)));
+	});
 var $elm$json$Json$Decode$decodeValue = _Json_run;
+var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
 var $author$project$Main$GithubData = F6(
 	function (generatedAt, publicRepoCount, totalStars, primaryLanguageCount, pinned, topRepositories) {
 		return {ai: generatedAt, aq: pinned, Y: primaryLanguageCount, Z: publicRepoCount, aB: topRepositories, aC: totalStars};
 	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
 var $author$project$Main$GithubRepo = F5(
 	function (name, description, language, stars, url) {
-		return {v: description, c: language, a: name, d: stars, b: url};
+		return {v: description, b: language, a: name, d: stars, c: url};
 	});
 var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$json$Json$Decode$map5 = _Json_map5;
-var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Main$githubRepoDecoder = A6(
 	$elm$json$Json$Decode$map5,
 	$author$project$Main$GithubRepo,
@@ -5208,25 +5638,38 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{z: selected}),
+						{A: selected}),
 					$elm$core$Platform$Cmd$none);
 			case 1:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{A: !model.A}),
+						{x: !model.x}),
 					$elm$core$Platform$Cmd$none);
 			case 2:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{A: false}),
+						{x: false}),
 					$elm$core$Platform$Cmd$none);
+			case 3:
+				return model.x ? _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{x: false}),
+					A2(
+						$elm$core$Task$attempt,
+						function (_v1) {
+							return $author$project$Main$FocusReturned;
+						},
+						$elm$browser$Browser$Dom$focus('menu-toggle'))) : _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			case 4:
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 			default:
 				var value = msg.a;
-				var _v1 = A2($elm$json$Json$Decode$decodeValue, $author$project$Main$githubDataDecoder, value);
-				if (!_v1.$) {
-					var github = _v1.a;
+				var _v2 = A2($elm$json$Json$Decode$decodeValue, $author$project$Main$githubDataDecoder, value);
+				if (!_v2.$) {
+					var github = _v2.a;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
@@ -5239,6 +5682,15 @@ var $author$project$Main$update = F2(
 				}
 		}
 	});
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5249,136 +5701,29 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
-var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$blockquoteView = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('axiom')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('axiom__mark'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text('∴')
-				])),
-			A2(
-			$elm$html$Html$p,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('FROM AXIOMS,')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('ORDER.')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('axiom__coordinates')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('R/F / 26')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('34.05° N / 118.24° W')
-						]))
-				]))
-		]));
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $elm$html$Html$h3 = _VirtualDom_node('h3');
-var $elm$html$Html$i = _VirtualDom_node('i');
-var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $author$project$Main$principle = F3(
-	function (index, title, description) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('principle')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('principle__index')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(index)
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(title)
-								])),
-							A2(
-							$elm$html$Html$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(description)
-								]))
-						]))
-				]));
-	});
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
 var $elm$html$Html$section = _VirtualDom_node('section');
-var $elm$html$Html$small = _VirtualDom_node('small');
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
 var $author$project$Main$viewAbout = A2(
 	$elm$html$Html$section,
 	_List_fromArray(
 		[
 			$elm$html$Html$Attributes$class('about section-pad'),
-			$elm$html$Html$Attributes$id('about')
+			$elm$html$Html$Attributes$id('about'),
+			A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'about-title')
 		]),
 	_List_fromArray(
 		[
@@ -5391,29 +5736,39 @@ var $author$project$Main$viewAbout = A2(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$p,
+					$elm$html$Html$h2,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('kicker')
+							$elm$html$Html$Attributes$id('about-title')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('04 / THE PERSON IN THE TERMINAL')
+							$elm$html$Html$text('It started with a robot.')
 						])),
 					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
+					$elm$html$Html$div,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Curious.'),
+							$elm$html$Html$Attributes$class('about__years')
+						]),
+					_List_fromArray(
+						[
 							A2(
 							$elm$html$Html$span,
 							_List_Nil,
 							_List_fromArray(
 								[
-									$elm$html$Html$text('Restless.')
+									$elm$html$Html$text('2018')
 								])),
-							$elm$html$Html$text('Shipping.')
+							$elm$html$Html$text('First lines of Ruby'),
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('2021')
+								])),
+							$elm$html$Html$text('Started building for the web')
 						]))
 				])),
 			A2(
@@ -5432,256 +5787,185 @@ var $author$project$Main$viewAbout = A2(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('I keep building because apparently my brain sees a perfectly usable tool and whispers, '),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('“you could make that weirder.”')
-								]))
+							$elm$html$Html$text('I learned Ruby in fourth grade to program robots. I\u0027ve been making things with code ever since.')
 						])),
 					A2(
 					$elm$html$Html$p,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('I bounce between operating systems, shells, editors, file traversal, graphics, games, language experiments, and whatever else refuses to leave me alone at 2 a.m. I care about code you can read, behavior you can predict, and software that does not need a venture-capital bedtime story to justify existing. And sometimes I make fuck ass shit.')
+							$elm$html$Html$text('These days I spend a lot of time on operating systems, shells, compilers, and graphics. I\u0027ll often try a different language just to see how it changes the way I solve a problem.')
 						])),
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('about__aside-copy')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('My preferred relationship with software is simple: clear boundaries, low overhead, and no mysterious process still running the next morning.')
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('origin-story')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('origin-story__rail'),
-									A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$elm$html$Html$span,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('2018')
-												])),
-											A2(
-											$elm$html$Html$small,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('FIRST LINE')
-												]))
-										])),
-									A2($elm$html$Html$i, _List_Nil, _List_Nil),
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											A2(
-											$elm$html$Html$span,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('2021')
-												])),
-											A2(
-											$elm$html$Html$small,
-											_List_Nil,
-											_List_fromArray(
-												[
-													$elm$html$Html$text('THE WEB')
-												]))
-										]))
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('origin-story__copy')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$span,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('origin-story__label')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('04TH GRADE / RUBY / ROBOTICS')
-										])),
-									A2(
-									$elm$html$Html$h3,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('It started with a robot.')
-										])),
-									A2(
-									$elm$html$Html$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('In 2018, fourth-grade me learned Ruby to script robotics. It was my first language, and the start of the whole thing. I moved into web development in 2021 and have been coding, breaking, learning, and building ever since.')
-										]))
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('principles')
-						]),
-					_List_fromArray(
-						[
-							A3($author$project$Main$principle, '01', 'Fast is a feature', 'If the delay is visible, the implementation is flirting with the wrong abstraction.'),
-							A3($author$project$Main$principle, '02', 'Readable under pressure', 'Future me should not need candles, wine, and three hours to understand the control flow.'),
-							A3($author$project$Main$principle, '03', 'Ship the damn thing', 'A useful, imperfect binary beats a pristine idea doing nothing in a private branch.'),
-							A3($author$project$Main$principle, '04', 'Let it have a pulse', 'Serious engineering can still swear, joke, and enjoy itself.')
-						]))
-				])),
-			$author$project$Main$blockquoteView
-		]));
-var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
-var $author$project$Main$viewContact = A2(
-	$elm$html$Html$section,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('contact section-pad'),
-			$elm$html$Html$Attributes$id('contact')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$p,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('kicker')
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text('08 / OPEN A CONNECTION')
-				])),
-			A2(
-			$elm$html$Html$p,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('contact__pre')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('status-dot'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_Nil),
-					$elm$html$Html$text('Available for interesting problems and bad influences')
-				])),
-			A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('contact__link'),
-					$elm$html$Html$Attributes$href('mailto:robertflexxgh@gmail.com')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('contact__line')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('GOT A HARD')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('contact__line contact__line--outline')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('PROBLEM?'),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('contact__arrow'),
-									A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('↗')
-								]))
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('contact__meta')
-				]),
-			_List_fromArray(
-				[
 					A2(
 					$elm$html$Html$p,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Tell me what keeps you up at night. The software thing, ideally.')
+							$elm$html$Html$text('I care about code I can read and software that responds when I press a button. Sometimes I build useful things. Sometimes I make fuck ass shit. Both count.')
 						])),
 					A2(
 					$elm$html$Html$a,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$href('mailto:robertflexxgh@gmail.com')
+							$elm$html$Html$Attributes$class('text-link'),
+							$elm$html$Html$Attributes$href('https://github.com/RobertFlexx'),
+							$elm$html$Html$Attributes$target('_blank'),
+							$elm$html$Html$Attributes$rel('noreferrer')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('robertflexxgh@gmail.com')
+							$elm$html$Html$text('See what I\u0027m working on')
 						]))
 				]))
 		]));
+var $author$project$Main$birthdayNote = F6(
+	function (person, date, greeting, copy, destination, label) {
+		return A2(
+			$elm$html$Html$section,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('birthday-note birthday-note--' + person),
+					A2($elm$html$Html$Attributes$attribute, 'aria-label', greeting)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('birthday-cake'),
+							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('birthday-cake__candle')
+								]),
+							_List_Nil),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('birthday-cake__icing')
+								]),
+							_List_Nil),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('birthday-cake__base')
+								]),
+							_List_Nil)
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('birthday-note__copy')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('birthday-note__date')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(date)
+								])),
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(greeting)
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(copy)
+								]))
+						])),
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(destination)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(label)
+						]))
+				]));
+	});
+var $author$project$Main$viewBirthdayNotes = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('birthday-notes')
+		]),
+	_List_fromArray(
+		[
+			A6($author$project$Main$birthdayNote, 'robert', 'November 21', 'It\u0027s my birthday.', 'Yes, I put my own birthday on my website. Let me have this.', '#about', 'Who\u0027s this idiot?'),
+			A6($author$project$Main$birthdayNote, 'kokonico', 'October 24', 'Happy birthday, Kokonico.', 'A little corner of the internet for a good friend.', 'https://kokonico.me', 'Visit Kokonico'),
+			A6($author$project$Main$birthdayNote, 'moritisimor', 'July 28', 'Happy birthday, Moritisimor.', 'Here\u0027s to another year of making things.', 'https://github.com/Moritisimor/', 'Visit Moritisimor')
+		]));
+var $author$project$Main$viewContact = A2(
+	$elm$html$Html$section,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('contact section-pad'),
+			$elm$html$Html$Attributes$id('contact'),
+			A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'contact-title')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h2,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$id('contact-title')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Got a hard problem?')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('contact__copy')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Tell me what keeps you up at night. The software thing, ideally.')
+						]))
+				])),
+			A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('contact__email'),
+					$elm$html$Html$Attributes$href('mailto:robertflexxgh@gmail.com')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('robertflexxgh@gmail.com')
+				]))
+		]));
 var $elm$html$Html$footer = _VirtualDom_node('footer');
-var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
-var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
 var $author$project$Main$viewFooter = A2(
 	$elm$html$Html$footer,
 	_List_fromArray(
@@ -5691,29 +5975,18 @@ var $author$project$Main$viewFooter = A2(
 	_List_fromArray(
 		[
 			A2(
-			$elm$html$Html$div,
+			$elm$html$Html$p,
+			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('footer__monogram'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text('RF')
+					$elm$html$Html$text('© 2026 Robert Flexx')
 				])),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
 			_List_fromArray(
 				[
-					$elm$html$Html$text('© 2026 ROBERT FLEXX')
-				])),
-			A2(
-			$elm$html$Html$p,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text('BUILT IN ELM + SCSS')
+					$elm$html$Html$text('Made with Elm & SCSS')
 				])),
 			A2(
 			$elm$html$Html$div,
@@ -5727,114 +6000,80 @@ var $author$project$Main$viewFooter = A2(
 					$elm$html$Html$a,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$href('#top')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Top ↑')
-						])),
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
 							$elm$html$Html$Attributes$href('build.html')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('How it’s built →')
+							$elm$html$Html$text('About this site')
 						])),
 					A2(
 					$elm$html$Html$a,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$href('raylib.html'),
+							$elm$html$Html$Attributes$href('https://github.com/RobertFlexx/Portfolio'),
 							$elm$html$Html$Attributes$target('_blank'),
 							$elm$html$Html$Attributes$rel('noreferrer')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Raylib ♥ ↗')
+							$elm$html$Html$text('Source code')
 						])),
 					A2(
 					$elm$html$Html$a,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$href('https://kokonico.me'),
-							$elm$html$Html$Attributes$target('_blank'),
-							$elm$html$Html$Attributes$rel('noreferrer')
+							$elm$html$Html$Attributes$href('#top')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Kokonico ↗')
-						])),
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('https://github.com/Moritisimor/'),
-							$elm$html$Html$Attributes$target('_blank'),
-							$elm$html$Html$Attributes$rel('noreferrer')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Moritisimor ↗')
-						])),
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('https://github.com/RobertFlexx'),
-							$elm$html$Html$Attributes$target('_blank'),
-							$elm$html$Html$Attributes$rel('noreferrer')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('GitHub ↗')
+							$elm$html$Html$text('Back to top')
 						]))
 				]))
 		]));
+var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $author$project$Main$gameProjects = _List_fromArray(
 	[
-		{f: 'Scala Native bindings for raylib 6.0, making Scala put on game-dev clothes.', e: 'G.01', c: 'SCALA / RAYLIB', a: 'rayscal', b: 'https://github.com/RobertFlexx/rayscal'},
-		{f: 'A free and open-source block voxel game. Familiar cubes, unfamiliar implementation choices.', e: 'G.02', c: 'SCALA', a: 'blockbox', b: 'https://github.com/RobertFlexx/blockbox'},
-		{f: 'A compact, robust TUI 2D game-engine library for making the terminal do things it was not warned about.', e: 'G.03', c: 'C', a: 'PlayboxLib', b: 'https://github.com/RobertFlexx/PlayboxLib'},
-		{f: 'A raw shader that is both the game map and a ray-traced GPU benchmark. The hallway is hot; your GPU will be too.', e: 'G.04', c: 'GLSL', a: 'GLSL Hallway', b: 'https://github.com/RobertFlexx/GLSL-Hallway-GPU-Benchmark'},
-		{f: 'Minecart speed with the safeword removed, plus a value unlocker for people who think arbitrary caps are deeply unsexy.', e: 'G.05', c: 'JAVA', a: 'Minecraft mods', b: 'https://github.com/RobertFlexx/unlimited-minecart-speed'}
+		{f: 'Graphics, audio, and input from raylib 6.0, available in Scala Native.', e: 'G.01', b: 'SCALA / RAYLIB', a: 'rayscal', c: 'https://github.com/RobertFlexx/rayscal'},
+		{f: 'A free and open-source block voxel game written in Scala.', e: 'G.02', b: 'SCALA', a: 'blockbox', c: 'https://github.com/RobertFlexx/blockbox'},
+		{f: 'A 2D game-engine library for building games in the terminal.', e: 'G.03', b: 'C', a: 'PlayboxLib', c: 'https://github.com/RobertFlexx/PlayboxLib'},
+		{f: 'A ray-traced hallway that doubles as a GPU benchmark. The hallway is hot; your GPU will be too.', e: 'G.04', b: 'GLSL', a: 'GLSL Hallway', c: 'https://github.com/RobertFlexx/GLSL-Hallway-GPU-Benchmark'},
+		{f: 'Java mods for changing minecart speed and unlocking game values.', e: 'G.05', b: 'JAVA', a: 'Minecraft mods', c: 'https://github.com/RobertFlexx/unlimited-minecart-speed'}
 	]);
+var $elm$html$Html$h3 = _VirtualDom_node('h3');
+var $elm$html$Html$Attributes$height = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'height',
+		$elm$core$String$fromInt(n));
+};
+var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
 var $author$project$Main$viewGameProject = function (project) {
 	return A2(
 		$elm$html$Html$a,
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('game-project'),
-				$elm$html$Html$Attributes$href(project.b),
+				$elm$html$Html$Attributes$href(project.c),
 				$elm$html$Html$Attributes$target('_blank'),
 				$elm$html$Html$Attributes$rel('noreferrer')
 			]),
 		_List_fromArray(
 			[
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$span,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('game-project__top')
+						$elm$html$Html$Attributes$class('game-project__language')
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text(project.e)
-							])),
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text(project.c)
-							]))
+						$elm$html$Html$text(project.b)
 					])),
 				A2(
 				$elm$html$Html$h3,
@@ -5849,189 +6088,22 @@ var $author$project$Main$viewGameProject = function (project) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(project.f)
-					])),
-				A2(
-				$elm$html$Html$span,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('game-project__arrow'),
-						A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('↗')
 					]))
 			]));
 };
-var $elm$html$Html$strong = _VirtualDom_node('strong');
-var $author$project$Main$viewGameViewport = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('game-viewport'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Animated wireframe game-development graphic')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('game-viewport__hud')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('RF_RENDER / DEV')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__fps')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('144 FPS')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('game-viewport__world'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__stars game-viewport__stars--far')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__stars game-viewport__stars--near')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__sun')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__sun-glow')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__mountains game-viewport__mountains--back')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__mountains game-viewport__mountains--front')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__horizon')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__grid')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__chrome')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('SYNTHETIC')
-								])),
-							A2(
-							$elm$html$Html$strong,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('HORIZON')
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('game-viewport__scanlines')
-						]),
-					_List_Nil)
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('game-viewport__readout')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('POS 118.24 / 34.05')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('SHADER: HOT')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('V-SYNC: HELL NO')
-						]))
-				]))
-		]));
+var $elm$html$Html$Attributes$width = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'width',
+		$elm$core$String$fromInt(n));
+};
 var $author$project$Main$viewGameDev = A2(
 	$elm$html$Html$section,
 	_List_fromArray(
 		[
 			$elm$html$Html$Attributes$class('game-dev section-pad'),
-			$elm$html$Html$Attributes$id('games')
+			$elm$html$Html$Attributes$id('games'),
+			A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'games-title')
 		]),
 	_List_fromArray(
 		[
@@ -6039,49 +6111,35 @@ var $author$project$Main$viewGameDev = A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('game-dev__heading')
+					$elm$html$Html$Attributes$class('section-heading')
 				]),
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('03 / GAME DEVELOPMENT')
-						])),
-					A2(
-					$elm$html$Html$h2,
+					$elm$html$Html$div,
 					_List_Nil,
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$span,
-							_List_Nil,
+							$elm$html$Html$h2,
 							_List_fromArray(
 								[
-									$elm$html$Html$text('I DO GAMES,')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('game-dev__outline')
+									$elm$html$Html$Attributes$id('games-title')
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text('NOT JUST GREP.')
+									$elm$html$Html$text('I make games, too.')
 								]))
 						])),
 					A2(
 					$elm$html$Html$p,
-					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Graphics, engine plumbing, mods, tooling, and gameplay systems. The invisible machinery matters: frame time, input feel, iteration speed, and the tiny bit of black magic that makes pressing a button feel indecently good.')
+							$elm$html$Html$Attributes$class('section-heading__aside')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Shaders, engine plumbing, Minecraft mods, and hours spent figuring out why a triangle is invisible.')
 						]))
 				])),
 			A2(
@@ -6092,7 +6150,61 @@ var $author$project$Main$viewGameDev = A2(
 				]),
 			_List_fromArray(
 				[
-					$author$project$Main$viewGameViewport,
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('game-feature'),
+							$elm$html$Html$Attributes$href('raylib.html#play')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('game-feature__image'),
+									$elm$html$Html$Attributes$src('assets/little-ship.png'),
+									$elm$html$Html$Attributes$alt('little ship, my raylib landing game'),
+									$elm$html$Html$Attributes$width(1170),
+									$elm$html$Html$Attributes$height(658),
+									A2($elm$html$Html$Attributes$attribute, 'loading', 'lazy')
+								]),
+							_List_Nil),
+							A2(
+							$elm$html$Html$div,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('game-feature__copy')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$h3,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text('little ship')
+										])),
+									A2(
+									$elm$html$Html$p,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text('Land on the yellow pad. Gently. The ship is not insured.')
+										])),
+									A2(
+									$elm$html$Html$span,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('button button--primary')
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text('Play little ship')
+										]))
+								]))
+						])),
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
@@ -6102,39 +6214,14 @@ var $author$project$Main$viewGameDev = A2(
 					A2($elm$core$List$map, $author$project$Main$viewGameProject, $author$project$Main$gameProjects))
 				])),
 			A2(
-			$elm$html$Html$div,
+			$elm$html$Html$p,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('game-dev__footer')
+					$elm$html$Html$Attributes$class('game-dev__afterthought')
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('I like game code the same way I like systems code, and women: '),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('hot, responsive, and not carrying sixteen gigabytes of emotional baggage.')
-								]))
-						])),
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('https://github.com/RobertFlexx?tab=repositories'),
-							$elm$html$Html$Attributes$target('_blank'),
-							$elm$html$Html$Attributes$rel('noreferrer')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Dig through all the experiments ↗')
-						]))
+					$elm$html$Html$text('I like my game code hot, responsive, and not hauling sixteen gigabytes of emotional baggage.')
 				]))
 		]));
 var $author$project$Main$CloseMenu = {$: 2};
@@ -6187,8 +6274,8 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $author$project$Main$navLink = F3(
-	function (destination, index, label) {
+var $author$project$Main$navLink = F2(
+	function (destination, label) {
 		return A2(
 			$elm$html$Html$a,
 			_List_fromArray(
@@ -6199,16 +6286,6 @@ var $author$project$Main$navLink = F3(
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('site-nav__index')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(index)
-						])),
 					$elm$html$Html$text(label)
 				]));
 	});
@@ -6242,20 +6319,7 @@ var $author$project$Main$viewHeader = function (model) {
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$span,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('R')
-									])),
-								A2(
-								$elm$html$Html$span,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('F')
-									]))
+								$elm$html$Html$text('rf.')
 							])),
 						A2(
 						$elm$html$Html$span,
@@ -6265,8 +6329,40 @@ var $author$project$Main$viewHeader = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('ROBERT/FLEXX')
+								$elm$html$Html$text('Robert Flexx')
 							]))
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('menu-toggle'),
+						$elm$html$Html$Attributes$id('menu-toggle'),
+						$elm$html$Html$Attributes$type_('button'),
+						$elm$html$Html$Events$onClick($author$project$Main$ToggleMenu),
+						A2(
+						$elm$html$Html$Attributes$attribute,
+						'aria-expanded',
+						$author$project$Main$boolString(model.x)),
+						A2($elm$html$Html$Attributes$attribute, 'aria-controls', 'primary-navigation')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						model.x ? 'Close' : 'Menu'),
+						A2(
+						$elm$html$Html$span,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$classList(
+								_List_fromArray(
+									[
+										_Utils_Tuple2('menu-toggle__icon', true),
+										_Utils_Tuple2('menu-toggle__icon--open', model.x)
+									])),
+								A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+							]),
+						_List_Nil)
 					])),
 				A2(
 				$elm$html$Html$nav,
@@ -6276,311 +6372,81 @@ var $author$project$Main$viewHeader = function (model) {
 						_List_fromArray(
 							[
 								_Utils_Tuple2('site-nav', true),
-								_Utils_Tuple2('site-nav--open', model.A)
+								_Utils_Tuple2('site-nav--open', model.x)
 							])),
 						A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Primary navigation'),
 						$elm$html$Html$Attributes$id('primary-navigation')
 					]),
 				_List_fromArray(
 					[
-						A3($author$project$Main$navLink, '#work', '01', 'Work'),
-						A3($author$project$Main$navLink, '#games', '02', 'Games'),
-						A3($author$project$Main$navLink, '#about', '03', 'About'),
+						A2($author$project$Main$navLink, '#work', 'Work'),
+						A2($author$project$Main$navLink, '#games', 'Games'),
+						A2($author$project$Main$navLink, '#about', 'About'),
+						A2($author$project$Main$navLink, 'raylib.html', 'Raylib'),
+						A2($author$project$Main$navLink, 'build.html', 'This site'),
 						A2(
 						$elm$html$Html$a,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('site-nav__link site-nav__link--raylib'),
-								$elm$html$Html$Attributes$href('raylib.html'),
-								$elm$html$Html$Attributes$target('_blank'),
-								$elm$html$Html$Attributes$rel('noreferrer'),
-								$elm$html$Html$Events$onClick($author$project$Main$CloseMenu)
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('site-nav__index')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('04')
-									])),
-								$elm$html$Html$text('Raylib ♥')
-							])),
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('site-nav__link'),
-								$elm$html$Html$Attributes$href('build.html'),
-								$elm$html$Html$Events$onClick($author$project$Main$CloseMenu)
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('site-nav__index')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('05')
-									])),
-								$elm$html$Html$text('This site')
-							])),
-						A2(
-						$elm$html$Html$a,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('site-nav__link site-nav__link--contact'),
+								$elm$html$Html$Attributes$class('site-nav__contact'),
 								$elm$html$Html$Attributes$href('mailto:robertflexxgh@gmail.com'),
 								$elm$html$Html$Events$onClick($author$project$Main$CloseMenu)
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Start a thread'),
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('arrow'),
-										A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('↗')
-									]))
+								$elm$html$Html$text('Say hello')
 							]))
-					])),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$classList(
-						_List_fromArray(
-							[
-								_Utils_Tuple2('menu-toggle', true),
-								_Utils_Tuple2('menu-toggle--open', model.A)
-							])),
-						$elm$html$Html$Attributes$type_('button'),
-						$elm$html$Html$Events$onClick($author$project$Main$ToggleMenu),
-						A2(
-						$elm$html$Html$Attributes$attribute,
-						'aria-label',
-						model.A ? 'Close navigation' : 'Open navigation'),
-						A2(
-						$elm$html$Html$Attributes$attribute,
-						'aria-expanded',
-						$author$project$Main$boolString(model.A)),
-						A2($elm$html$Html$Attributes$attribute, 'aria-controls', 'primary-navigation')
-					]),
-				_List_fromArray(
-					[
-						A2($elm$html$Html$span, _List_Nil, _List_Nil),
-						A2($elm$html$Html$span, _List_Nil, _List_Nil)
 					]))
 			]));
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $author$project$Main$viewSystemPanel = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('system-panel reveal reveal--5'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Current focus')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
+var $author$project$Main$heroProject = F4(
+	function (name, copy, language, url) {
+		return A2(
+			$elm$html$Html$a,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('system-panel__top')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('RF_SYS')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('BUILD 07.26')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('system-panel__live')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('LIVE')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('system-panel__body')
+					$elm$html$Html$Attributes$class('hero-project'),
+					$elm$html$Html$Attributes$href(url),
+					$elm$html$Html$Attributes$target('_blank'),
+					$elm$html$Html$Attributes$rel('noreferrer')
 				]),
 			_List_fromArray(
 				[
 					A2(
 					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('system-panel__visual'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
+					_List_Nil,
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('orbit orbit--outer')
-								]),
-							_List_Nil),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('orbit orbit--inner')
-								]),
-							_List_Nil),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('orbit__core')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('RF')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('orbit__axis orbit__axis--x')
-								]),
-							_List_Nil),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('orbit__axis orbit__axis--y')
-								]),
-							_List_Nil)
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('system-panel__readout')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$div,
+							$elm$html$Html$h2,
 							_List_Nil,
 							_List_fromArray(
 								[
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('FOCUS')
-										])),
-									A2(
-									$elm$html$Html$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('UNIX / CLI / SYSTEMS')
-										]))
+									$elm$html$Html$text(name)
 								])),
 							A2(
-							$elm$html$Html$div,
+							$elm$html$Html$p,
 							_List_Nil,
 							_List_fromArray(
 								[
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('ALSO')
-										])),
-									A2(
-									$elm$html$Html$p,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('GAMES / SHADERS / MODS')
-										]))
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('STATUS')
-										])),
-									A2(
-									$elm$html$Html$p,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('blink')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('PROBABLY IN TOO DEEP_')
-										]))
+									$elm$html$Html$text(copy)
 								]))
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('system-panel__log')
-				]),
-			_List_fromArray(
-				[
+						])),
 					A2(
 					$elm$html$Html$span,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('>')
-						])),
-					$elm$html$Html$text(' less bloat. more software.')
-				]))
-		]));
+							$elm$html$Html$text(language)
+						]))
+				]));
+	});
 var $author$project$Main$viewHero = A2(
 	$elm$html$Html$section,
 	_List_fromArray(
 		[
-			$elm$html$Html$Attributes$class('hero'),
-			$elm$html$Html$Attributes$id('top')
+			$elm$html$Html$Attributes$class('hero')
 		]),
 	_List_fromArray(
 		[
@@ -6588,37 +6454,7 @@ var $author$project$Main$viewHero = A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('hero__rail')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('PORTFOLIO / 2026')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('hero__rail-line')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('SYSTEMS / GAMES / BAD IDEAS')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('hero__title-wrap')
+					$elm$html$Html$Attributes$class('hero__copy')
 				]),
 			_List_fromArray(
 				[
@@ -6626,19 +6462,11 @@ var $author$project$Main$viewHero = A2(
 					$elm$html$Html$p,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('hero__eyebrow reveal reveal--1')
+							$elm$html$Html$Attributes$class('hero__eyebrow')
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('status-dot'),
-									A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-								]),
-							_List_Nil),
-							$elm$html$Html$text('Systems + game developer')
+							$elm$html$Html$text('Systems programmer. Also makes games.')
 						])),
 					A2(
 					$elm$html$Html$h1,
@@ -6649,25 +6477,73 @@ var $author$project$Main$viewHero = A2(
 						]),
 					_List_fromArray(
 						[
+							$elm$html$Html$text('Robert'),
 							A2(
 							$elm$html$Html$span,
+							_List_Nil,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$class('hero__line hero__line--solid reveal reveal--2')
+									$elm$html$Html$text('Flexx'),
+									A2(
+									$elm$html$Html$span,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('hero__period')
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text('.')
+										]))
+								]))
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('hero__lede')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('I\u0027ll write an operating system before I fix my sleep schedule.'),
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('I\u0027m Robert. I make terminal tools, compilers, and games. Sometimes I write another shell, because apparently the other ones weren\u0027t enough.')
+								]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('hero__actions')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('button button--primary'),
+									$elm$html$Html$Attributes$href('#work')
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text('ROBERT')
+									$elm$html$Html$text('Browse my work')
 								])),
 							A2(
-							$elm$html$Html$span,
+							$elm$html$Html$a,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$class('hero__line hero__line--outline reveal reveal--3')
+									$elm$html$Html$Attributes$class('text-link'),
+									$elm$html$Html$Attributes$href('https://github.com/RobertFlexx'),
+									$elm$html$Html$Attributes$target('_blank'),
+									$elm$html$Html$Attributes$rel('noreferrer')
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text('FLEXX')
+									$elm$html$Html$text('Find me on GitHub')
 								]))
 						]))
 				])),
@@ -6675,111 +6551,56 @@ var $author$project$Main$viewHero = A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('hero__lower')
+					$elm$html$Html$Attributes$class('hero__index')
 				]),
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$div,
+					$elm$html$Html$p,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('hero__intro reveal reveal--4')
+							$elm$html$Html$Attributes$class('hero__index-label')
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$p,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('hero__lede')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('I make '),
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('fast tools, strange systems, and games')
-										])),
-									$elm$html$Html$text(' that feel good in the hands. Tight loops, low overhead, and no bloated framework wheezing in the corner.')
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('hero__actions')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$a,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('button button--primary'),
-											$elm$html$Html$Attributes$href('#work')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('Inspect the work'),
-											A2(
-											$elm$html$Html$span,
-											_List_fromArray(
-												[
-													$elm$html$Html$Attributes$class('arrow'),
-													A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-												]),
-											_List_fromArray(
-												[
-													$elm$html$Html$text('↓')
-												]))
-										])),
-									A2(
-									$elm$html$Html$a,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$class('text-link'),
-											$elm$html$Html$Attributes$href('https://github.com/RobertFlexx'),
-											$elm$html$Html$Attributes$target('_blank'),
-											$elm$html$Html$Attributes$rel('noreferrer')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('github.com/RobertFlexx'),
-											A2(
-											$elm$html$Html$span,
-											_List_fromArray(
-												[
-													$elm$html$Html$Attributes$class('arrow'),
-													A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-												]),
-											_List_fromArray(
-												[
-													$elm$html$Html$text('↗')
-												]))
-										]))
-								]))
+							$elm$html$Html$text('Pick your poison.')
 						])),
-					$author$project$Main$viewSystemPanel
+					A4($author$project$Main$heroProject, 'fastfind', 'Find your damn files.', 'Nim', 'https://github.com/RobertFlexx/fastfind'),
+					A4($author$project$Main$heroProject, 'ObeliskOS', 'Writing an OS seemed like a good idea.', 'C / ASM', 'https://github.com/RobertFlexx/ObeliskOS'),
+					A4($author$project$Main$heroProject, 'rayscal', 'raylib bindings for Scala Native.', 'Scala', 'https://github.com/RobertFlexx/rayscal')
 				])),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('scroll-note'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+					$elm$html$Html$Attributes$class('hero__foot')
 				]),
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$span,
+					$elm$html$Html$p,
+					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('scroll-note__line')
+							$elm$html$Html$text('Writing code since 2018')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Too many languages. Still learning.')
+						])),
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href('build.html')
 						]),
-					_List_Nil),
-					$elm$html$Html$text('SCROLL TO EXECUTE')
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Built with Elm & SCSS')
+						]))
 				]))
 		]));
 var $author$project$Main$languages = _List_fromArray(
@@ -6805,80 +6626,37 @@ var $elm$core$Maybe$map = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $author$project$Main$twoDigit = function (value) {
-	return (value < 10) ? ('0' + $elm$core$String$fromInt(value)) : $elm$core$String$fromInt(value);
+var $author$project$Main$viewLanguage = function (language) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('language-card language--' + language.r)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$p,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('language-card__name')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(language.a)
+					])),
+				A2(
+				$elm$html$Html$p,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('language-card__note')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(language.u)
+					]))
+			]));
 };
-var $author$project$Main$viewLanguage = F2(
-	function (index, language) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('language-card language--' + language.r)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('language-card__top')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('language-card__index')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(
-									$author$project$Main$twoDigit(index + 1))
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('language-card__signal'),
-									A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-								]),
-							_List_Nil)
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('language-card__name')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(language.a)
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('language-card__note')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(language.u)
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('language-card__bar'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							A2($elm$html$Html$span, _List_Nil, _List_Nil)
-						]))
-				]));
-	});
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
 		if (!maybe.$) {
@@ -6903,7 +6681,8 @@ var $author$project$Main$viewLanguages = function (github) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('stack section-pad'),
-				$elm$html$Html$Attributes$id('stack')
+				$elm$html$Html$Attributes$id('stack'),
+				A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'stack-title')
 			]),
 		_List_fromArray(
 			[
@@ -6911,7 +6690,7 @@ var $author$project$Main$viewLanguages = function (github) {
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('section-heading section-heading--stack')
+						$elm$html$Html$Attributes$class('section-heading')
 					]),
 				_List_fromArray(
 					[
@@ -6921,45 +6700,26 @@ var $author$project$Main$viewLanguages = function (github) {
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$p,
+								$elm$html$Html$h2,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('kicker')
+										$elm$html$Html$Attributes$id('stack-title')
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('06 / WORKING LANGUAGES')
-									])),
-								A2(
-								$elm$html$Html$h2,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Polyglot, not monogamous.')
+										$elm$html$Html$text('Languages, plural.')
 									]))
 							])),
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$p,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('stack__count')
+								$elm$html$Html$Attributes$class('section-heading__aside')
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$span,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('10')
-									])),
-								A2(
-								$elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('IN ROTATION')
-									]))
+								$elm$html$Html$text(
+								$elm$core$String$fromInt(languageCount) + ' languages across my public repos. I may have a problem.')
 							]))
 					])),
 				A2(
@@ -6968,31 +6728,7 @@ var $author$project$Main$viewLanguages = function (github) {
 					[
 						$elm$html$Html$Attributes$class('language-grid')
 					]),
-				A2($elm$core$List$indexedMap, $author$project$Main$viewLanguage, $author$project$Main$languages)),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('stack__footnote')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('*')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text(
-								'These are the regulars, not the body count. Public repos currently span ' + ($elm$core$String$fromInt(languageCount) + ' primary languages because commitment issues can be productive.'))
-							]))
-					]))
+				A2($elm$core$List$map, $author$project$Main$viewLanguage, $author$project$Main$languages))
 			]));
 };
 var $author$project$Main$Games = 3;
@@ -7038,8 +6774,15 @@ var $author$project$Main$filterLabel = F3(
 					return _Utils_eq(project.l, selected);
 				},
 				projectList));
-		return label + (' / ' + $author$project$Main$twoDigit(count));
+		return label + (' (' + ($elm$core$String$fromInt(count) + ')'));
 	});
+var $elm$core$List$isEmpty = function (xs) {
+	if (!xs.b) {
+		return true;
+	} else {
+		return false;
+	}
+};
 var $elm$core$Maybe$andThen = F2(
 	function (callback, maybeValue) {
 		if (!maybeValue.$) {
@@ -7060,21 +6803,21 @@ var $elm$core$List$head = function (list) {
 };
 var $author$project$Main$pinnedProjectTemplates = _List_fromArray(
 	[
-		{m: '$ rcc source.c', i: 'A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools.', e: '000', l: 2, c: 'PASCAL', a: 'rookcc', d: 0, o: 'A C compiler that brought its own linker.', p: 'project--magenta', b: 'https://github.com/RobertFlexx/rookcc'},
-		{m: '$ pawnasm input.asm', i: 'A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase.', e: '000', l: 2, c: 'COMPONENT PASCAL', a: 'pawnasm', d: 0, o: 'Assembles the old-fashioned way: alone.', p: 'project--red', b: 'https://github.com/RobertFlexx/pawnasm'},
-		{m: '$ kld main.o', i: 'A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats.', e: '000', l: 2, c: 'ADA', a: 'knightlinker', d: 0, o: 'Links without calling for backup.', p: 'project--blue', b: 'https://github.com/RobertFlexx/knightlinker'}
+		{m: '$ rcc source.c', i: 'A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools.', e: '000', l: 2, b: 'PASCAL', a: 'rookcc', d: 0, o: 'A standalone C compiler toolchain.', p: 'project--magenta', c: 'https://github.com/RobertFlexx/rookcc'},
+		{m: '$ pawnasm input.asm', i: 'A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase.', e: '000', l: 2, b: 'COMPONENT PASCAL', a: 'pawnasm', d: 0, o: 'An Intel-syntax assembler.', p: 'project--red', c: 'https://github.com/RobertFlexx/pawnasm'},
+		{m: '$ kld main.o', i: 'A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats.', e: '000', l: 2, b: 'ADA', a: 'knightlinker', d: 0, o: 'An Ada linker for the RookCC toolchain.', p: 'project--blue', c: 'https://github.com/RobertFlexx/knightlinker'}
 	]);
 var $author$project$Main$projects = _List_fromArray(
 	[
-		{m: '$ ff \u0022what you meant\u0022', i: 'Fuzzy matching, content filters, natural-language queries, semantic code search, and interactive mode packed into one shamelessly capable static binary.', e: '001', l: 2, c: 'NIM', a: 'fastfind', d: 17, o: 'Finds the file before find gets its pants on.', p: 'project--acid', b: 'https://github.com/RobertFlexx/fastfind'},
-		{m: '$ boot /obelisk', i: 'A standalone UNIX-like operating system built from nothing: custom kernel, userland direction, package ecosystem, and the kind of scope creep that starts asking for its own bedroom.', e: '002', l: 1, c: 'C / ASM', a: 'ObeliskOS', d: 12, o: 'An OS born from pain, nightmares, and C.', p: 'project--coral', b: 'https://github.com/RobertFlexx/ObeliskOS'},
-		{m: '$ scala-native run', i: 'Early experimental raylib 6.0 bindings for Scala Native, because game development gets more interesting when two ecosystems start touching.', e: '003', l: 3, c: 'SCALA', a: 'rayscal', d: 7, o: 'Scala Native bindings that want to play.', p: 'project--yellow', b: 'https://github.com/RobertFlexx/rayscal'},
-		{m: '$ blockbox --play', i: 'A free and open-source block voxel game in Scala, with familiar terrain and a homegrown implementation underneath the pixels.', e: '004', l: 3, c: 'SCALA', a: 'blockbox', d: 2, o: 'Cubes, code, and absolutely no rent.', p: 'project--magenta', b: 'https://github.com/RobertFlexx/blockbox'},
-		{m: '$ srsh', i: 'Built-ins, autosuggestions, history tools, aliases, scripting, and the daily comforts Bash keeps making you beg for.', e: '005', l: 1, c: 'RUBY', a: 'RSH', d: 4, o: 'A Ruby shell with an actual personality.', p: 'project--red', b: 'https://github.com/RobertFlexx/RSH'},
-		{m: '$ raid / -time', i: 'Rigorous recursive traversal with performance neck-and-neck with fd. Hidden files included; raid is not here to pretend it did not see them.', e: '006', l: 2, c: 'ZIG', a: 'raid', d: 4, o: 'Goes deep, fast, and checks every directory.', p: 'project--blue', b: 'https://github.com/RobertFlexx/raid'},
-		{m: '$ tedit notes.txt', i: 'A small general-purpose CLI editor with classic workflow DNA, modern safety, and no interest in becoming a browser with a text box.', e: '007', l: 2, c: 'C++', a: 'tedit', d: 4, o: 'Opens your files, not a situationship.', p: 'project--violet', b: 'https://github.com/RobertFlexx/tedit'},
-		{m: '$ uniximage disk.iso', i: 'A GTK and CLI disk-image writer supporting a frankly indecent list of UNIX-like systems, image formats, and compressed archives.', e: '008', l: 2, c: 'C / GTK', a: 'UnixImage', d: 4, o: 'Writes images across the UNIX family.', p: 'project--green', b: 'https://github.com/RobertFlexx/UnixImage'},
-		{m: '$ volt get /api', i: 'A fast standalone HTTP client in Odin. Less surface area than curl, more capability than a one-night request, and absolutely no 200-option commitment ceremony.', e: '009', l: 2, c: 'ODIN', a: 'Volt', d: 4, o: 'Gets, posts, and leaves.', p: 'project--orange', b: 'https://github.com/RobertFlexx/Volt'}
+		{m: '$ ff \u0022what you meant\u0022', i: 'Fuzzy matching, content filters, natural-language queries, and interactive search in a single static binary.', e: '001', l: 2, b: 'NIM', a: 'fastfind', d: 17, o: 'Finds the file before find gets its pants on.', p: 'project--acid', c: 'https://github.com/RobertFlexx/fastfind'},
+		{m: '$ boot /obelisk', i: 'An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem.', e: '002', l: 1, b: 'C / ASM', a: 'ObeliskOS', d: 12, o: 'An OS born from pain, nightmares, and C.', p: 'project--coral', c: 'https://github.com/RobertFlexx/ObeliskOS'},
+		{m: '$ scala-native run', i: 'Experimental bindings that bring raylib 6.0 graphics, audio, and input to Scala Native.', e: '003', l: 3, b: 'SCALA', a: 'rayscal', d: 7, o: 'raylib bindings for Scala Native.', p: 'project--yellow', c: 'https://github.com/RobertFlexx/rayscal'},
+		{m: '$ blockbox --play', i: 'A free block-based voxel game with terrain and gameplay built in Scala.', e: '004', l: 3, b: 'SCALA', a: 'blockbox', d: 2, o: 'An open-source voxel game in Scala.', p: 'project--magenta', c: 'https://github.com/RobertFlexx/blockbox'},
+		{m: '$ srsh', i: 'A Ruby shell with built-ins, autosuggestions, history, aliases, and scripting support.', e: '005', l: 1, b: 'RUBY', a: 'RSH', d: 4, o: 'An interactive shell in Ruby.', p: 'project--red', c: 'https://github.com/RobertFlexx/RSH'},
+		{m: '$ raid / -time', i: 'Low-level filesystem traversal with predictable behavior and support for hidden files.', e: '006', l: 2, b: 'ZIG', a: 'raid', d: 4, o: 'Recursive file traversal in Zig.', p: 'project--blue', c: 'https://github.com/RobertFlexx/raid'},
+		{m: '$ tedit notes.txt', i: 'A general-purpose command-line text editor with a familiar workflow, written in C++.', e: '007', l: 2, b: 'C++', a: 'tedit', d: 4, o: 'Opens your files, not a situationship.', p: 'project--violet', c: 'https://github.com/RobertFlexx/tedit'},
+		{m: '$ uniximage disk.iso', i: 'Graphical and command-line interfaces for writing disk images, including compressed archives, on UNIX-like systems.', e: '008', l: 2, b: 'C / GTK', a: 'UnixImage', d: 4, o: 'A disk-image writer for UNIX systems.', p: 'project--green', c: 'https://github.com/RobertFlexx/UnixImage'},
+		{m: '$ volt get /api', i: 'A command-line HTTP client for making requests and inspecting responses, written in Odin.', e: '009', l: 2, b: 'ODIN', a: 'Volt', d: 4, o: 'Gets, posts, and leaves.', p: 'project--orange', c: 'https://github.com/RobertFlexx/Volt'}
 	]);
 var $elm$core$String$toLower = _String_toLower;
 var $author$project$Main$findProject = function (repoName) {
@@ -7130,35 +6873,28 @@ var $author$project$Main$githubRepoToProject = F2(
 			return _Utils_update(
 				template,
 				{
-					i: liveDescription(template.i),
+					i: template.i,
 					e: projectIndex,
-					c: $elm$core$String$toUpper(repo.c),
+					b: $elm$core$String$toUpper(repo.b),
 					a: repo.a,
 					d: repo.d,
-					b: repo.b
+					c: repo.c
 				});
 		} else {
 			return {
 				m: '$ open /' + $elm$core$String$toLower(repo.a),
-				i: liveDescription('A current GitHub pin. Open the repository for the code, notes, and latest state of the experiment.'),
+				i: liveDescription('Open the repository for source code, documentation, and project updates.'),
 				e: projectIndex,
 				l: 2,
-				c: $elm$core$String$toUpper(repo.c),
+				b: $elm$core$String$toUpper(repo.b),
 				a: repo.a,
 				d: repo.d,
-				o: 'Pinned now. Built to be opened.',
+				o: 'From my current GitHub pins.',
 				p: $author$project$Main$toneForIndex(index),
-				b: repo.b
+				c: repo.c
 			};
 		}
 	});
-var $elm$core$List$isEmpty = function (xs) {
-	if (!xs.b) {
-		return true;
-	} else {
-		return false;
-	}
-};
 var $author$project$Main$nonEmptyList = function (values) {
 	return $elm$core$List$isEmpty(values) ? $elm$core$Maybe$Nothing : $elm$core$Maybe$Just(values);
 };
@@ -7180,6 +6916,21 @@ var $author$project$Main$projectsFromGithub = function (github) {
 	}
 };
 var $elm$html$Html$article = _VirtualDom_node('article');
+var $elm$core$String$replace = F3(
+	function (before, after, string) {
+		return A2(
+			$elm$core$String$join,
+			after,
+			A2($elm$core$String$split, before, string));
+	});
+var $author$project$Main$cleanCopy = function (copy) {
+	return A3(
+		$elm$core$String$replace,
+		'\u2013',
+		'-',
+		A3($elm$core$String$replace, '\u2014', '. ', copy));
+};
+var $elm$html$Html$code = _VirtualDom_node('code');
 var $author$project$Main$viewProject = function (project) {
 	return A2(
 		$elm$html$Html$article,
@@ -7194,7 +6945,7 @@ var $author$project$Main$viewProject = function (project) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('project__link'),
-						$elm$html$Html$Attributes$href(project.b),
+						$elm$html$Html$Attributes$href(project.c),
 						$elm$html$Html$Attributes$target('_blank'),
 						$elm$html$Html$Attributes$rel('noreferrer'),
 						A2($elm$html$Html$Attributes$attribute, 'aria-label', project.a + ' on GitHub')
@@ -7205,48 +6956,19 @@ var $author$project$Main$viewProject = function (project) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('project__index')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text(project.e)
-							])),
-						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
 								$elm$html$Html$Attributes$class('project__main')
 							]),
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$div,
+								$elm$html$Html$h3,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('project__title-row')
+										$elm$html$Html$Attributes$class('project__name')
 									]),
 								_List_fromArray(
 									[
-										A2(
-										$elm$html$Html$h3,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('project__name')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(project.a)
-											])),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('project__command')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(project.m)
-											]))
+										$elm$html$Html$text(project.a)
 									])),
 								A2(
 								$elm$html$Html$p,
@@ -7257,6 +6979,16 @@ var $author$project$Main$viewProject = function (project) {
 								_List_fromArray(
 									[
 										$elm$html$Html$text(project.o)
+									])),
+								A2(
+								$elm$html$Html$code,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('project__command')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(project.m)
 									]))
 							])),
 						A2(
@@ -7267,7 +6999,8 @@ var $author$project$Main$viewProject = function (project) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(project.i)
+								$elm$html$Html$text(
+								$author$project$Main$cleanCopy(project.i))
 							])),
 						A2(
 						$elm$html$Html$div,
@@ -7278,49 +7011,39 @@ var $author$project$Main$viewProject = function (project) {
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$div,
+								$elm$html$Html$span,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('project__signals')
+										$elm$html$Html$Attributes$class('language-pill')
 									]),
 								_List_fromArray(
 									[
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('language-pill')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(project.c)
-											])),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('star-pill'),
-												A2(
-												$elm$html$Html$Attributes$attribute,
-												'aria-label',
-												$elm$core$String$fromInt(project.d) + ' GitHub stars')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text(
-												'★ ' + $elm$core$String$fromInt(project.d))
-											]))
+										$elm$html$Html$text(project.b)
 									])),
 								A2(
 								$elm$html$Html$span,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('project__arrow'),
-										A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+										$elm$html$Html$Attributes$class('star-pill'),
+										A2(
+										$elm$html$Html$Attributes$attribute,
+										'aria-label',
+										$elm$core$String$fromInt(project.d) + ' GitHub stars')
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('↗')
+										$elm$html$Html$text(
+										'★ ' + $elm$core$String$fromInt(project.d))
+									])),
+								A2(
+								$elm$html$Html$span,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('project__open')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('View code')
 									]))
 							]))
 					]))
@@ -7331,7 +7054,7 @@ var $author$project$Main$viewProjects = function (model) {
 	var visibleProjects = A2(
 		$elm$core$List$filter,
 		function (project) {
-			return (!model.z) || _Utils_eq(project.l, model.z);
+			return (!model.A) || _Utils_eq(project.l, model.A);
 		},
 		selectedProjects);
 	return A2(
@@ -7339,7 +7062,8 @@ var $author$project$Main$viewProjects = function (model) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('projects section-pad'),
-				$elm$html$Html$Attributes$id('work')
+				$elm$html$Html$Attributes$id('work'),
+				A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'work-title')
 			]),
 		_List_fromArray(
 			[
@@ -7357,21 +7081,14 @@ var $author$project$Main$viewProjects = function (model) {
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$p,
+								$elm$html$Html$h2,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('kicker')
+										$elm$html$Html$Attributes$id('work-title')
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('01 / SELECTED BUILDS')
-									])),
-								A2(
-								$elm$html$Html$h2,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Software with fingerprints on it.')
+										$elm$html$Html$text('Some things I\u0027ve made.')
 									]))
 							])),
 						A2(
@@ -7382,7 +7099,7 @@ var $author$project$Main$viewProjects = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('No startup-founder perfume. These are real tools, operating-system experiments, and graphics work that compile, run, and occasionally misbehave in interesting ways.')
+								$elm$html$Html$text('My current GitHub pins. Some are useful. Some got wildly out of hand.')
 							]))
 					])),
 				A2(
@@ -7390,68 +7107,44 @@ var $author$project$Main$viewProjects = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('project-filters'),
+						A2($elm$html$Html$Attributes$attribute, 'role', 'group'),
 						A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Filter projects')
 					]),
 				_List_fromArray(
 					[
 						A3(
 						$author$project$Main$filterButton,
-						model.z,
+						model.A,
 						0,
 						A3($author$project$Main$filterLabel, 'All', 0, selectedProjects)),
 						A3(
 						$author$project$Main$filterButton,
-						model.z,
+						model.A,
 						1,
 						A3($author$project$Main$filterLabel, 'Systems', 1, selectedProjects)),
 						A3(
 						$author$project$Main$filterButton,
-						model.z,
+						model.A,
 						2,
 						A3($author$project$Main$filterLabel, 'Tools', 2, selectedProjects)),
 						A3(
 						$author$project$Main$filterButton,
-						model.z,
+						model.A,
 						3,
 						A3($author$project$Main$filterLabel, 'Games', 3, selectedProjects))
 					])),
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$p,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('project-list__head'),
-						A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+						$elm$html$Html$Attributes$class('sr-only'),
+						A2($elm$html$Html$Attributes$attribute, 'role', 'status')
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('INDEX')
-							])),
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('PROJECT / COMMAND')
-							])),
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('WHAT IT DOES')
-							])),
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('STACK / SIGNAL')
-							]))
+						$elm$html$Html$text(
+						$elm$core$String$fromInt(
+							$elm$core$List$length(visibleProjects)) + ' projects shown')
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -7459,209 +7152,72 @@ var $author$project$Main$viewProjects = function (model) {
 					[
 						$elm$html$Html$Attributes$class('project-list')
 					]),
-				A2($elm$core$List$map, $author$project$Main$viewProject, visibleProjects))
+				$elm$core$List$isEmpty(visibleProjects) ? _List_fromArray(
+					[
+						A2(
+						$elm$html$Html$p,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('project-list__empty')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('No pinned projects in this category right now. Try another filter, or see the games below.')
+							]))
+					]) : A2($elm$core$List$map, $author$project$Main$viewProject, visibleProjects))
 			]));
 };
-var $author$project$Main$viewProvenance = A2(
-	$elm$html$Html$section,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('provenance'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Build provenance statement')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('provenance__stamp'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('HAND')
-						])),
-					A2(
-					$elm$html$Html$strong,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('BUILT')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('SITE')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('provenance__statement')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('provenance__label')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('NO TEMPLATE / SOURCE IN THE OPEN')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('THE CODE IS PUBLIC.')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('THE TASTE IS MINE.')
-								]))
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('provenance__notes')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('No template, no fake case studies, and no six-layer component abstraction built to center a div. The odd choices are deliberate; the source is there if you want receipts.')
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('READABLE')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('DIRECT')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('ACTUALLY RUNS')
-								]))
-						]))
-				]))
-		]));
 var $author$project$Main$labRepos = _List_fromArray(
 	[
-		{f: 'A whole fake UNIX-like OS in one process: filesystem, init, services, auth, packages, daemons, and safe ways to break everything.', c: 'C++', a: 'FerriteOS', b: 'https://github.com/RobertFlexx/FerriteOS'},
-		{f: 'Local-network file drops for links, notes, clipboard text, and files. No cloud account invited into the room.', c: 'GLEAM', a: 'DropNest', b: 'https://github.com/RobertFlexx/DropNest'},
-		{f: 'A smart package manager inspired by Portage, entirely in Ruby and probably thinking about dependency graphs right now.', c: 'RUBY', a: 'Photon', b: 'https://github.com/RobertFlexx/Photon'},
-		{f: 'Preview images, GIFs, and video directly in the terminal. Your shell can look; touching still costs extra.', c: 'RUST', a: 'pre-but-better', b: 'https://github.com/RobertFlexx/pre-but-better'},
-		{f: 'A super-light, dead-simple CLI text editor in GNU Assembly for when C feels suspiciously high-level.', c: 'ASSEMBLY', a: 'mote', b: 'https://github.com/RobertFlexx/mote'},
-		{f: 'A UNIX process manager with a friendly TUI. Finds needy processes and helps them let go.', c: 'D', a: 'DTOP', b: 'https://github.com/RobertFlexx/DTOP'},
-		{f: 'A fully interactive Linux shell built around the JVM ecosystem. Java, Kotlin, and Scala are all invited.', c: 'SCALA', a: 'JvmShell', b: 'https://github.com/RobertFlexx/JvmShell'},
-		{f: 'A deliberately horrified replacement for rm. The name is a warning and also excellent product positioning.', c: 'PASCAL', a: 'hrm', b: 'https://github.com/RobertFlexx/hrm'},
-		{f: 'A clean GTK system monitor for looking directly at what your machine is doing behind your back.', c: 'VALA', a: 'system-lens', b: 'https://github.com/RobertFlexx/system-lens'},
-		{f: 'A system shell written in Perl. Because one shell was never going to satisfy this particular obsession.', c: 'PERL', a: 'Nacre', b: 'https://github.com/RobertFlexx/Nacre'}
+		{f: 'A simulated UNIX-like operating system in one process, with a filesystem, services, users, and packages.', b: 'C++', a: 'FerriteOS', c: 'https://github.com/RobertFlexx/FerriteOS'},
+		{f: 'Share files, links, notes, and clipboard text over a local network.', b: 'GLEAM', a: 'DropNest', c: 'https://github.com/RobertFlexx/DropNest'},
+		{f: 'A Portage-inspired package manager in Ruby. Dependency graphs are apparently my idea of a good time.', b: 'RUBY', a: 'Photon', c: 'https://github.com/RobertFlexx/Photon'},
+		{f: 'Preview images, GIFs, and video directly in the terminal.', b: 'RUST', a: 'pre-but-better', c: 'https://github.com/RobertFlexx/pre-but-better'},
+		{f: 'A tiny CLI editor in GNU Assembly. C was feeling a bit too comfortable.', b: 'ASSEMBLY', a: 'mote', c: 'https://github.com/RobertFlexx/mote'},
+		{f: 'A UNIX process manager with a text-based interface.', b: 'D', a: 'DTOP', c: 'https://github.com/RobertFlexx/DTOP'},
+		{f: 'An interactive Linux shell built around Java, Kotlin, and Scala.', b: 'SCALA', a: 'JvmShell', c: 'https://github.com/RobertFlexx/JvmShell'},
+		{f: 'An experimental replacement for rm, written in Pascal.', b: 'PASCAL', a: 'hrm', c: 'https://github.com/RobertFlexx/hrm'},
+		{f: 'A GTK system monitor for viewing resource usage and process activity.', b: 'VALA', a: 'system-lens', c: 'https://github.com/RobertFlexx/system-lens'},
+		{f: 'A system shell in Perl. Yes, another one.', b: 'PERL', a: 'Nacre', c: 'https://github.com/RobertFlexx/Nacre'}
 	]);
-var $author$project$Main$viewLabRepo = F2(
-	function (index, repo) {
-		return A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('lab-repo'),
-					$elm$html$Html$Attributes$href(repo.b),
-					$elm$html$Html$Attributes$target('_blank'),
-					$elm$html$Html$Attributes$rel('noreferrer')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('lab-repo__top')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(
-									$author$project$Main$twoDigit(index + 1))
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(repo.c)
-								]))
-						])),
-					A2(
-					$elm$html$Html$h3,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(repo.a)
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(repo.f)
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('lab-repo__open'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('OPEN ↗')
-						]))
-				]));
-	});
+var $author$project$Main$viewLabRepo = function (repo) {
+	return A2(
+		$elm$html$Html$a,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('lab-repo'),
+				$elm$html$Html$Attributes$href(repo.c),
+				$elm$html$Html$Attributes$target('_blank'),
+				$elm$html$Html$Attributes$rel('noreferrer')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$span,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('lab-repo__language')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(repo.b)
+					])),
+				A2(
+				$elm$html$Html$h3,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(repo.a)
+					])),
+				A2(
+				$elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(repo.f)
+					]))
+			]));
+};
 var $author$project$Main$viewRepoLab = function (github) {
 	var repoCount = A2(
 		$elm$core$Maybe$withDefault,
@@ -7677,7 +7233,8 @@ var $author$project$Main$viewRepoLab = function (github) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('repo-lab section-pad'),
-				$elm$html$Html$Attributes$id('lab')
+				$elm$html$Html$Attributes$id('lab'),
+				A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'lab-title')
 			]),
 		_List_fromArray(
 			[
@@ -7695,21 +7252,14 @@ var $author$project$Main$viewRepoLab = function (github) {
 						_List_fromArray(
 							[
 								A2(
-								$elm$html$Html$p,
+								$elm$html$Html$h2,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('kicker')
+										$elm$html$Html$Attributes$id('lab-title')
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text('05 / THE REST OF THE LAB')
-									])),
-								A2(
-								$elm$html$Html$h2,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('More repos. More rabbit holes.')
+										$elm$html$Html$text('The rest of the mess.')
 									]))
 							])),
 						A2(
@@ -7720,7 +7270,7 @@ var $author$project$Main$viewRepoLab = function (github) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('The headliners are only the polite part. The rest ranges from package managers and fake operating systems to an Assembly editor and a deliberately horrifying rm.')
+								$elm$html$Html$text('Shells, editors, package managers, and several perfectly avoidable projects.')
 							]))
 					])),
 				A2(
@@ -7729,7 +7279,7 @@ var $author$project$Main$viewRepoLab = function (github) {
 					[
 						$elm$html$Html$Attributes$class('repo-lab__grid')
 					]),
-				A2($elm$core$List$indexedMap, $author$project$Main$viewLabRepo, $author$project$Main$labRepos)),
+				A2($elm$core$List$map, $author$project$Main$viewLabRepo, $author$project$Main$labRepos)),
 				A2(
 				$elm$html$Html$a,
 				_List_fromArray(
@@ -7741,184 +7291,20 @@ var $author$project$Main$viewRepoLab = function (github) {
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text(
-								$elm$core$String$fromInt(repoCount) + ' PUBLIC REPOSITORIES')
-							])),
-						A2(
-						$elm$html$Html$span,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('OPEN THE WHOLE DRAWER ↗')
-							]))
+						$elm$html$Html$text(
+						'Browse all ' + ($elm$core$String$fromInt(repoCount) + ' repositories on GitHub'))
 					]))
 			]));
 };
-var $elm$core$List$repeatHelp = F3(
-	function (result, n, value) {
-		repeatHelp:
-		while (true) {
-			if (n <= 0) {
-				return result;
-			} else {
-				var $temp$result = A2($elm$core$List$cons, value, result),
-					$temp$n = n - 1,
-					$temp$value = value;
-				result = $temp$result;
-				n = $temp$n;
-				value = $temp$value;
-				continue repeatHelp;
-			}
-		}
-	});
-var $elm$core$List$repeat = F2(
-	function (n, value) {
-		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
-	});
-var $author$project$Main$viewTicker = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('ticker'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Areas of focus')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('ticker__track')
-				]),
-			A2(
-				$elm$core$List$repeat,
-				2,
-				A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('ticker__group')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('SYSTEMS PROGRAMMING')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('ticker__glyph')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('✳')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('COMMAND LINE TOOLS')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('ticker__glyph')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('✳')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('UNIX WORKFLOWS')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('ticker__glyph')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('✳')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('GAME DEVELOPMENT')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('ticker__glyph')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('✳')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('SHADERS + GRAPHICS')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('ticker__glyph')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('✳')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('WEIRD EXPERIMENTS')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('ticker__glyph')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('✳')
-								]))
-						]))))
-		]));
-var $author$project$Main$fallbackSpotlight = {v: 'One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age.', c: 'NIM', a: 'fastfind', d: 17, b: 'https://github.com/RobertFlexx/fastfind'};
 var $author$project$Main$githubSnapshotLabel = function (github) {
 	if (!github.$) {
 		var data = github.a;
-		return 'AUTOMATIC GITHUB SNAPSHOT / ' + (A2($elm$core$String$left, 10, data.ai) + ': PINS + COUNTS REFRESH EVERY SIX HOURS.');
+		return 'Snapshot updated ' + (A2($elm$core$String$left, 10, data.ai) + '. Refreshed every six hours.');
 	} else {
-		return 'PUBLIC GITHUB SNAPSHOT / CONNECTING TO THE LIVE FEED.';
+		return 'Showing the built-in snapshot. Updated data is temporarily unavailable.';
 	}
 };
+var $elm$html$Html$strong = _VirtualDom_node('strong');
 var $author$project$Main$githubStat = F2(
 	function (value, label) {
 		return A2(
@@ -7930,7 +7316,7 @@ var $author$project$Main$githubStat = F2(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$span,
+					$elm$html$Html$strong,
 					_List_Nil,
 					_List_fromArray(
 						[
@@ -7945,134 +7331,62 @@ var $author$project$Main$githubStat = F2(
 						]))
 				]));
 	});
-var $elm$core$List$maximum = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(
-			A3($elm$core$List$foldl, $elm$core$Basics$max, x, xs));
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$Main$repoDetail = function (repo) {
-	var _v0 = $author$project$Main$findProject(repo.a);
-	if (!_v0.$) {
-		var project = _v0.a;
-		return project.i;
-	} else {
-		return $elm$core$String$isEmpty(
-			$elm$core$String$trim(repo.v)) ? 'A public repository earning attention on GitHub. Open it for the code, context, and current state.' : repo.v;
-	}
-};
 var $author$project$Main$tractionRepos = _List_fromArray(
 	[
-		{v: 'One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age.', c: 'NIM', a: 'fastfind', d: 17, b: 'https://github.com/RobertFlexx/fastfind'},
-		{v: 'A standalone UNIX-like operating system built from nothing: custom kernel, userland direction, package ecosystem, and a deeply unreasonable amount of scope.', c: 'C', a: 'ObeliskOS', d: 12, b: 'https://github.com/RobertFlexx/ObeliskOS'},
-		{v: 'Early experimental raylib 6.0 bindings for Scala Native.', c: 'SCALA', a: 'rayscal', d: 7, b: 'https://github.com/RobertFlexx/rayscal'},
-		{v: 'A Ruby shell with built-ins, autosuggestions, history tools, aliases, scripting, and quality-of-life features.', c: 'RUBY', a: 'RSH', d: 4, b: 'https://github.com/RobertFlexx/RSH'},
-		{v: 'A GTK and CLI disk-image writer for UNIX and UNIX-like systems.', c: 'C / GTK', a: 'UnixImage', d: 4, b: 'https://github.com/RobertFlexx/UnixImage'}
+		{v: 'A static Nim binary for fuzzy file search, content filters, natural-language queries, and interactive selection.', b: 'NIM', a: 'fastfind', d: 17, c: 'https://github.com/RobertFlexx/fastfind'},
+		{v: 'An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem.', b: 'C', a: 'ObeliskOS', d: 12, c: 'https://github.com/RobertFlexx/ObeliskOS'},
+		{v: 'Early experimental raylib 6.0 bindings for Scala Native.', b: 'SCALA', a: 'rayscal', d: 7, c: 'https://github.com/RobertFlexx/rayscal'},
+		{v: 'A Ruby shell with built-ins, autosuggestions, history tools, aliases, scripting, and quality-of-life features.', b: 'RUBY', a: 'RSH', d: 4, c: 'https://github.com/RobertFlexx/RSH'},
+		{v: 'A GTK and CLI disk-image writer for UNIX and UNIX-like systems.', b: 'C / GTK', a: 'UnixImage', d: 4, c: 'https://github.com/RobertFlexx/UnixImage'}
 	]);
-var $elm$core$Basics$round = _Basics_round;
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Main$viewTractionRepo = F3(
-	function (maxStars, index, repo) {
-		var meterWidth = A2(
-			$elm$core$Basics$max,
-			4,
-			$elm$core$Basics$round(
-				(repo.d / A2($elm$core$Basics$max, 1, maxStars)) * 100));
-		return A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('traction-row'),
-					$elm$html$Html$Attributes$href(repo.b),
-					$elm$html$Html$Attributes$target('_blank'),
-					$elm$html$Html$Attributes$rel('noreferrer')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('traction-row__rank')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(
-							$author$project$Main$twoDigit(index + 1))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('traction-row__repo')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(repo.a)
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(repo.c)
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('traction-row__meter'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('traction-row__fill'),
-									A2(
-									$elm$html$Html$Attributes$style,
-									'--meter-width',
-									$elm$core$String$fromInt(meterWidth) + '%')
-								]),
-							_List_Nil)
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('traction-row__stars')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(
-							'★ ' + $elm$core$String$fromInt(repo.d))
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('traction-row__arrow'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('↗')
-						]))
-				]));
-	});
+var $author$project$Main$viewTractionRepo = function (repo) {
+	return A2(
+		$elm$html$Html$a,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('traction-row'),
+				$elm$html$Html$Attributes$href(repo.c),
+				$elm$html$Html$Attributes$target('_blank'),
+				$elm$html$Html$Attributes$rel('noreferrer')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('traction-row__repo')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h3,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(repo.a)
+							])),
+						A2(
+						$elm$html$Html$span,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text(repo.b)
+							]))
+					])),
+				A2(
+				$elm$html$Html$span,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('traction-row__stars')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						'★ ' + $elm$core$String$fromInt(repo.d))
+					]))
+			]));
+};
 var $author$project$Main$viewTraction = function (github) {
 	var statValue = F2(
 		function (accessor, fallback) {
@@ -8094,26 +7408,12 @@ var $author$project$Main$viewTraction = function (github) {
 					return $.aB;
 				},
 				github)));
-	var spotlight = A2(
-		$elm$core$Maybe$withDefault,
-		$author$project$Main$fallbackSpotlight,
-		$elm$core$List$head(rankedRepos));
-	var maxStars = A2(
-		$elm$core$Maybe$withDefault,
-		1,
-		$elm$core$List$maximum(
-			A2(
-				$elm$core$List$map,
-				function ($) {
-					return $.d;
-				},
-				rankedRepos)));
 	return A2(
 		$elm$html$Html$section,
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('traction section-pad'),
-				$elm$html$Html$Attributes$id('traction')
+				A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'github-title')
 			]),
 		_List_fromArray(
 			[
@@ -8126,34 +7426,21 @@ var $author$project$Main$viewTraction = function (github) {
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$h2,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$id('github-title')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('The source is the fun part.')
+							])),
+						A2(
+						$elm$html$Html$p,
 						_List_Nil,
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('kicker')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('02 / GITHUB SIGNAL')
-									])),
-								A2(
-								$elm$html$Html$h2,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('The work people '),
-										A2(
-										$elm$html$Html$span,
-										_List_Nil,
-										_List_fromArray(
-											[
-												$elm$html$Html$text('actually noticed.')
-											]))
-									]))
+								$elm$html$Html$text('Most of my work lives on GitHub. Open an issue, steal an idea, or tell me where I\u0027ve fucked up. Preferably with a line number.')
 							])),
 						A2(
 						$elm$html$Html$div,
@@ -8171,7 +7458,7 @@ var $author$project$Main$viewTraction = function (github) {
 										return $.Z;
 									},
 									59),
-								'PUBLIC REPOS'),
+								'Public repos'),
 								A2(
 								$author$project$Main$githubStat,
 								A2(
@@ -8180,7 +7467,7 @@ var $author$project$Main$viewTraction = function (github) {
 										return $.aC;
 									},
 									137),
-								'STARS EARNED'),
+								'GitHub stars'),
 								A2(
 								$author$project$Main$githubStat,
 								A2(
@@ -8189,424 +7476,101 @@ var $author$project$Main$viewTraction = function (github) {
 										return $.Y;
 									},
 									34),
-								'PRIMARY LANGS')
+								'Languages used')
 							]))
 					])),
 				A2(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('traction__body')
+						$elm$html$Html$Attributes$class('traction__ranking')
 					]),
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$p,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('traction__spotlight')
+								$elm$html$Html$Attributes$class('traction__ranking-label')
 							]),
 						_List_fromArray(
 							[
-								A2(
-								$elm$html$Html$p,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('traction__flag')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('MOST TRACTION')
-									])),
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('traction__big-number')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(
-										$elm$core$String$fromInt(spotlight.d))
-									])),
-								A2(
-								$elm$html$Html$h3,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text(spotlight.a)
-									])),
-								A2(
-								$elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text(
-										$author$project$Main$repoDetail(spotlight))
-									])),
-								A2(
-								$elm$html$Html$a,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$href(spotlight.b),
-										$elm$html$Html$Attributes$target('_blank'),
-										$elm$html$Html$Attributes$rel('noreferrer')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Open the repo'),
-										A2(
-										$elm$html$Html$span,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$class('arrow'),
-												A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-											]),
-										_List_fromArray(
-											[
-												$elm$html$Html$text('↗')
-											]))
-									]))
+								$elm$html$Html$text('Most starred repositories')
 							])),
 						A2(
 						$elm$html$Html$div,
+						_List_Nil,
+						A2($elm$core$List$map, $author$project$Main$viewTractionRepo, rankedRepos)),
+						A2(
+						$elm$html$Html$p,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('traction__ranking')
+								$elm$html$Html$Attributes$class('traction__snapshot')
 							]),
-						A2(
-							$elm$core$List$indexedMap,
-							$author$project$Main$viewTractionRepo(maxStars),
-							rankedRepos))
-					])),
-				A2(
-				$elm$html$Html$p,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('traction__snapshot')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$author$project$Main$githubSnapshotLabel(github))
+						_List_fromArray(
+							[
+								$elm$html$Html$text(
+								$author$project$Main$githubSnapshotLabel(github))
+							]))
 					]))
 			]));
 };
-var $author$project$Main$viewKokonicoFriend = A2(
-	$elm$html$Html$a,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('friend-reference'),
-			$elm$html$Html$Attributes$href('https://kokonico.me'),
-			$elm$html$Html$Attributes$target('_blank'),
-			$elm$html$Html$Attributes$rel('noreferrer'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Visit Kokonico\u0027s portfolio')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
+var $author$project$Main$friendCard = F6(
+	function (variant, name, copy, domain, url, greeting) {
+		return A2(
+			$elm$html$Html$a,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('friend-reference__top')
+					$elm$html$Html$Attributes$class('friend-reference ' + variant),
+					$elm$html$Html$Attributes$href(url),
+					$elm$html$Html$Attributes$target('_blank'),
+					$elm$html$Html$Attributes$rel('noreferrer')
 				]),
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$span,
-					_List_Nil,
+					$elm$html$Html$p,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('FRIEND / 001')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__status')
+							$elm$html$Html$Attributes$class('friend-reference__birthday')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('ONLINE ↗')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__identity')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__eyebrow')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('KKNC WEBWEAR™')
+							$elm$html$Html$text(greeting)
 						])),
 					A2(
 					$elm$html$Html$h3,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Kokonico')
+							$elm$html$Html$text(name)
 						])),
 					A2(
 					$elm$html$Html$p,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Python / backend / databases / web design')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__reveal')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('IDEA BORROWED WITH LOVE')
-						])),
-					A2(
-					$elm$html$Html$strong,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('GO SAY HELLO')
+							$elm$html$Html$text(copy)
 						])),
 					A2(
 					$elm$html$Html$span,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('friend-reference__big-arrow'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+							$elm$html$Html$Attributes$class('friend-reference__domain')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('↗')
+							$elm$html$Html$text(domain)
 						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__foot')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('KOKONICO.ME')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('OPEN PORTFOLIO')
-						]))
-				]))
-		]));
-var $author$project$Main$viewMoritisimorFriend = A2(
-	$elm$html$Html$a,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('friend-reference friend-reference--moritisimor'),
-			$elm$html$Html$Attributes$href('https://github.com/Moritisimor/'),
-			$elm$html$Html$Attributes$target('_blank'),
-			$elm$html$Html$Attributes$rel('noreferrer'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Visit Moritisimor on GitHub')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__flag'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-				]),
-			_List_fromArray(
-				[
-					A2($elm$html$Html$span, _List_Nil, _List_Nil),
-					A2($elm$html$Html$span, _List_Nil, _List_Nil),
-					A2($elm$html$Html$span, _List_Nil, _List_Nil)
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__top')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('FRIEND / 002')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__status')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('GERMANY / DE ↗')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__identity')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__eyebrow')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('ARTIST WITH A COMPILER')
-						])),
-					A2(
-					$elm$html$Html$h3,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Moriti'),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('simor')
-								]))
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Go / Rust / Dart / C / runtimes and small tools')
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__signals'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Featured repositories')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('SATURNJS')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('ATOMVM')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('CUPID')
-								]))
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__reveal friend-reference__reveal--germany')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('I AM AN ARTIST AND CODE IS MY PAINTBRUSH.')
-						])),
-					A2(
-					$elm$html$Html$strong,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('OPEN GITHUB')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__big-arrow'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('↗')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('friend-reference__foot')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('GITHUB.COM/MORITISIMOR')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('VIEW THE WORK')
-						]))
-				]))
-		]));
+				]));
+	});
 var $author$project$Main$viewWebFriends = A2(
 	$elm$html$Html$section,
 	_List_fromArray(
 		[
 			$elm$html$Html$Attributes$class('web-friends section-pad'),
-			$elm$html$Html$Attributes$id('friends')
+			$elm$html$Html$Attributes$id('friends'),
+			A2($elm$html$Html$Attributes$attribute, 'aria-labelledby', 'friends-title')
 		]),
 	_List_fromArray(
 		[
@@ -8614,33 +7578,35 @@ var $author$project$Main$viewWebFriends = A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('web-friends__heading')
+					$elm$html$Html$Attributes$class('section-heading')
 				]),
 			_List_fromArray(
 				[
 					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$id('friends-title')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('People I like.')
+								]))
+						])),
+					A2(
 					$elm$html$Html$p,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('kicker')
+							$elm$html$Html$Attributes$class('section-heading__aside')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('07 / GOOD PEOPLE ON THE WIRE')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('The internet is better with friends in it.')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Kokonico works across Python, backend systems, databases, and the web. Moritisimor is in Germany, calls code a paintbrush, and keeps making runtimes, virtual machines, CLI tools, and small useful things.')
+							$elm$html$Html$text('Go bother them. Tell them I sent you.')
 						]))
 				])),
 			A2(
@@ -8650,26 +7616,44 @@ var $author$project$Main$viewWebFriends = A2(
 					$elm$html$Html$Attributes$class('web-friends__cards')
 				]),
 			_List_fromArray(
-				[$author$project$Main$viewKokonicoFriend, $author$project$Main$viewMoritisimorFriend]))
+				[
+					A6($author$project$Main$friendCard, 'friend-reference--kokonico', 'Kokonico', 'Python, backend systems, databases, and web design.', 'kokonico.me', 'https://kokonico.me', 'Happy birthday, Kokonico!'),
+					A6($author$project$Main$friendCard, 'friend-reference--moritisimor', 'Moritisimor', 'Runtimes, virtual machines, and small tools. Based in Germany.', 'github.com/Moritisimor', 'https://github.com/Moritisimor/', 'Happy birthday, Moritisimor!')
+				]))
 		]));
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('site-shell')
+				$elm$html$Html$Attributes$class('site-shell'),
+				$elm$html$Html$Attributes$id('top')
 			]),
 		_List_fromArray(
 			[
+				A2(
+				$elm$html$Html$a,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('skip-link'),
+						$elm$html$Html$Attributes$href('#main-content')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Skip to content')
+					])),
 				$author$project$Main$viewHeader(model),
 				A2(
 				$elm$html$Html$main_,
-				_List_Nil,
 				_List_fromArray(
 					[
+						$elm$html$Html$Attributes$id('main-content'),
+						A2($elm$html$Html$Attributes$attribute, 'tabindex', '-1')
+					]),
+				_List_fromArray(
+					[
+						$author$project$Main$viewBirthdayNotes,
 						$author$project$Main$viewHero,
-						$author$project$Main$viewTicker,
-						$author$project$Main$viewProvenance,
 						$author$project$Main$viewProjects(model),
 						$author$project$Main$viewTraction(model.I),
 						$author$project$Main$viewGameDev,
@@ -8686,11 +7670,22 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 	{
 		aQ: function (_v0) {
 			return _Utils_Tuple2(
-				{z: 0, I: $elm$core$Maybe$Nothing, A: false},
+				{A: 0, I: $elm$core$Maybe$Nothing, x: false},
 				$elm$core$Platform$Cmd$none);
 		},
 		aV: function (_v1) {
-			return $author$project$Main$githubDataReceived($author$project$Main$ReceiveGithubData);
+			return $elm$core$Platform$Sub$batch(
+				_List_fromArray(
+					[
+						$author$project$Main$githubDataReceived($author$project$Main$ReceiveGithubData),
+						$elm$browser$Browser$Events$onKeyDown(
+						A2(
+							$elm$json$Json$Decode$andThen,
+							function (key) {
+								return (key === 'Escape') ? $elm$json$Json$Decode$succeed($author$project$Main$DismissMenu) : $elm$json$Json$Decode$fail('Not an escape key');
+							},
+							A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string)))
+					]));
 		},
 		aX: $author$project$Main$update,
 		aY: $author$project$Main$view

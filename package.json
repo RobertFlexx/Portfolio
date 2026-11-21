@@ -9,10 +9,9 @@
   },
   "dependencies": {
     "elm": "^0.19.2-0",
-    "scss": "^0.2.4"
+    "sass": "^1.108.2"
   },
   "allowScripts": {
-    "elm@0.19.2-0": true,
-    "scss@0.2.4": true
+    "elm@0.19.2-0": true
   }
 }

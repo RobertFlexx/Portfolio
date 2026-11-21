@@ -3,62 +3,63 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#f5f2e8">
+    <meta name="theme-color" content="#f4f5ee">
     <meta name="color-scheme" content="light">
     <meta name="description" content="Robert Flexx's love letter to raylib: five language bindings, an invitation to contribute, and a small game called little ship.">
     <meta property="og:title" content="Robert Flexx ♥ raylib">
-    <meta property="og:description" content="A mural, five language bindings, and a game built for the library that makes game programming fun.">
+    <meta property="og:description" content="Five raylib language bindings and little ship, a small browser game by Robert Flexx.">
     <meta property="og:type" content="website">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="raylib.css">
     <title>Robert Flexx ♥ raylib</title>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="mural-nav">
       <a class="mural-nav__brand" href="index.html" aria-label="Back to Robert Flexx's portfolio">
-        <span class="mural-nav__monogram" aria-hidden="true">RF</span>
-        <span>ROBERT/FLEXX</span>
+        <span class="mural-nav__monogram" aria-hidden="true">rf.</span>
+        <span>Robert Flexx</span>
       </a>
-      <nav aria-label="Raylib mural navigation">
-        <a href="#bindings">BINDINGS / 05</a>
-        <a href="#play">PLAY</a>
-        <a href="https://github.com/raysan5/raylib" target="_blank" rel="noreferrer">RAYLIB GITHUB ↗</a>
-        <a class="mural-nav__back" href="index.html">BACK TO PORTFOLIO</a>
+      <nav aria-label="Raylib navigation">
+        <a href="#bindings">Bindings</a>
+        <a href="#play">Play</a>
+        <a href="https://github.com/raysan5/raylib" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="mural-nav__back" href="index.html">Portfolio</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="ray-hero" id="top">
         <div class="ray-hero__rays" aria-hidden="true"></div>
         <div class="ray-hero__copy">
-          <p class="eyebrow"><span></span>A LOVE LETTER IN 60 FRAMES PER SECOND</p>
+          <p class="eyebrow"><span></span>A small raylib obsession.</p>
           <h1>
             <span>I</span>
             <strong>♥</strong>
-            <span>RAYLIB</span>
+            <span>raylib</span>
           </h1>
-          <p class="ray-hero__lede">Simple enough to learn in an afternoon. Powerful enough to keep using for years. raylib puts nothing between an idea and the first moving pixel. That is exactly why I love it.</p>
+          <p class="ray-hero__lede">raylib is a C library for games and graphics. I like how quickly I can get a stupid little idea on screen. Five binding projects later, I clearly haven't got it out of my system.</p>
           <div class="ray-hero__actions">
             <a class="ray-button ray-button--dark" href="https://github.com/raysan5/raylib" target="_blank" rel="noreferrer">
-              <span>OPEN RAYLIB ON GITHUB</span><b>↗</b>
+              <span>raylib on GitHub</span>
             </a>
             <a class="ray-button ray-button--line" href="#play">
-              <span>PLAY THE GAME</span><b>↓</b>
+              <span>Play little ship</span>
             </a>
           </div>
           <div class="ray-hero__facts" aria-label="Robert's raylib work at a glance">
-            <div><strong>05</strong><span>BINDING REPOS</span></div>
-            <div><strong>07</strong><span>LANGUAGE TARGETS</span></div>
-            <div><strong>6.0</strong><span>RAYLIB BASELINE</span></div>
+            <div><strong>05</strong><span>Binding repos</span></div>
+            <div><strong>07</strong><span>Language targets</span></div>
+            <div><strong>6.0</strong><span>raylib version</span></div>
           </div>
         </div>
         <div class="ray-hero__logo">
           <div class="logo-frame">
-            <span class="logo-frame__note">THE REAL THING / SINCE 2013</span>
+            <span class="logo-frame__note">The library behind the pixels</span>
             <img src="assets/raylib-logo.png" alt="Official raylib logo">
-            <span class="logo-frame__credit">SIMPLE / DIRECT / JOYFUL</span>
+            <span class="logo-frame__credit">raylib, created by raysan5</span>
           </div>
-          <p>NO EDITOR. NO CEREMONY.<br>JUST CODE AND THE LOOP.</p>
+          <p>A window, a loop, and an idea.</p>
         </div>
         <div class="ray-hero__ticker" aria-label="Raylib qualities">
           <div>
@@ -69,35 +70,35 @@
       </section>
 
       <section class="manifesto" aria-labelledby="manifesto-title">
-        <p class="section-index">01 / WHY RAYLIB</p>
+        <p class="section-index">Why I use it</p>
         <div class="manifesto__statement">
-          <h2 id="manifesto-title">It makes programming games feel like <em>programming games.</em></h2>
-          <p>raylib trusts you with the loop. It gives you the sharp, beautifully named pieces: window, input, drawing, audio, and math. Then it gets out of the way. The feedback is instant. The API reads like intent. The fun survives the tooling.</p>
+          <h2 id="manifesto-title">I like being close to <em>the game loop.</em></h2>
+          <p>Windowing, input, drawing, audio, and math are all there. I can write the loop myself, try an idea, and see the result without much setup.</p>
         </div>
         <div class="manifesto__cards">
           <article>
             <span>01</span>
             <h3>Simple on purpose</h3>
-            <p>One small, readable C API. No archaeology expedition before the first triangle.</p>
+            <p>A readable C API with examples that make it easy to get started.</p>
           </article>
           <article>
             <span>02</span>
             <h3>Code is the interface</h3>
-            <p>No visual machinery hiding the work. You own the loop, state, and feel.</p>
+            <p>I control the loop, the state, and how the game responds to input.</p>
           </article>
           <article>
             <span>03</span>
             <h3>Made to share</h3>
-            <p>Open source, multi-platform, and surrounded by a community that keeps building.</p>
+            <p>Open source, available on several platforms, and supported by an active community.</p>
           </article>
         </div>
       </section>
 
       <section class="rayscal" id="bindings" aria-labelledby="rayscal-title">
         <div class="rayscal__intro">
-          <p class="section-index">02 / MY BINDINGS</p>
-          <h2 id="rayscal-title">FIVE<span>ROUTES.</span></h2>
-          <p>rayscal started it. Then came Oberon, Modula, F*, and Mojo. Same reason every time: I wanted the language to reach a window without pretending C was not underneath.</p>
+          <p class="section-index">My language bindings</p>
+          <h2 id="rayscal-title">Five <span>ways in.</span></h2>
+          <p>I started with rayscal, then tried Oberon, Modula, F*, and Mojo. Each project explores how to use raylib from a different language while keeping the native API accessible.</p>
         </div>
 
         <div class="binding-orbit">
@@ -110,13 +111,13 @@
 
           <a class="repo-monument" href="https://github.com/RobertFlexx/rayscal" target="_blank" rel="noreferrer" aria-label="Open RobertFlexx/rayscal on GitHub">
             <div class="repo-monument__bar">
-              <span>GITHUB / ROBERTFLEXX</span>
-              <span>PUBLIC ↗</span>
+              <span>RobertFlexx / rayscal</span>
+              <span>Public repository</span>
             </div>
             <div class="repo-monument__body">
               <p>SCALA NATIVE × RAYLIB 6.0</p>
               <h3>rayscal</h3>
-              <p class="repo-monument__description">Friendly Scala-owned values. Explicit resource lifetimes. Pointer-based shims where native ABI gets sharp.</p>
+              <p class="repo-monument__description">Scala-owned values, explicit resource lifetimes, and C shims for native calls that need them.</p>
               <pre aria-label="rayscal code sample"><code><i>import</i> rayscal.*
 
 Window.withWindow(800, 450, <b>"hello rayscal"</b>):
@@ -128,7 +129,7 @@ Window.withWindow(800, 450, <b>"hello rayscal"</b>):
             </div>
             <div class="repo-monument__foot">
               <span>★ SCALA</span>
-              <strong>VIEW SOURCE</strong>
+              <strong>View source</strong>
             </div>
           </a>
         </div>
@@ -141,41 +142,41 @@ Window.withWindow(800, 450, <b>"hello rayscal"</b>):
 
         <div class="binding-shelf" aria-labelledby="binding-shelf-title">
           <div class="binding-shelf__heading">
-            <p class="section-index">THE WHOLE SHELF / 05</p>
-            <h3 id="binding-shelf-title">Same loop.<br>Different languages.</h3>
-            <p>Five separate repositories, including the awkward corners: ownership, generated declarations, header-only APIs, raw pointers, and examples that do more than clear a window.</p>
+            <p class="section-index">All five repositories</p>
+            <h3 id="binding-shelf-title">Different languages, same library.</h3>
+            <p>Each repository includes its bindings and examples, covering ownership, generated declarations, header APIs, and native pointers.</p>
           </div>
           <div class="binding-shelf__grid">
             <a class="binding-card binding-card--scala" href="https://github.com/RobertFlexx/rayscal" target="_blank" rel="noreferrer">
-              <div class="binding-card__top"><span>01 / FEATURED ABOVE</span><span>MIT ↗</span></div>
+              <div class="binding-card__top"><span>Featured above</span><span>MIT</span></div>
               <p class="binding-card__language">SCALA NATIVE</p>
               <h4>rayscal</h4>
               <p>Scala-owned values, managed resource handles, scoped lifetimes, and C shims where struct-by-value FFI gets sharp.</p>
               <div class="binding-card__foot"><span>RAYLIB 6.0</span><span>RLGL / RAYMATH</span></div>
             </a>
             <a class="binding-card binding-card--oberon" href="https://github.com/RobertFlexx/Rayberon" target="_blank" rel="noreferrer">
-              <div class="binding-card__top"><span>02 / 909 CALLS</span><span>MIT ↗</span></div>
+              <div class="binding-card__top"><span>02 / 909 CALLS</span><span>MIT</span></div>
               <p class="binding-card__language">OBERON-2 + COMPONENT PASCAL</p>
               <h4>Rayberon</h4>
               <p>Generated Ofront+ bindings for raylib, rlgl, and raymath, with record-layout checks and a real game in each language.</p>
               <div class="binding-card__foot"><span>RAYLIB 6.0</span><span>OFRONT+</span></div>
             </a>
             <a class="binding-card binding-card--modula" href="https://github.com/RobertFlexx/raymod" target="_blank" rel="noreferrer">
-              <div class="binding-card__top"><span>03 / TWO MODULAS</span><span>APACHE-2.0 ↗</span></div>
+              <div class="binding-card__top"><span>03 / TWO MODULAS</span><span>APACHE-2.0</span></div>
               <p class="binding-card__language">GNU MODULA-2 + MODULA-3</p>
               <h4>raymod</h4>
               <p>The full public API for GM2 and CM3, plus rlgl, raymath, raygui, audio, and the small bridge library header APIs need.</p>
               <div class="binding-card__foot"><span>RAYLIB 6.0</span><span>RAYGUI 5.0</span></div>
             </a>
             <a class="binding-card binding-card--fstar" href="https://github.com/RobertFlexx/raystar" target="_blank" rel="noreferrer">
-              <div class="binding-card__top"><span>04 / THIN NATIVE</span><span>EPL-2.0 ↗</span></div>
+              <div class="binding-card__top"><span>04 / THIN NATIVE</span><span>EPL-2.0</span></div>
               <p class="binding-card__language">F* + KARAMEL</p>
               <h4>raystar</h4>
               <p>Value structs stay values. Unsafe pointers stay visibly unsafe. rlgl and raymath are regenerated from the installed headers.</p>
-              <div class="binding-card__foot"><span>RAYLIB 6.0</span><span>NO FAKE SAFETY</span></div>
+              <div class="binding-card__foot"><span>RAYLIB 6.0</span><span>EXPLICIT POINTERS</span></div>
             </a>
             <a class="binding-card binding-card--mojo" href="https://github.com/RobertFlexx/raymojo" target="_blank" rel="noreferrer">
-              <div class="binding-card__top"><span>05 / EXPERIMENTAL</span><span>GPL-3.0 ↗</span></div>
+              <div class="binding-card__top"><span>05 / EXPERIMENTAL</span><span>GPL-3.0</span></div>
               <p class="binding-card__language">MOJO</p>
               <h4>raymojo</h4>
               <p>raylib, rlgl, rcamera, raymath, audio, shaders, VR, models, input, filesystem calls, and a complete dodge game.</p>
@@ -189,19 +190,19 @@ Window.withWindow(800, 450, <b>"hello rayscal"</b>):
         <div class="contribute__sun" aria-hidden="true">
           <span></span><span></span><span></span><span></span>
         </div>
-        <p class="section-index">03 / I WANT TO HELP</p>
-        <h2 id="contribute-title">I’M HAPPY TO<br><span>CONTRIBUTE TO RAYLIB.</span></h2>
-        <p>Five language bridges later, I am still having fun with it. I’d be genuinely glad to help upstream too: bindings, examples, tools, docs, bug fixes, or whatever moves the library forward.</p>
+        <p class="section-index">Contributing</p>
+        <h2 id="contribute-title">I’d like to <span>help with raylib.</span></h2>
+        <p>Working on these bindings has taught me a lot about raylib. I’d like to contribute upstream too, whether that means examples, documentation, tooling, or bug fixes.</p>
         <div class="contribute__actions">
-          <a class="ray-button ray-button--yellow" href="https://github.com/raysan5/raylib" target="_blank" rel="noreferrer"><span>VISIT RAYLIB</span><b>↗</b></a>
-          <a class="ray-button ray-button--light" href="#bindings"><span>SEE ALL FIVE</span><b>↑</b></a>
+          <a class="ray-button ray-button--yellow" href="https://github.com/raysan5/raylib" target="_blank" rel="noreferrer"><span>Visit raylib</span></a>
+          <a class="ray-button ray-button--light" href="#bindings"><span>See the bindings</span></a>
         </div>
       </section>
 
       <section class="playground" id="play" aria-labelledby="play-title">
         <div class="playground__heading">
           <div>
-            <p class="section-index">04 / A SMALL GAME</p>
+            <p class="section-index">Try it in the browser</p>
             <h2 id="play-title">little ship</h2>
           </div>
           <div class="playground__brief">
@@ -232,20 +233,20 @@ Window.withWindow(800, 450, <b>"hello rayscal"</b>):
           </div>
         </div>
 
-        <p class="playground__runtime">It uses the browser runtime from <a href="https://github.com/konsumer/raylib-wasm" target="_blank" rel="noreferrer">konsumer/raylib-wasm ↗</a>. I wrote the game and drew everything with basic raylib shapes.</p>
+        <p class="playground__runtime">It uses the browser runtime from <a href="https://github.com/konsumer/raylib-wasm" target="_blank" rel="noreferrer">konsumer/raylib-wasm</a>. I wrote the game and drew everything with basic raylib shapes.</p>
       </section>
 
       <section class="last-word">
         <img src="assets/raylib-logo.png" alt="" aria-hidden="true">
-        <p>THANK YOU FOR MAKING THE DIRECT ROUTE<br>FROM CODE TO JOY.</p>
-        <a href="#top">RUN IT AGAIN ↑</a>
+        <p>Thanks to everyone who makes raylib possible.</p>
+        <a href="#top">Back to top</a>
       </section>
     </main>
 
     <footer class="mural-footer">
-      <p>ROBERT FLEXX × RAYLIB / 2026</p>
-      <p>BUILT WITH ADMIRATION, ELM NEXT DOOR, AND A LOT OF YELLOW.</p>
-      <a href="index.html">RETURN TO PORTFOLIO →</a>
+      <p>Robert Flexx & raylib / 2026</p>
+      <p>Made with raylib and a few simple shapes.</p>
+      <a href="index.html">Back to the portfolio</a>
     </footer>
 
     <script type="module" src="vendor/raylib-wasm/raylib.js"></script>

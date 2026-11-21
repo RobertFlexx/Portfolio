@@ -1,10 +1,13 @@
 port module Main exposing (main)
 
 import Browser
-import Html exposing (Html, a, article, button, div, footer, h1, h2, h3, header, i, main_, nav, p, section, small, span, strong, text)
-import Html.Attributes exposing (attribute, class, classList, href, id, rel, style, target, type_)
+import Browser.Dom
+import Browser.Events
+import Html exposing (Html, a, article, button, code, div, footer, h1, h2, h3, header, img, main_, nav, p, section, span, strong, text)
+import Html.Attributes exposing (alt, attribute, class, classList, height, href, id, rel, src, target, type_, width)
 import Html.Events exposing (onClick)
 import Json.Decode as Decode exposing (Decoder)
+import Task
 
 
 type Filter
@@ -25,6 +28,8 @@ type Msg
     = SetFilter Filter
     | ToggleMenu
     | CloseMenu
+    | DismissMenu
+    | FocusReturned
     | ReceiveGithubData Decode.Value
 
 
@@ -94,7 +99,22 @@ main =
         { init = \_ -> ( { activeFilter = All, menuOpen = False, github = Nothing }, Cmd.none )
         , view = view
         , update = update
-        , subscriptions = \_ -> githubDataReceived ReceiveGithubData
+        , subscriptions =
+            \_ ->
+                Sub.batch
+                    [ githubDataReceived ReceiveGithubData
+                    , Browser.Events.onKeyDown
+                        (Decode.field "key" Decode.string
+                            |> Decode.andThen
+                                (\key ->
+                                    if key == "Escape" then
+                                        Decode.succeed DismissMenu
+
+                                    else
+                                        Decode.fail "Not an escape key"
+                                )
+                        )
+                    ]
         }
 
 
@@ -110,6 +130,18 @@ update msg model =
         CloseMenu ->
             ( { model | menuOpen = False }, Cmd.none )
 
+        DismissMenu ->
+            if model.menuOpen then
+                ( { model | menuOpen = False }
+                , Browser.Dom.focus "menu-toggle" |> Task.attempt (\_ -> FocusReturned)
+                )
+
+            else
+                ( model, Cmd.none )
+
+        FocusReturned ->
+            ( model, Cmd.none )
+
         ReceiveGithubData value ->
             case Decode.decodeValue githubDataDecoder value of
                 Ok github ->
@@ -121,12 +153,12 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "site-shell" ]
-        [ viewHeader model
-        , main_ []
-            [ viewHero
-            , viewTicker
-            , viewProvenance
+    div [ class "site-shell", id "top" ]
+        [ a [ class "skip-link", href "#main-content" ] [ text "Skip to content" ]
+        , viewHeader model
+        , main_ [ id "main-content", attribute "tabindex" "-1" ]
+            [ viewBirthdayNotes
+            , viewHero
             , viewProjects model
             , viewTraction model.github
             , viewGameDev
@@ -144,207 +176,109 @@ viewHeader : Model -> Html Msg
 viewHeader model =
     header [ class "site-header" ]
         [ a [ class "wordmark", href "#top", onClick CloseMenu, attribute "aria-label" "Robert Flexx, home" ]
-            [ span [ class "wordmark__mark", attribute "aria-hidden" "true" ]
-                [ span [] [ text "R" ]
-                , span [] [ text "F" ]
-                ]
-            , span [ class "wordmark__text" ] [ text "ROBERT/FLEXX" ]
-            ]
-        , nav
-            [ classList
-                [ ( "site-nav", True )
-                , ( "site-nav--open", model.menuOpen )
-                ]
-            , attribute "aria-label" "Primary navigation"
-            , id "primary-navigation"
-            ]
-            [ navLink "#work" "01" "Work"
-            , navLink "#games" "02" "Games"
-            , navLink "#about" "03" "About"
-            , a
-                [ class "site-nav__link site-nav__link--raylib"
-                , href "raylib.html"
-                , target "_blank"
-                , rel "noreferrer"
-                , onClick CloseMenu
-                ]
-                [ span [ class "site-nav__index" ] [ text "04" ]
-                , text "Raylib ♥"
-                ]
-            , a
-                [ class "site-nav__link"
-                , href "build.html"
-                , onClick CloseMenu
-                ]
-                [ span [ class "site-nav__index" ] [ text "05" ]
-                , text "This site"
-                ]
-            , a
-                [ class "site-nav__link site-nav__link--contact"
-                , href "mailto:robertflexxgh@gmail.com"
-                , onClick CloseMenu
-                ]
-                [ text "Start a thread"
-                , span [ class "arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-                ]
+            [ span [ class "wordmark__mark", attribute "aria-hidden" "true" ] [ text "rf." ]
+            , span [ class "wordmark__text" ] [ text "Robert Flexx" ]
             ]
         , button
-            [ classList
-                [ ( "menu-toggle", True )
-                , ( "menu-toggle--open", model.menuOpen )
-                ]
+            [ class "menu-toggle"
+            , id "menu-toggle"
             , type_ "button"
             , onClick ToggleMenu
-            , attribute "aria-label"
-                (if model.menuOpen then
-                    "Close navigation"
-
-                 else
-                    "Open navigation"
-                )
             , attribute "aria-expanded" (boolString model.menuOpen)
             , attribute "aria-controls" "primary-navigation"
             ]
-            [ span [] []
-            , span [] []
+            [ text
+                (if model.menuOpen then
+                    "Close"
+
+                 else
+                    "Menu"
+                )
+            , span [ classList [ ( "menu-toggle__icon", True ), ( "menu-toggle__icon--open", model.menuOpen ) ], attribute "aria-hidden" "true" ] []
+            ]
+        , nav
+            [ classList [ ( "site-nav", True ), ( "site-nav--open", model.menuOpen ) ]
+            , attribute "aria-label" "Primary navigation"
+            , id "primary-navigation"
+            ]
+            [ navLink "#work" "Work"
+            , navLink "#games" "Games"
+            , navLink "#about" "About"
+            , navLink "raylib.html" "Raylib"
+            , navLink "build.html" "This site"
+            , a [ class "site-nav__contact", href "mailto:robertflexxgh@gmail.com", onClick CloseMenu ] [ text "Say hello" ]
             ]
         ]
 
 
-navLink : String -> String -> String -> Html Msg
-navLink destination index label =
-    a [ class "site-nav__link", href destination, onClick CloseMenu ]
-        [ span [ class "site-nav__index" ] [ text index ]
-        , text label
+navLink : String -> String -> Html Msg
+navLink destination label =
+    a [ class "site-nav__link", href destination, onClick CloseMenu ] [ text label ]
+
+
+viewBirthdayNotes : Html Msg
+viewBirthdayNotes =
+    div [ class "birthday-notes" ]
+        [ birthdayNote "robert" "November 21" "It's my birthday." "Yes, I put my own birthday on my website. Let me have this." "#about" "Who's this idiot?"
+        , birthdayNote "kokonico" "October 24" "Happy birthday, Kokonico." "A little corner of the internet for a good friend." "https://kokonico.me" "Visit Kokonico"
+        , birthdayNote "moritisimor" "July 28" "Happy birthday, Moritisimor." "Here's to another year of making things." "https://github.com/Moritisimor/" "Visit Moritisimor"
+        ]
+
+
+birthdayNote : String -> String -> String -> String -> String -> String -> Html Msg
+birthdayNote person date greeting copy destination label =
+    section [ class ("birthday-note birthday-note--" ++ person), attribute "aria-label" greeting ]
+        [ div [ class "birthday-cake", attribute "aria-hidden" "true" ]
+            [ span [ class "birthday-cake__candle" ] []
+            , span [ class "birthday-cake__icing" ] []
+            , span [ class "birthday-cake__base" ] []
+            ]
+        , div [ class "birthday-note__copy" ]
+            [ p [ class "birthday-note__date" ] [ text date ]
+            , h2 [] [ text greeting ]
+            , p [] [ text copy ]
+            ]
+        , a [ href destination ] [ text label ]
         ]
 
 
 viewHero : Html Msg
 viewHero =
-    section [ class "hero", id "top" ]
-            [ div [ class "hero__rail" ]
-            [ span [] [ text "PORTFOLIO / 2026" ]
-            , span [ class "hero__rail-line" ] []
-            , span [] [ text "SYSTEMS / GAMES / BAD IDEAS" ]
-            ]
-        , div [ class "hero__title-wrap" ]
-            [ p [ class "hero__eyebrow reveal reveal--1" ]
-                [ span [ class "status-dot", attribute "aria-hidden" "true" ] []
-                , text "Systems + game developer"
-                ]
+    section [ class "hero" ]
+        [ div [ class "hero__copy" ]
+            [ p [ class "hero__eyebrow" ] [ text "Systems programmer. Also makes games." ]
             , h1 [ class "hero__title", attribute "aria-label" "Robert Flexx" ]
-                [ span [ class "hero__line hero__line--solid reveal reveal--2" ] [ text "ROBERT" ]
-                , span [ class "hero__line hero__line--outline reveal reveal--3" ] [ text "FLEXX" ]
+                [ text "Robert"
+                , span [] [ text "Flexx", span [ class "hero__period" ] [ text "." ] ]
+                ]
+            , p [ class "hero__lede" ]
+                [ text "I'll write an operating system before I fix my sleep schedule."
+                , span [] [ text "I'm Robert. I make terminal tools, compilers, and games. Sometimes I write another shell, because apparently the other ones weren't enough." ]
+                ]
+            , div [ class "hero__actions" ]
+                [ a [ class "button button--primary", href "#work" ] [ text "Browse my work" ]
+                , a [ class "text-link", href "https://github.com/RobertFlexx", target "_blank", rel "noreferrer" ] [ text "Find me on GitHub" ]
                 ]
             ]
-        , div [ class "hero__lower" ]
-            [ div [ class "hero__intro reveal reveal--4" ]
-                [ p [ class "hero__lede" ]
-                    [ text "I make "
-                    , span [] [ text "fast tools, strange systems, and games" ]
-                    , text " that feel good in the hands. Tight loops, low overhead, and no bloated framework wheezing in the corner."
-                    ]
-                , div [ class "hero__actions" ]
-                    [ a [ class "button button--primary", href "#work" ]
-                        [ text "Inspect the work"
-                        , span [ class "arrow", attribute "aria-hidden" "true" ] [ text "↓" ]
-                        ]
-                    , a
-                        [ class "text-link"
-                        , href "https://github.com/RobertFlexx"
-                        , target "_blank"
-                        , rel "noreferrer"
-                        ]
-                        [ text "github.com/RobertFlexx"
-                        , span [ class "arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-                        ]
-                    ]
-                ]
-            , viewSystemPanel
+        , div [ class "hero__index" ]
+            [ p [ class "hero__index-label" ] [ text "Pick your poison." ]
+            , heroProject "fastfind" "Find your damn files." "Nim" "https://github.com/RobertFlexx/fastfind"
+            , heroProject "ObeliskOS" "Writing an OS seemed like a good idea." "C / ASM" "https://github.com/RobertFlexx/ObeliskOS"
+            , heroProject "rayscal" "raylib bindings for Scala Native." "Scala" "https://github.com/RobertFlexx/rayscal"
             ]
-        , div [ class "scroll-note", attribute "aria-hidden" "true" ]
-            [ span [ class "scroll-note__line" ] []
-            , text "SCROLL TO EXECUTE"
+        , div [ class "hero__foot" ]
+            [ p [] [ text "Writing code since 2018" ]
+            , p [] [ text "Too many languages. Still learning." ]
+            , a [ href "build.html" ] [ text "Built with Elm & SCSS" ]
             ]
         ]
 
 
-viewSystemPanel : Html Msg
-viewSystemPanel =
-    div [ class "system-panel reveal reveal--5", attribute "aria-label" "Current focus" ]
-        [ div [ class "system-panel__top" ]
-            [ span [] [ text "RF_SYS" ]
-            , span [] [ text "BUILD 07.26" ]
-            , span [ class "system-panel__live" ] [ text "LIVE" ]
-            ]
-        , div [ class "system-panel__body" ]
-            [ div [ class "system-panel__visual", attribute "aria-hidden" "true" ]
-                [ div [ class "orbit orbit--outer" ] []
-                , div [ class "orbit orbit--inner" ] []
-                , div [ class "orbit__core" ] [ text "RF" ]
-                , span [ class "orbit__axis orbit__axis--x" ] []
-                , span [ class "orbit__axis orbit__axis--y" ] []
-                ]
-            , div [ class "system-panel__readout" ]
-                [ div [] [ span [] [ text "FOCUS" ], p [] [ text "UNIX / CLI / SYSTEMS" ] ]
-                , div [] [ span [] [ text "ALSO" ], p [] [ text "GAMES / SHADERS / MODS" ] ]
-                , div [] [ span [] [ text "STATUS" ], p [ class "blink" ] [ text "PROBABLY IN TOO DEEP_" ] ]
-                ]
-            ]
-        , div [ class "system-panel__log" ]
-            [ span [] [ text ">" ]
-            , text " less bloat. more software."
-            ]
-        ]
-
-
-viewTicker : Html Msg
-viewTicker =
-    div [ class "ticker", attribute "aria-label" "Areas of focus" ]
-        [ div [ class "ticker__track" ]
-            (List.repeat 2
-                (span [ class "ticker__group" ]
-                    [ span [] [ text "SYSTEMS PROGRAMMING" ]
-                    , span [ class "ticker__glyph" ] [ text "✳" ]
-                    , span [] [ text "COMMAND LINE TOOLS" ]
-                    , span [ class "ticker__glyph" ] [ text "✳" ]
-                    , span [] [ text "UNIX WORKFLOWS" ]
-                    , span [ class "ticker__glyph" ] [ text "✳" ]
-                    , span [] [ text "GAME DEVELOPMENT" ]
-                    , span [ class "ticker__glyph" ] [ text "✳" ]
-                    , span [] [ text "SHADERS + GRAPHICS" ]
-                    , span [ class "ticker__glyph" ] [ text "✳" ]
-                    , span [] [ text "WEIRD EXPERIMENTS" ]
-                    , span [ class "ticker__glyph" ] [ text "✳" ]
-                    ]
-                )
-            )
-        ]
-
-
-viewProvenance : Html Msg
-viewProvenance =
-    section [ class "provenance", attribute "aria-label" "Build provenance statement" ]
-        [ div [ class "provenance__stamp", attribute "aria-hidden" "true" ]
-            [ span [] [ text "HAND" ]
-            , strong [] [ text "BUILT" ]
-            , span [] [ text "SITE" ]
-            ]
-        , div [ class "provenance__statement" ]
-            [ p [ class "provenance__label" ] [ text "NO TEMPLATE / SOURCE IN THE OPEN" ]
-            , h2 []
-                [ span [] [ text "THE CODE IS PUBLIC." ]
-                , span [] [ text "THE TASTE IS MINE." ]
-                ]
-            ]
-        , div [ class "provenance__notes" ]
-            [ p [] [ text "No template, no fake case studies, and no six-layer component abstraction built to center a div. The odd choices are deliberate; the source is there if you want receipts." ]
-            , div []
-                [ span [] [ text "READABLE" ]
-                , span [] [ text "DIRECT" ]
-                , span [] [ text "ACTUALLY RUNS" ]
-                ]
-            ]
+heroProject : String -> String -> String -> String -> Html Msg
+heroProject name copy language url =
+    a [ class "hero-project", href url, target "_blank", rel "noreferrer" ]
+        [ div [] [ h2 [] [ text name ], p [] [ text copy ] ]
+        , span [] [ text language ]
         ]
 
 
@@ -355,45 +289,36 @@ viewProjects model =
             projectsFromGithub model.github
 
         visibleProjects =
-            List.filter
-                (\project ->
-                    model.activeFilter == All || project.kind == model.activeFilter
-                )
-                selectedProjects
+            List.filter (\project -> model.activeFilter == All || project.kind == model.activeFilter) selectedProjects
     in
-    section [ class "projects section-pad", id "work" ]
+    section [ class "projects section-pad", id "work", attribute "aria-labelledby" "work-title" ]
         [ div [ class "section-heading" ]
             [ div []
-                [ p [ class "kicker" ] [ text "01 / SELECTED BUILDS" ]
-                , h2 [] [ text "Software with fingerprints on it." ]
+                [ h2 [ id "work-title" ] [ text "Some things I've made." ]
                 ]
-            , p [ class "section-heading__aside" ]
-                [ text "No startup-founder perfume. These are real tools, operating-system experiments, and graphics work that compile, run, and occasionally misbehave in interesting ways." ]
+            , p [ class "section-heading__aside" ] [ text "My current GitHub pins. Some are useful. Some got wildly out of hand." ]
             ]
-        , div [ class "project-filters", attribute "aria-label" "Filter projects" ]
+        , div [ class "project-filters", attribute "role" "group", attribute "aria-label" "Filter projects" ]
             [ filterButton model.activeFilter All (filterLabel "All" All selectedProjects)
             , filterButton model.activeFilter Systems (filterLabel "Systems" Systems selectedProjects)
             , filterButton model.activeFilter Tools (filterLabel "Tools" Tools selectedProjects)
             , filterButton model.activeFilter Games (filterLabel "Games" Games selectedProjects)
             ]
-        , div [ class "project-list__head", attribute "aria-hidden" "true" ]
-            [ span [] [ text "INDEX" ]
-            , span [] [ text "PROJECT / COMMAND" ]
-            , span [] [ text "WHAT IT DOES" ]
-            , span [] [ text "STACK / SIGNAL" ]
-            ]
+        , p [ class "sr-only", attribute "role" "status" ] [ text (String.fromInt (List.length visibleProjects) ++ " projects shown") ]
         , div [ class "project-list" ]
-            (List.map viewProject visibleProjects)
+            (if List.isEmpty visibleProjects then
+                [ p [ class "project-list__empty" ] [ text "No pinned projects in this category right now. Try another filter, or see the games below." ] ]
+
+             else
+                List.map viewProject visibleProjects
+            )
         ]
 
 
 filterButton : Filter -> Filter -> String -> Html Msg
 filterButton current value label =
     button
-        [ classList
-            [ ( "filter", True )
-            , ( "filter--active", current == value )
-            ]
+        [ classList [ ( "filter", True ), ( "filter--active", current == value ) ]
         , type_ "button"
         , onClick (SetFilter value)
         , attribute "aria-pressed" (boolString (current == value))
@@ -411,35 +336,23 @@ filterLabel label selected projectList =
             else
                 List.length (List.filter (\project -> project.kind == selected) projectList)
     in
-    label ++ " / " ++ twoDigit count
+    label ++ " (" ++ String.fromInt count ++ ")"
 
 
 viewProject : Project -> Html Msg
 viewProject project =
     article [ class ("project " ++ project.tone) ]
-        [ a
-            [ class "project__link"
-            , href project.url
-            , target "_blank"
-            , rel "noreferrer"
-            , attribute "aria-label" (project.name ++ " on GitHub")
-            ]
-            [ div [ class "project__index" ] [ text project.index ]
-            , div [ class "project__main" ]
-                [ div [ class "project__title-row" ]
-                    [ h3 [ class "project__name" ] [ text project.name ]
-                    , span [ class "project__command" ] [ text project.command ]
-                    ]
+        [ a [ class "project__link", href project.url, target "_blank", rel "noreferrer", attribute "aria-label" (project.name ++ " on GitHub") ]
+            [ div [ class "project__main" ]
+                [ h3 [ class "project__name" ] [ text project.name ]
                 , p [ class "project__summary" ] [ text project.summary ]
+                , code [ class "project__command" ] [ text project.command ]
                 ]
-            , p [ class "project__detail" ] [ text project.detail ]
+            , p [ class "project__detail" ] [ text (cleanCopy project.detail) ]
             , div [ class "project__meta" ]
-                [ div [ class "project__signals" ]
-                    [ span [ class "language-pill" ] [ text project.language ]
-                    , span [ class "star-pill", attribute "aria-label" (String.fromInt project.stars ++ " GitHub stars") ]
-                        [ text ("★ " ++ String.fromInt project.stars) ]
-                    ]
-                , span [ class "project__arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
+                [ span [ class "language-pill" ] [ text project.language ]
+                , span [ class "star-pill", attribute "aria-label" (String.fromInt project.stars ++ " GitHub stars") ] [ text ("★ " ++ String.fromInt project.stars) ]
+                , span [ class "project__open" ] [ text "View code" ]
                 ]
             ]
         ]
@@ -449,250 +362,86 @@ viewTraction : Maybe GithubData -> Html Msg
 viewTraction github =
     let
         rankedRepos =
-            github
-                |> Maybe.map .topRepositories
-                |> Maybe.andThen nonEmptyList
-                |> Maybe.withDefault tractionRepos
-
-        spotlight =
-            List.head rankedRepos
-                |> Maybe.withDefault fallbackSpotlight
-
-        maxStars =
-            rankedRepos
-                |> List.map .stars
-                |> List.maximum
-                |> Maybe.withDefault 1
+            github |> Maybe.map .topRepositories |> Maybe.andThen nonEmptyList |> Maybe.withDefault tractionRepos
 
         statValue accessor fallback =
-            github
-                |> Maybe.map accessor
-                |> Maybe.withDefault fallback
-                |> String.fromInt
+            github |> Maybe.map accessor |> Maybe.withDefault fallback |> String.fromInt
     in
-    section [ class "traction section-pad", id "traction" ]
+    section [ class "traction section-pad", attribute "aria-labelledby" "github-title" ]
         [ div [ class "traction__intro" ]
-            [ div []
-                [ p [ class "kicker" ] [ text "02 / GITHUB SIGNAL" ]
-                , h2 []
-                    [ text "The work people "
-                    , span [] [ text "actually noticed." ]
-                    ]
-                ]
+            [ h2 [ id "github-title" ] [ text "The source is the fun part." ]
+            , p [] [ text "Most of my work lives on GitHub. Open an issue, steal an idea, or tell me where I've fucked up. Preferably with a line number." ]
             , div [ class "traction__stats" ]
-                [ githubStat (statValue .publicRepoCount 59) "PUBLIC REPOS"
-                , githubStat (statValue .totalStars 137) "STARS EARNED"
-                , githubStat (statValue .primaryLanguageCount 34) "PRIMARY LANGS"
+                [ githubStat (statValue .publicRepoCount 59) "Public repos"
+                , githubStat (statValue .totalStars 137) "GitHub stars"
+                , githubStat (statValue .primaryLanguageCount 34) "Languages used"
                 ]
             ]
-        , div [ class "traction__body" ]
-            [ div [ class "traction__spotlight" ]
-                [ p [ class "traction__flag" ] [ text "MOST TRACTION" ]
-                , div [ class "traction__big-number" ] [ text (String.fromInt spotlight.stars) ]
-                , h3 [] [ text spotlight.name ]
-                , p []
-                    [ text (repoDetail spotlight) ]
-                , a
-                    [ href spotlight.url
-                    , target "_blank"
-                    , rel "noreferrer"
-                    ]
-                    [ text "Open the repo"
-                    , span [ class "arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-                    ]
-                ]
-            , div [ class "traction__ranking" ]
-                (List.indexedMap (viewTractionRepo maxStars) rankedRepos)
+        , div [ class "traction__ranking" ]
+            [ p [ class "traction__ranking-label" ] [ text "Most starred repositories" ]
+            , div [] (List.map viewTractionRepo rankedRepos)
+            , p [ class "traction__snapshot" ] [ text (githubSnapshotLabel github) ]
             ]
-        , p [ class "traction__snapshot" ]
-            [ text (githubSnapshotLabel github) ]
         ]
 
 
 githubStat : String -> String -> Html Msg
 githubStat value label =
-    div [ class "github-stat" ]
-        [ span [] [ text value ]
-        , p [] [ text label ]
-        ]
+    div [ class "github-stat" ] [ strong [] [ text value ], p [] [ text label ] ]
 
 
-viewTractionRepo : Int -> Int -> GithubRepo -> Html Msg
-viewTractionRepo maxStars index repo =
-    let
-        meterWidth =
-            max 4 (round (toFloat repo.stars / toFloat (max 1 maxStars) * 100))
-    in
-    a
-        [ class "traction-row"
-        , href repo.url
-        , target "_blank"
-        , rel "noreferrer"
-        ]
-        [ span [ class "traction-row__rank" ] [ text (twoDigit (index + 1)) ]
-        , div [ class "traction-row__repo" ]
-            [ h3 [] [ text repo.name ]
-            , span [] [ text repo.language ]
-            ]
-        , div [ class "traction-row__meter", attribute "aria-hidden" "true" ]
-            [ span [ class "traction-row__fill", style "--meter-width" (String.fromInt meterWidth ++ "%") ] [] ]
+viewTractionRepo : GithubRepo -> Html Msg
+viewTractionRepo repo =
+    a [ class "traction-row", href repo.url, target "_blank", rel "noreferrer" ]
+        [ div [ class "traction-row__repo" ] [ h3 [] [ text repo.name ], span [] [ text repo.language ] ]
         , span [ class "traction-row__stars" ] [ text ("★ " ++ String.fromInt repo.stars) ]
-        , span [ class "traction-row__arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
         ]
 
 
 viewGameDev : Html Msg
 viewGameDev =
-    section [ class "game-dev section-pad", id "games" ]
-        [ div [ class "game-dev__heading" ]
-            [ p [ class "kicker" ] [ text "03 / GAME DEVELOPMENT" ]
-            , h2 []
-                [ span [] [ text "I DO GAMES," ]
-                , span [ class "game-dev__outline" ] [ text "NOT JUST GREP." ]
-                ]
-            , p []
-                [ text "Graphics, engine plumbing, mods, tooling, and gameplay systems. The invisible machinery matters: frame time, input feel, iteration speed, and the tiny bit of black magic that makes pressing a button feel indecently good." ]
+    section [ class "game-dev section-pad", id "games", attribute "aria-labelledby" "games-title" ]
+        [ div [ class "section-heading" ]
+            [ div [] [ h2 [ id "games-title" ] [ text "I make games, too." ] ]
+            , p [ class "section-heading__aside" ] [ text "Shaders, engine plumbing, Minecraft mods, and hours spent figuring out why a triangle is invisible." ]
             ]
         , div [ class "game-dev__stage" ]
-            [ viewGameViewport
-            , div [ class "game-dev__projects" ]
-                (List.map viewGameProject gameProjects)
-            ]
-        , div [ class "game-dev__footer" ]
-            [ p []
-                [ text "I like game code the same way I like systems code, and women: "
-                , span [] [ text "hot, responsive, and not carrying sixteen gigabytes of emotional baggage." ]
+            [ a [ class "game-feature", href "raylib.html#play" ]
+                [ img [ class "game-feature__image", src "assets/little-ship.png", alt "little ship, my raylib landing game", width 1170, height 658, attribute "loading" "lazy" ] []
+                , div [ class "game-feature__copy" ]
+                    [ h3 [] [ text "little ship" ]
+                    , p [] [ text "Land on the yellow pad. Gently. The ship is not insured." ]
+                    , span [ class "button button--primary" ] [ text "Play little ship" ]
+                    ]
                 ]
-            , a
-                [ href "https://github.com/RobertFlexx?tab=repositories"
-                , target "_blank"
-                , rel "noreferrer"
-                ]
-                [ text "Dig through all the experiments ↗" ]
+            , div [ class "game-dev__projects" ] (List.map viewGameProject gameProjects)
             ]
-        ]
-
-
-viewGameViewport : Html Msg
-viewGameViewport =
-    div [ class "game-viewport", attribute "aria-label" "Animated wireframe game-development graphic" ]
-        [ div [ class "game-viewport__hud" ]
-            [ span [] [ text "RF_RENDER / DEV" ]
-            , span [ class "game-viewport__fps" ] [ text "144 FPS" ]
-            ]
-        , div [ class "game-viewport__world", attribute "aria-hidden" "true" ]
-            [ div [ class "game-viewport__stars game-viewport__stars--far" ] []
-            , div [ class "game-viewport__stars game-viewport__stars--near" ] []
-            , div [ class "game-viewport__sun" ] []
-            , div [ class "game-viewport__sun-glow" ] []
-            , div [ class "game-viewport__mountains game-viewport__mountains--back" ] []
-            , div [ class "game-viewport__mountains game-viewport__mountains--front" ] []
-            , div [ class "game-viewport__horizon" ] []
-            , div [ class "game-viewport__grid" ] []
-            , div [ class "game-viewport__chrome" ]
-                [ span [] [ text "SYNTHETIC" ]
-                , strong [] [ text "HORIZON" ]
-                ]
-            , div [ class "game-viewport__scanlines" ] []
-            ]
-        , div [ class "game-viewport__readout" ]
-            [ span [] [ text "POS 118.24 / 34.05" ]
-            , span [] [ text "SHADER: HOT" ]
-            , span [] [ text "V-SYNC: HELL NO" ]
-            ]
+        , p [ class "game-dev__afterthought" ]
+            [ text "I like my game code hot, responsive, and not hauling sixteen gigabytes of emotional baggage." ]
         ]
 
 
 viewGameProject : GameProject -> Html Msg
 viewGameProject project =
-    a
-        [ class "game-project"
-        , href project.url
-        , target "_blank"
-        , rel "noreferrer"
-        ]
-        [ div [ class "game-project__top" ]
-            [ span [] [ text project.index ]
-            , span [] [ text project.language ]
-            ]
+    a [ class "game-project", href project.url, target "_blank", rel "noreferrer" ]
+        [ span [ class "game-project__language" ] [ text project.language ]
         , h3 [] [ text project.name ]
         , p [] [ text project.copy ]
-        , span [ class "game-project__arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
         ]
 
 
 viewAbout : Html Msg
 viewAbout =
-    section [ class "about section-pad", id "about" ]
+    section [ class "about section-pad", id "about", attribute "aria-labelledby" "about-title" ]
         [ div [ class "about__lead" ]
-            [ p [ class "kicker" ] [ text "04 / THE PERSON IN THE TERMINAL" ]
-            , h2 []
-                [ text "Curious."
-                , span [] [ text "Restless." ]
-                , text "Shipping."
-                ]
+            [ h2 [ id "about-title" ] [ text "It started with a robot." ]
+            , div [ class "about__years" ] [ span [] [ text "2018" ], text "First lines of Ruby", span [] [ text "2021" ], text "Started building for the web" ]
             ]
         , div [ class "about__body" ]
-            [ p [ class "about__statement" ]
-                [ text "I keep building because apparently my brain sees a perfectly usable tool and whispers, "
-                , span [] [ text "“you could make that weirder.”" ]
-                ]
-            , p []
-                [ text "I bounce between operating systems, shells, editors, file traversal, graphics, games, language experiments, and whatever else refuses to leave me alone at 2 a.m. I care about code you can read, behavior you can predict, and software that does not need a venture-capital bedtime story to justify existing. And sometimes I make fuck ass shit." ]
-            , p [ class "about__aside-copy" ]
-                [ text "My preferred relationship with software is simple: clear boundaries, low overhead, and no mysterious process still running the next morning." ]
-            , div [ class "origin-story" ]
-                [ div [ class "origin-story__rail", attribute "aria-hidden" "true" ]
-                    [ span []
-                        [ span [] [ text "2018" ]
-                        , small [] [ text "FIRST LINE" ]
-                        ]
-                    , i [] []
-                    , span []
-                        [ span [] [ text "2021" ]
-                        , small [] [ text "THE WEB" ]
-                        ]
-                    ]
-                , div [ class "origin-story__copy" ]
-                    [ span [ class "origin-story__label" ] [ text "04TH GRADE / RUBY / ROBOTICS" ]
-                    , h3 [] [ text "It started with a robot." ]
-                    , p []
-                        [ text "In 2018, fourth-grade me learned Ruby to script robotics. It was my first language, and the start of the whole thing. I moved into web development in 2021 and have been coding, breaking, learning, and building ever since." ]
-                    ]
-                ]
-            , div [ class "principles" ]
-                [ principle "01" "Fast is a feature" "If the delay is visible, the implementation is flirting with the wrong abstraction."
-                , principle "02" "Readable under pressure" "Future me should not need candles, wine, and three hours to understand the control flow."
-                , principle "03" "Ship the damn thing" "A useful, imperfect binary beats a pristine idea doing nothing in a private branch."
-                , principle "04" "Let it have a pulse" "Serious engineering can still swear, joke, and enjoy itself."
-                ]
-            ]
-        , blockquoteView
-        ]
-
-
-principle : String -> String -> String -> Html Msg
-principle index title description =
-    div [ class "principle" ]
-        [ span [ class "principle__index" ] [ text index ]
-        , div []
-            [ h3 [] [ text title ]
-            , p [] [ text description ]
-            ]
-        ]
-
-
-blockquoteView : Html Msg
-blockquoteView =
-    div [ class "axiom" ]
-        [ div [ class "axiom__mark", attribute "aria-hidden" "true" ] [ text "∴" ]
-        , p []
-            [ span [] [ text "FROM AXIOMS," ]
-            , span [] [ text "ORDER." ]
-            ]
-        , div [ class "axiom__coordinates" ]
-            [ span [] [ text "R/F / 26" ]
-            , span [] [ text "34.05° N / 118.24° W" ]
+            [ p [ class "about__statement" ] [ text "I learned Ruby in fourth grade to program robots. I've been making things with code ever since." ]
+            , p [] [ text "These days I spend a lot of time on operating systems, shells, compilers, and graphics. I'll often try a different language just to see how it changes the way I solve a problem." ]
+            , p [] [ text "I care about code I can read and software that responds when I press a button. Sometimes I build useful things. Sometimes I make fuck ass shit. Both count." ]
+            , a [ class "text-link", href "https://github.com/RobertFlexx", target "_blank", rel "noreferrer" ] [ text "See what I'm working on" ]
             ]
         ]
 
@@ -701,48 +450,25 @@ viewRepoLab : Maybe GithubData -> Html Msg
 viewRepoLab github =
     let
         repoCount =
-            github
-                |> Maybe.map .publicRepoCount
-                |> Maybe.withDefault 59
+            github |> Maybe.map .publicRepoCount |> Maybe.withDefault 59
     in
-    section [ class "repo-lab section-pad", id "lab" ]
+    section [ class "repo-lab section-pad", id "lab", attribute "aria-labelledby" "lab-title" ]
         [ div [ class "section-heading" ]
-            [ div []
-                [ p [ class "kicker" ] [ text "05 / THE REST OF THE LAB" ]
-                , h2 [] [ text "More repos. More rabbit holes." ]
-                ]
-            , p [ class "section-heading__aside" ]
-                [ text "The headliners are only the polite part. The rest ranges from package managers and fake operating systems to an Assembly editor and a deliberately horrifying rm." ]
+            [ div [] [ h2 [ id "lab-title" ] [ text "The rest of the mess." ] ]
+            , p [ class "section-heading__aside" ] [ text "Shells, editors, package managers, and several perfectly avoidable projects." ]
             ]
-        , div [ class "repo-lab__grid" ]
-            (List.indexedMap viewLabRepo labRepos)
-        , a
-            [ class "repo-lab__all"
-            , href "https://github.com/RobertFlexx?tab=repositories"
-            , target "_blank"
-            , rel "noreferrer"
-            ]
-            [ span [] [ text (String.fromInt repoCount ++ " PUBLIC REPOSITORIES") ]
-            , span [] [ text "OPEN THE WHOLE DRAWER ↗" ]
-            ]
+        , div [ class "repo-lab__grid" ] (List.map viewLabRepo labRepos)
+        , a [ class "repo-lab__all", href "https://github.com/RobertFlexx?tab=repositories", target "_blank", rel "noreferrer" ]
+            [ text ("Browse all " ++ String.fromInt repoCount ++ " repositories on GitHub") ]
         ]
 
 
-viewLabRepo : Int -> LabRepo -> Html Msg
-viewLabRepo index repo =
-    a
-        [ class "lab-repo"
-        , href repo.url
-        , target "_blank"
-        , rel "noreferrer"
-        ]
-        [ div [ class "lab-repo__top" ]
-            [ span [] [ text (twoDigit (index + 1)) ]
-            , span [] [ text repo.language ]
-            ]
+viewLabRepo : LabRepo -> Html Msg
+viewLabRepo repo =
+    a [ class "lab-repo", href repo.url, target "_blank", rel "noreferrer" ]
+        [ span [ class "lab-repo__language" ] [ text repo.language ]
         , h3 [] [ text repo.name ]
         , p [] [ text repo.copy ]
-        , span [ class "lab-repo__open", attribute "aria-hidden" "true" ] [ text "OPEN ↗" ]
         ]
 
 
@@ -750,191 +476,76 @@ viewLanguages : Maybe GithubData -> Html Msg
 viewLanguages github =
     let
         languageCount =
-            github
-                |> Maybe.map .primaryLanguageCount
-                |> Maybe.withDefault 34
+            github |> Maybe.map .primaryLanguageCount |> Maybe.withDefault 34
     in
-    section [ class "stack section-pad", id "stack" ]
-        [ div [ class "section-heading section-heading--stack" ]
-            [ div []
-                [ p [ class "kicker" ] [ text "06 / WORKING LANGUAGES" ]
-                , h2 [] [ text "Polyglot, not monogamous." ]
-                ]
-            , div [ class "stack__count" ]
-                [ span [] [ text "10" ]
-                , p [] [ text "IN ROTATION" ]
-                ]
+    section [ class "stack section-pad", id "stack", attribute "aria-labelledby" "stack-title" ]
+        [ div [ class "section-heading" ]
+            [ div [] [ h2 [ id "stack-title" ] [ text "Languages, plural." ] ]
+            , p [ class "section-heading__aside" ] [ text (String.fromInt languageCount ++ " languages across my public repos. I may have a problem.") ]
             ]
-        , div [ class "language-grid" ]
-            (List.indexedMap viewLanguage languages)
-        , div [ class "stack__footnote" ]
-            [ span [] [ text "*" ]
-            , p [] [ text ("These are the regulars, not the body count. Public repos currently span " ++ String.fromInt languageCount ++ " primary languages because commitment issues can be productive.") ]
-            ]
+        , div [ class "language-grid" ] (List.map viewLanguage languages)
         ]
 
 
-viewLanguage : Int -> Language -> Html Msg
-viewLanguage index language =
+viewLanguage : Language -> Html Msg
+viewLanguage language =
     div [ class ("language-card language--" ++ language.className) ]
-        [ div [ class "language-card__top" ]
-            [ span [ class "language-card__index" ] [ text (twoDigit (index + 1)) ]
-            , span [ class "language-card__signal", attribute "aria-hidden" "true" ] []
-            ]
-        , p [ class "language-card__name" ] [ text language.name ]
+        [ p [ class "language-card__name" ] [ text language.name ]
         , p [ class "language-card__note" ] [ text language.note ]
-        , div [ class "language-card__bar", attribute "aria-hidden" "true" ] [ span [] [] ]
         ]
 
 
 viewWebFriends : Html Msg
 viewWebFriends =
-    section [ class "web-friends section-pad", id "friends" ]
-        [ div [ class "web-friends__heading" ]
-            [ p [ class "kicker" ] [ text "07 / GOOD PEOPLE ON THE WIRE" ]
-            , h2 [] [ text "The internet is better with friends in it." ]
-            , p []
-                [ text "Kokonico works across Python, backend systems, databases, and the web. Moritisimor is in Germany, calls code a paintbrush, and keeps making runtimes, virtual machines, CLI tools, and small useful things." ]
+    section [ class "web-friends section-pad", id "friends", attribute "aria-labelledby" "friends-title" ]
+        [ div [ class "section-heading" ]
+            [ div [] [ h2 [ id "friends-title" ] [ text "People I like." ] ]
+            , p [ class "section-heading__aside" ] [ text "Go bother them. Tell them I sent you." ]
             ]
         , div [ class "web-friends__cards" ]
-            [ viewKokonicoFriend
-            , viewMoritisimorFriend
+            [ friendCard "friend-reference--kokonico" "Kokonico" "Python, backend systems, databases, and web design." "kokonico.me" "https://kokonico.me" "Happy birthday, Kokonico!"
+            , friendCard "friend-reference--moritisimor" "Moritisimor" "Runtimes, virtual machines, and small tools. Based in Germany." "github.com/Moritisimor" "https://github.com/Moritisimor/" "Happy birthday, Moritisimor!"
             ]
         ]
 
 
-viewKokonicoFriend : Html Msg
-viewKokonicoFriend =
-    a
-        [ class "friend-reference"
-        , href "https://kokonico.me"
-        , target "_blank"
-        , rel "noreferrer"
-        , attribute "aria-label" "Visit Kokonico's portfolio"
-        ]
-        [ div [ class "friend-reference__top" ]
-            [ span [] [ text "FRIEND / 001" ]
-            , span [ class "friend-reference__status" ] [ text "ONLINE ↗" ]
-            ]
-        , div [ class "friend-reference__identity" ]
-            [ span [ class "friend-reference__eyebrow" ] [ text "KKNC WEBWEAR™" ]
-            , h3 [] [ text "Kokonico" ]
-            , p [] [ text "Python / backend / databases / web design" ]
-            ]
-        , div [ class "friend-reference__reveal" ]
-            [ span [] [ text "IDEA BORROWED WITH LOVE" ]
-            , strong [] [ text "GO SAY HELLO" ]
-            , span [ class "friend-reference__big-arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-            ]
-        , div [ class "friend-reference__foot" ]
-            [ span [] [ text "KOKONICO.ME" ]
-            , span [] [ text "OPEN PORTFOLIO" ]
-            ]
-        ]
-
-
-viewMoritisimorFriend : Html Msg
-viewMoritisimorFriend =
-    a
-        [ class "friend-reference friend-reference--moritisimor"
-        , href "https://github.com/Moritisimor/"
-        , target "_blank"
-        , rel "noreferrer"
-        , attribute "aria-label" "Visit Moritisimor on GitHub"
-        ]
-        [ div [ class "friend-reference__flag", attribute "aria-hidden" "true" ]
-            [ span [] []
-            , span [] []
-            , span [] []
-            ]
-        , div [ class "friend-reference__top" ]
-            [ span [] [ text "FRIEND / 002" ]
-            , span [ class "friend-reference__status" ] [ text "GERMANY / DE ↗" ]
-            ]
-        , div [ class "friend-reference__identity" ]
-            [ span [ class "friend-reference__eyebrow" ] [ text "ARTIST WITH A COMPILER" ]
-            , h3 []
-                [ text "Moriti"
-                , span [] [ text "simor" ]
-                ]
-            , p [] [ text "Go / Rust / Dart / C / runtimes and small tools" ]
-            , div [ class "friend-reference__signals", attribute "aria-label" "Featured repositories" ]
-                [ span [] [ text "SATURNJS" ]
-                , span [] [ text "ATOMVM" ]
-                , span [] [ text "CUPID" ]
-                ]
-            ]
-        , div [ class "friend-reference__reveal friend-reference__reveal--germany" ]
-            [ span [] [ text "I AM AN ARTIST AND CODE IS MY PAINTBRUSH." ]
-            , strong [] [ text "OPEN GITHUB" ]
-            , span [ class "friend-reference__big-arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-            ]
-        , div [ class "friend-reference__foot" ]
-            [ span [] [ text "GITHUB.COM/MORITISIMOR" ]
-            , span [] [ text "VIEW THE WORK" ]
-            ]
+friendCard : String -> String -> String -> String -> String -> String -> Html Msg
+friendCard variant name copy domain url greeting =
+    a [ class ("friend-reference " ++ variant), href url, target "_blank", rel "noreferrer" ]
+        [ p [ class "friend-reference__birthday" ] [ text greeting ]
+        , h3 [] [ text name ]
+        , p [] [ text copy ]
+        , span [ class "friend-reference__domain" ] [ text domain ]
         ]
 
 
 viewContact : Html Msg
 viewContact =
-    section [ class "contact section-pad", id "contact" ]
-        [ p [ class "kicker" ] [ text "08 / OPEN A CONNECTION" ]
-        , p [ class "contact__pre" ]
-            [ span [ class "status-dot", attribute "aria-hidden" "true" ] []
-            , text "Available for interesting problems and bad influences"
+    section [ class "contact section-pad", id "contact", attribute "aria-labelledby" "contact-title" ]
+        [ div []
+            [ h2 [ id "contact-title" ] [ text "Got a hard problem?" ]
+            , p [ class "contact__copy" ] [ text "Tell me what keeps you up at night. The software thing, ideally." ]
             ]
-        , a [ class "contact__link", href "mailto:robertflexxgh@gmail.com" ]
-            [ span [ class "contact__line" ] [ text "GOT A HARD" ]
-            , span [ class "contact__line contact__line--outline" ]
-                [ text "PROBLEM?"
-                , span [ class "contact__arrow", attribute "aria-hidden" "true" ] [ text "↗" ]
-                ]
-            ]
-        , div [ class "contact__meta" ]
-            [ p [] [ text "Tell me what keeps you up at night. The software thing, ideally." ]
-            , a [ href "mailto:robertflexxgh@gmail.com" ] [ text "robertflexxgh@gmail.com" ]
-            ]
+        , a [ class "contact__email", href "mailto:robertflexxgh@gmail.com" ] [ text "robertflexxgh@gmail.com" ]
         ]
 
 
 viewFooter : Html Msg
 viewFooter =
     footer [ class "footer" ]
-        [ div [ class "footer__monogram", attribute "aria-hidden" "true" ] [ text "RF" ]
-        , p [] [ text "© 2026 ROBERT FLEXX" ]
-        , p [] [ text "BUILT IN ELM + SCSS" ]
+        [ p [] [ text "© 2026 Robert Flexx" ]
+        , p [] [ text "Made with Elm & SCSS" ]
         , div [ class "footer__links" ]
-            [ a [ href "#top" ] [ text "Top ↑" ]
-            , a
-                [ href "build.html" ]
-                [ text "How it’s built →" ]
-            , a
-                [ href "raylib.html"
-                , target "_blank"
-                , rel "noreferrer"
-                ]
-                [ text "Raylib ♥ ↗" ]
-            , a
-                [ href "https://kokonico.me"
-                , target "_blank"
-                , rel "noreferrer"
-                ]
-                [ text "Kokonico ↗" ]
-            , a
-                [ href "https://github.com/Moritisimor/"
-                , target "_blank"
-                , rel "noreferrer"
-                ]
-                [ text "Moritisimor ↗" ]
-            , a
-                [ href "https://github.com/RobertFlexx"
-                , target "_blank"
-                , rel "noreferrer"
-                ]
-                [ text "GitHub ↗" ]
+            [ a [ href "build.html" ] [ text "About this site" ]
+            , a [ href "https://github.com/RobertFlexx/Portfolio", target "_blank", rel "noreferrer" ] [ text "Source code" ]
+            , a [ href "#top" ] [ text "Back to top" ]
             ]
         ]
+
+
+cleanCopy : String -> String
+cleanCopy copy =
+    copy |> String.replace "\u{2014}" ". " |> String.replace "\u{2013}" "-"
 
 
 projects : List Project
@@ -945,7 +556,7 @@ projects =
       , language = "NIM"
       , kind = Tools
       , summary = "Finds the file before find gets its pants on."
-      , detail = "Fuzzy matching, content filters, natural-language queries, semantic code search, and interactive mode packed into one shamelessly capable static binary."
+      , detail = "Fuzzy matching, content filters, natural-language queries, and interactive search in a single static binary."
       , url = "https://github.com/RobertFlexx/fastfind"
       , tone = "project--acid"
       , stars = 17
@@ -956,7 +567,7 @@ projects =
       , language = "C / ASM"
       , kind = Systems
       , summary = "An OS born from pain, nightmares, and C."
-      , detail = "A standalone UNIX-like operating system built from nothing: custom kernel, userland direction, package ecosystem, and the kind of scope creep that starts asking for its own bedroom."
+      , detail = "An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem."
       , url = "https://github.com/RobertFlexx/ObeliskOS"
       , tone = "project--coral"
       , stars = 12
@@ -966,8 +577,8 @@ projects =
       , command = "$ scala-native run"
       , language = "SCALA"
       , kind = Games
-      , summary = "Scala Native bindings that want to play."
-      , detail = "Early experimental raylib 6.0 bindings for Scala Native, because game development gets more interesting when two ecosystems start touching."
+      , summary = "raylib bindings for Scala Native."
+      , detail = "Experimental bindings that bring raylib 6.0 graphics, audio, and input to Scala Native."
       , url = "https://github.com/RobertFlexx/rayscal"
       , tone = "project--yellow"
       , stars = 7
@@ -977,8 +588,8 @@ projects =
       , command = "$ blockbox --play"
       , language = "SCALA"
       , kind = Games
-      , summary = "Cubes, code, and absolutely no rent."
-      , detail = "A free and open-source block voxel game in Scala, with familiar terrain and a homegrown implementation underneath the pixels."
+      , summary = "An open-source voxel game in Scala."
+      , detail = "A free block-based voxel game with terrain and gameplay built in Scala."
       , url = "https://github.com/RobertFlexx/blockbox"
       , tone = "project--magenta"
       , stars = 2
@@ -988,8 +599,8 @@ projects =
       , command = "$ srsh"
       , language = "RUBY"
       , kind = Systems
-      , summary = "A Ruby shell with an actual personality."
-      , detail = "Built-ins, autosuggestions, history tools, aliases, scripting, and the daily comforts Bash keeps making you beg for."
+      , summary = "An interactive shell in Ruby."
+      , detail = "A Ruby shell with built-ins, autosuggestions, history, aliases, and scripting support."
       , url = "https://github.com/RobertFlexx/RSH"
       , tone = "project--red"
       , stars = 4
@@ -999,8 +610,8 @@ projects =
       , command = "$ raid / -time"
       , language = "ZIG"
       , kind = Tools
-      , summary = "Goes deep, fast, and checks every directory."
-      , detail = "Rigorous recursive traversal with performance neck-and-neck with fd. Hidden files included; raid is not here to pretend it did not see them."
+      , summary = "Recursive file traversal in Zig."
+      , detail = "Low-level filesystem traversal with predictable behavior and support for hidden files."
       , url = "https://github.com/RobertFlexx/raid"
       , tone = "project--blue"
       , stars = 4
@@ -1011,7 +622,7 @@ projects =
       , language = "C++"
       , kind = Tools
       , summary = "Opens your files, not a situationship."
-      , detail = "A small general-purpose CLI editor with classic workflow DNA, modern safety, and no interest in becoming a browser with a text box."
+      , detail = "A general-purpose command-line text editor with a familiar workflow, written in C++."
       , url = "https://github.com/RobertFlexx/tedit"
       , tone = "project--violet"
       , stars = 4
@@ -1021,8 +632,8 @@ projects =
       , command = "$ uniximage disk.iso"
       , language = "C / GTK"
       , kind = Tools
-      , summary = "Writes images across the UNIX family."
-      , detail = "A GTK and CLI disk-image writer supporting a frankly indecent list of UNIX-like systems, image formats, and compressed archives."
+      , summary = "A disk-image writer for UNIX systems."
+      , detail = "Graphical and command-line interfaces for writing disk images, including compressed archives, on UNIX-like systems."
       , url = "https://github.com/RobertFlexx/UnixImage"
       , tone = "project--green"
       , stars = 4
@@ -1033,7 +644,7 @@ projects =
       , language = "ODIN"
       , kind = Tools
       , summary = "Gets, posts, and leaves."
-      , detail = "A fast standalone HTTP client in Odin. Less surface area than curl, more capability than a one-night request, and absolutely no 200-option commitment ceremony."
+      , detail = "A command-line HTTP client for making requests and inspecting responses, written in Odin."
       , url = "https://github.com/RobertFlexx/Volt"
       , tone = "project--orange"
       , stars = 4
@@ -1048,7 +659,7 @@ pinnedProjectTemplates =
       , command = "$ rcc source.c"
       , language = "PASCAL"
       , kind = Tools
-      , summary = "A C compiler that brought its own linker."
+      , summary = "A standalone C compiler toolchain."
       , detail = "A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools."
       , url = "https://github.com/RobertFlexx/rookcc"
       , tone = "project--magenta"
@@ -1059,7 +670,7 @@ pinnedProjectTemplates =
       , command = "$ pawnasm input.asm"
       , language = "COMPONENT PASCAL"
       , kind = Tools
-      , summary = "Assembles the old-fashioned way: alone."
+      , summary = "An Intel-syntax assembler."
       , detail = "A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase."
       , url = "https://github.com/RobertFlexx/pawnasm"
       , tone = "project--red"
@@ -1070,7 +681,7 @@ pinnedProjectTemplates =
       , command = "$ kld main.o"
       , language = "ADA"
       , kind = Tools
-      , summary = "Links without calling for backup."
+      , summary = "An Ada linker for the RookCC toolchain."
       , detail = "A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats."
       , url = "https://github.com/RobertFlexx/knightlinker"
       , tone = "project--blue"
@@ -1082,13 +693,13 @@ pinnedProjectTemplates =
 tractionRepos : List GithubRepo
 tractionRepos =
     [ { name = "fastfind"
-      , description = "One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age."
+      , description = "A static Nim binary for fuzzy file search, content filters, natural-language queries, and interactive selection."
       , language = "NIM"
       , stars = 17
       , url = "https://github.com/RobertFlexx/fastfind"
       }
     , { name = "ObeliskOS"
-      , description = "A standalone UNIX-like operating system built from nothing: custom kernel, userland direction, package ecosystem, and a deeply unreasonable amount of scope."
+      , description = "An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem."
       , language = "C"
       , stars = 12
       , url = "https://github.com/RobertFlexx/ObeliskOS"
@@ -1117,7 +728,7 @@ tractionRepos =
 fallbackSpotlight : GithubRepo
 fallbackSpotlight =
     { name = "fastfind"
-    , description = "One static Nim binary doing fuzzy search, content filters, natural-language queries, semantic code search, and interactive selection. Apparently people also enjoy finding their files before they die of old age."
+    , description = "A static Nim binary for fuzzy file search, content filters, natural-language queries, and interactive selection."
     , language = "NIM"
     , stars = 17
     , url = "https://github.com/RobertFlexx/fastfind"
@@ -1129,31 +740,31 @@ gameProjects =
     [ { index = "G.01"
       , name = "rayscal"
       , language = "SCALA / RAYLIB"
-      , copy = "Scala Native bindings for raylib 6.0, making Scala put on game-dev clothes."
+      , copy = "Graphics, audio, and input from raylib 6.0, available in Scala Native."
       , url = "https://github.com/RobertFlexx/rayscal"
       }
     , { index = "G.02"
       , name = "blockbox"
       , language = "SCALA"
-      , copy = "A free and open-source block voxel game. Familiar cubes, unfamiliar implementation choices."
+      , copy = "A free and open-source block voxel game written in Scala."
       , url = "https://github.com/RobertFlexx/blockbox"
       }
     , { index = "G.03"
       , name = "PlayboxLib"
       , language = "C"
-      , copy = "A compact, robust TUI 2D game-engine library for making the terminal do things it was not warned about."
+      , copy = "A 2D game-engine library for building games in the terminal."
       , url = "https://github.com/RobertFlexx/PlayboxLib"
       }
     , { index = "G.04"
       , name = "GLSL Hallway"
       , language = "GLSL"
-      , copy = "A raw shader that is both the game map and a ray-traced GPU benchmark. The hallway is hot; your GPU will be too."
+      , copy = "A ray-traced hallway that doubles as a GPU benchmark. The hallway is hot; your GPU will be too."
       , url = "https://github.com/RobertFlexx/GLSL-Hallway-GPU-Benchmark"
       }
     , { index = "G.05"
       , name = "Minecraft mods"
       , language = "JAVA"
-      , copy = "Minecart speed with the safeword removed, plus a value unlocker for people who think arbitrary caps are deeply unsexy."
+      , copy = "Java mods for changing minecart speed and unlocking game values."
       , url = "https://github.com/RobertFlexx/unlimited-minecart-speed"
       }
     ]
@@ -1163,52 +774,52 @@ labRepos : List LabRepo
 labRepos =
     [ { name = "FerriteOS"
       , language = "C++"
-      , copy = "A whole fake UNIX-like OS in one process: filesystem, init, services, auth, packages, daemons, and safe ways to break everything."
+      , copy = "A simulated UNIX-like operating system in one process, with a filesystem, services, users, and packages."
       , url = "https://github.com/RobertFlexx/FerriteOS"
       }
     , { name = "DropNest"
       , language = "GLEAM"
-      , copy = "Local-network file drops for links, notes, clipboard text, and files. No cloud account invited into the room."
+      , copy = "Share files, links, notes, and clipboard text over a local network."
       , url = "https://github.com/RobertFlexx/DropNest"
       }
     , { name = "Photon"
       , language = "RUBY"
-      , copy = "A smart package manager inspired by Portage, entirely in Ruby and probably thinking about dependency graphs right now."
+      , copy = "A Portage-inspired package manager in Ruby. Dependency graphs are apparently my idea of a good time."
       , url = "https://github.com/RobertFlexx/Photon"
       }
     , { name = "pre-but-better"
       , language = "RUST"
-      , copy = "Preview images, GIFs, and video directly in the terminal. Your shell can look; touching still costs extra."
+      , copy = "Preview images, GIFs, and video directly in the terminal."
       , url = "https://github.com/RobertFlexx/pre-but-better"
       }
     , { name = "mote"
       , language = "ASSEMBLY"
-      , copy = "A super-light, dead-simple CLI text editor in GNU Assembly for when C feels suspiciously high-level."
+      , copy = "A tiny CLI editor in GNU Assembly. C was feeling a bit too comfortable."
       , url = "https://github.com/RobertFlexx/mote"
       }
     , { name = "DTOP"
       , language = "D"
-      , copy = "A UNIX process manager with a friendly TUI. Finds needy processes and helps them let go."
+      , copy = "A UNIX process manager with a text-based interface."
       , url = "https://github.com/RobertFlexx/DTOP"
       }
     , { name = "JvmShell"
       , language = "SCALA"
-      , copy = "A fully interactive Linux shell built around the JVM ecosystem. Java, Kotlin, and Scala are all invited."
+      , copy = "An interactive Linux shell built around Java, Kotlin, and Scala."
       , url = "https://github.com/RobertFlexx/JvmShell"
       }
     , { name = "hrm"
       , language = "PASCAL"
-      , copy = "A deliberately horrified replacement for rm. The name is a warning and also excellent product positioning."
+      , copy = "An experimental replacement for rm, written in Pascal."
       , url = "https://github.com/RobertFlexx/hrm"
       }
     , { name = "system-lens"
       , language = "VALA"
-      , copy = "A clean GTK system monitor for looking directly at what your machine is doing behind your back."
+      , copy = "A GTK system monitor for viewing resource usage and process activity."
       , url = "https://github.com/RobertFlexx/system-lens"
       }
     , { name = "Nacre"
       , language = "PERL"
-      , copy = "A system shell written in Perl. Because one shell was never going to satisfy this particular obsession."
+      , copy = "A system shell in Perl. Yes, another one."
       , url = "https://github.com/RobertFlexx/Nacre"
       }
     ]
@@ -1258,7 +869,7 @@ githubRepoToProject index repo =
                 | index = projectIndex
                 , name = repo.name
                 , language = String.toUpper repo.language
-                , detail = liveDescription template.detail
+                , detail = template.detail
                 , url = repo.url
                 , stars = repo.stars
             }
@@ -1269,8 +880,8 @@ githubRepoToProject index repo =
             , command = "$ open /" ++ String.toLower repo.name
             , language = String.toUpper repo.language
             , kind = Tools
-            , summary = "Pinned now. Built to be opened."
-            , detail = liveDescription "A current GitHub pin. Open the repository for the code, notes, and latest state of the experiment."
+            , summary = "From my current GitHub pins."
+            , detail = liveDescription "Open the repository for source code, documentation, and project updates."
             , url = repo.url
             , tone = toneForIndex index
             , stars = repo.stars
@@ -1292,7 +903,7 @@ repoDetail repo =
 
         Nothing ->
             if String.isEmpty (String.trim repo.description) then
-                "A public repository earning attention on GitHub. Open it for the code, context, and current state."
+                "Open the repository for source code, documentation, and project updates."
 
             else
                 repo.description
@@ -1333,12 +944,12 @@ githubSnapshotLabel : Maybe GithubData -> String
 githubSnapshotLabel github =
     case github of
         Just data ->
-            "AUTOMATIC GITHUB SNAPSHOT / "
+            "Snapshot updated "
                 ++ String.left 10 data.generatedAt
-                ++ ": PINS + COUNTS REFRESH EVERY SIX HOURS."
+                ++ ". Refreshed every six hours."
 
         Nothing ->
-            "PUBLIC GITHUB SNAPSHOT / CONNECTING TO THE LIVE FEED."
+            "Showing the built-in snapshot. Updated data is temporarily unavailable."
 
 
 nonEmptyList : List a -> Maybe (List a)

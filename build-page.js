@@ -5158,6 +5158,15 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5167,22 +5176,30 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$code = _VirtualDom_node('code');
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$footer = _VirtualDom_node('footer');
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$html$Html$header = _VirtualDom_node('header');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$main_ = _VirtualDom_node('main');
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$html$Html$pre = _VirtualDom_node('pre');
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
+var $elm$html$Html$section = _VirtualDom_node('section');
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Build$ElmSource = 1;
 var $author$project$Build$ScssSource = 2;
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $author$project$Build$SetView = $elm$core$Basics$identity;
-var $author$project$Build$boolString = function (value) {
-	return value ? 'true' : 'false';
-};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$core$List$filter = F2(
 	function (isGood, list) {
@@ -5226,8 +5243,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $author$project$Build$consoleTab = F3(
 	function (active, value, label) {
@@ -5245,25 +5260,21 @@ var $author$project$Build$consoleTab = F3(
 						])),
 					$elm$html$Html$Attributes$type_('button'),
 					$elm$html$Html$Events$onClick(value),
-					A2($elm$html$Html$Attributes$attribute, 'role', 'tab'),
 					A2(
 					$elm$html$Html$Attributes$attribute,
-					'aria-selected',
-					$author$project$Build$boolString(
-						_Utils_eq(active, value)))
+					'aria-pressed',
+					_Utils_eq(active, value) ? 'true' : 'false'),
+					A2($elm$html$Html$Attributes$attribute, 'aria-controls', 'source-preview')
 				]),
 			_List_fromArray(
 				[
 					$elm$html$Html$text(label)
 				]));
 	});
-var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
-var $author$project$Build$architectureLayer = F3(
-	function (index, title, copy) {
+var $author$project$Build$architectureLayer = F2(
+	function (title, copy) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5273,149 +5284,70 @@ var $author$project$Build$architectureLayer = F3(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$span,
+					$elm$html$Html$h3,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(index)
+							$elm$html$Html$text(title)
 						])),
 					A2(
-					$elm$html$Html$div,
+					$elm$html$Html$p,
 					_List_Nil,
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$h3,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(title)
-								])),
-							A2(
-							$elm$html$Html$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(copy)
-								]))
+							$elm$html$Html$text(copy)
 						]))
 				]));
 	});
-var $author$project$Build$architectureLink = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('architecture-link'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-		]),
-	_List_fromArray(
-		[
-			A2($elm$html$Html$span, _List_Nil, _List_Nil),
-			A2($elm$html$Html$span, _List_Nil, _List_Nil),
-			A2($elm$html$Html$span, _List_Nil, _List_Nil)
-		]));
-var $elm$html$Html$code = _VirtualDom_node('code');
-var $author$project$Build$codeLine = function (_v0) {
-	var number = _v0.a;
-	var source = _v0.b;
-	return A2(
-		$elm$html$Html$span,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('code-line')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$span,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('code-line__number')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(number)
-					])),
-				A2(
-				$elm$html$Html$span,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('code-line__source')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(source)
-					]))
-			]));
-};
-var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $author$project$Build$codePanel = function (lines) {
-	return A2(
-		$elm$html$Html$pre,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('code-panel panel-enter')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$code,
-				_List_Nil,
-				A2($elm$core$List$map, $author$project$Build$codeLine, lines))
-			]));
-};
-var $author$project$Build$viewConsolePanel = function (active) {
+var $author$project$Build$viewPanel = function (active) {
 	switch (active) {
 		case 0:
 			return A2(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('architecture-panel panel-enter')
+						$elm$html$Html$Attributes$class('architecture-panel')
 					]),
 				_List_fromArray(
 					[
-						A3($author$project$Build$architectureLayer, '01', 'MODEL', 'One explicit record holds the active project filter, mobile navigation state, and decoded GitHub snapshot.'),
-						$author$project$Build$architectureLink,
-						A3($author$project$Build$architectureLayer, '02', 'UPDATE', 'Messages are boring on purpose: filter, open, close, receive data. Predictable beats clever.'),
-						$author$project$Build$architectureLink,
-						A3($author$project$Build$architectureLayer, '03', 'VIEW', 'Elm renders semantic HTML from typed data for projects, games, languages, and repository signals.'),
-						$author$project$Build$architectureLink,
-						A3($author$project$Build$architectureLayer, '04', 'STATIC + FRESH', 'The compiler produces main.js. GitHub Actions adds a token-free public snapshot beside the static files.')
+						A2($author$project$Build$architectureLayer, 'Model', 'Stores the selected project filter, whether the mobile menu is open, and the decoded GitHub snapshot.'),
+						A2($author$project$Build$architectureLayer, 'Update', 'Receives messages when someone filters the projects, toggles the menu, or loads the snapshot.'),
+						A2($author$project$Build$architectureLayer, 'View', 'Renders the page from typed records for projects, games, languages, and friends.'),
+						A2($author$project$Build$architectureLayer, 'Build', 'Compiles Elm into JavaScript and SCSS into CSS. A scheduled workflow refreshes the public GitHub snapshot every six hours.')
 					]));
 		case 1:
-			return $author$project$Build$codePanel(
+			return A2(
+				$elm$html$Html$pre,
 				_List_fromArray(
 					[
-						_Utils_Tuple2('01', 'type Msg'),
-						_Utils_Tuple2('02', '    = SetFilter Filter'),
-						_Utils_Tuple2('03', '    | ToggleMenu'),
-						_Utils_Tuple2('04', '    | CloseMenu'),
-						_Utils_Tuple2('05', '    | ReceiveGithubData Decode.Value'),
-						_Utils_Tuple2('06', ''),
-						_Utils_Tuple2('07', 'update msg model ='),
-						_Utils_Tuple2('08', '    case msg of'),
-						_Utils_Tuple2('09', '        ReceiveGithubData value ->'),
-						_Utils_Tuple2('10', '            Decode.decodeValue'),
-						_Utils_Tuple2('11', '                githubDataDecoder'),
-						_Utils_Tuple2('12', '                value')
+						$elm$html$Html$Attributes$class('code-panel')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$code,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('type Msg\u000A    = SetFilter Filter\u000A    | ToggleMenu\u000A    | CloseMenu\u000A    | DismissMenu\u000A    | FocusReturned\u000A    | ReceiveGithubData Decode.Value\u000A\u000Aupdate msg model =\u000A    case msg of\u000A        SetFilter selected ->\u000A            ( { model | activeFilter = selected }\u000A            , Cmd.none\u000A            )\u000A\u000A        -- Other messages follow the same pattern.')
+							]))
 					]));
 		default:
-			return $author$project$Build$codePanel(
+			return A2(
+				$elm$html$Html$pre,
 				_List_fromArray(
 					[
-						_Utils_Tuple2('01', '$language-colors: ('),
-						_Utils_Tuple2('02', '  \u0022cpp\u0022: $blue,'),
-						_Utils_Tuple2('03', '  \u0022nim\u0022: $acid,'),
-						_Utils_Tuple2('04', '  \u0022glsl\u0022: $violet'),
-						_Utils_Tuple2('05', ');'),
-						_Utils_Tuple2('06', ''),
-						_Utils_Tuple2('07', '@each $language, $color in $language-colors {'),
-						_Utils_Tuple2('08', '  .language--#{$language} {'),
-						_Utils_Tuple2('09', '    --language-color: #{$color};'),
-						_Utils_Tuple2('10', '  }'),
-						_Utils_Tuple2('11', '}'),
-						_Utils_Tuple2('12', 'write the rule once; let Sass do the repetitive touching')
+						$elm$html$Html$Attributes$class('code-panel')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$code,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('$language-colors: (\u000A  \u0022cpp\u0022: #9ac5e8,\u000A  \u0022nim\u0022: #d7cb86,\u000A  \u0022glsl\u0022: #91c8b1\u000A);\u000A\u000A@each $language, $color in $language-colors {\u000A  .language--#{$language} {\u000A    --language-color: #{$color};\u000A  }\u000A}')
+							]))
 					]));
 	}
 };
@@ -5424,42 +5356,33 @@ var $author$project$Build$viewConsole = function (model) {
 		$elm$html$Html$section,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('build-console-section')
+				$elm$html$Html$Attributes$class('build-section')
 			]),
 		_List_fromArray(
 			[
 				A2(
-				$elm$html$Html$div,
+				$elm$html$Html$p,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('build-section-heading')
+						$elm$html$Html$Attributes$class('kicker')
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$elm$html$Html$p,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('build-kicker')
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('01 / INSPECT THE MACHINE')
-							])),
-						A2(
-						$elm$html$Html$h2,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('No mystery meat.')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Switch views. The architecture is small enough to hold in your head, which is sexier than a dependency tree shaped like public transport.')
-							]))
+						$elm$html$Html$text('How it works')
+					])),
+				A2(
+				$elm$html$Html$h2,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Views, state, and a stylesheet.')
+					])),
+				A2(
+				$elm$html$Html$p,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('The portfolio keeps its filter, navigation, and GitHub data in one Elm model. Select a view to see the structure or a short source example.')
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -5474,23 +5397,25 @@ var $author$project$Build$viewConsole = function (model) {
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$class('build-console__tabs'),
-								A2($elm$html$Html$Attributes$attribute, 'role', 'tablist')
+								A2($elm$html$Html$Attributes$attribute, 'role', 'group'),
+								A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Source preview')
 							]),
 						_List_fromArray(
 							[
-								A3($author$project$Build$consoleTab, model.r, 0, 'ARCHITECTURE'),
-								A3($author$project$Build$consoleTab, model.r, 1, 'MAIN.ELM'),
-								A3($author$project$Build$consoleTab, model.r, 2, 'STYLES.SCSS')
+								A3($author$project$Build$consoleTab, model.r, 0, 'Overview'),
+								A3($author$project$Build$consoleTab, model.r, 1, 'Main.elm'),
+								A3($author$project$Build$consoleTab, model.r, 2, 'styles.scss')
 							])),
 						A2(
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('build-console__screen')
+								$elm$html$Html$Attributes$class('build-console__screen'),
+								$elm$html$Html$Attributes$id('source-preview')
 							]),
 						_List_fromArray(
 							[
-								$author$project$Build$viewConsolePanel(model.r)
+								$author$project$Build$viewPanel(model.r)
 							])),
 						A2(
 						$elm$html$Html$div,
@@ -5505,31 +5430,28 @@ var $author$project$Build$viewConsole = function (model) {
 								_List_Nil,
 								_List_fromArray(
 									[
-										$elm$html$Html$text('ELM 0.19.1')
+										$elm$html$Html$text('Elm 0.19.2')
 									])),
 								A2(
 								$elm$html$Html$span,
 								_List_Nil,
 								_List_fromArray(
 									[
-										$elm$html$Html$text('SCSS / LIBSASS')
+										$elm$html$Html$text('Dart Sass')
 									])),
 								A2(
 								$elm$html$Html$span,
+								_List_Nil,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('build-console__online')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('COMPILED CLEAN')
+										$elm$html$Html$text('Static HTML & JavaScript')
 									]))
 							]))
 					]))
 			]));
 };
-var $author$project$Build$decisionRow = F3(
-	function (index, title, copy) {
+var $author$project$Build$decision = F2(
+	function (title, copy) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5538,13 +5460,6 @@ var $author$project$Build$decisionRow = F3(
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(index)
-						])),
 					A2(
 					$elm$html$Html$h3,
 					_List_Nil,
@@ -5565,42 +5480,26 @@ var $author$project$Build$viewDecisions = A2(
 	$elm$html$Html$section,
 	_List_fromArray(
 		[
-			$elm$html$Html$Attributes$class('build-decisions')
+			$elm$html$Html$Attributes$class('build-section')
 		]),
 	_List_fromArray(
 		[
 			A2(
-			$elm$html$Html$div,
+			$elm$html$Html$p,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('build-decisions__intro')
+					$elm$html$Html$Attributes$class('kicker')
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('04 / RULES I KEPT')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('A few decisions did the heavy lifting.')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('This page has plenty of motion. The site underneath it is deliberately boring in the places that matter: files, links, state, and deployment.')
-						]))
+					$elm$html$Html$text('A few choices')
+				])),
+			A2(
+			$elm$html$Html$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Keep the moving parts small.')
 				])),
 			A2(
 			$elm$html$Html$div,
@@ -5610,608 +5509,28 @@ var $author$project$Build$viewDecisions = A2(
 				]),
 			_List_fromArray(
 				[
-					A3($author$project$Build$decisionRow, '01', 'STATIC ON PURPOSE', 'Every page can be served by the dumbest HTTP server in the room. There is no backend waiting for a password.'),
-					A3($author$project$Build$decisionRow, '02', 'TYPED WHERE IT HELPS', 'Elm owns the stateful portfolio and this inspector. The raylib mural stays plain HTML because it does not need a model.'),
-					A3($author$project$Build$decisionRow, '03', 'MOTION EARNS ITS RENT', 'Animation shows direction, state, or hierarchy. Reduced-motion rules shut the machinery down without breaking the page.'),
-					A3($author$project$Build$decisionRow, '04', 'THE REPO IS THE PROOF', 'The source link stays visible. If a claim sounds suspicious, the files are one click away.')
+					A2($author$project$Build$decision, 'Static hosting', 'There is no application server or database. All pages can be served from a regular static host.'),
+					A2($author$project$Build$decision, 'Fresh data at build time', 'GitHub Actions refreshes repository pins, language counts, and stars every six hours. A built-in snapshot is available if the request fails.'),
+					A2($author$project$Build$decision, 'Layouts that can reflow', 'Flexible columns, wrapping navigation, and shared page margins keep the layout usable at different widths and text sizes.'),
+					A2($author$project$Build$decision, 'A little celebration', 'Birthday greetings appear on the day. Robert\u0027s and Kokonico\u0027s use the visitor\u0027s local date; Moritisimor\u0027s uses the date in Berlin.')
 				]))
 		]));
-var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$html$Html$footer = _VirtualDom_node('footer');
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
-var $author$project$Build$viewFooter = A2(
-	$elm$html$Html$footer,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('build-footer')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$p,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text('ROBERT FLEXX / BUILD MANIFEST')
-				])),
-			A2(
-			$elm$html$Html$p,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text('ELM + SCSS + QUESTIONABLE RESTRAINT')
-				])),
-			A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$href('index.html')
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text('PORTFOLIO →')
-				]))
-		]));
-var $elm$html$Html$header = _VirtualDom_node('header');
-var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
-var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
-var $author$project$Build$viewHeader = A2(
-	$elm$html$Html$header,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('build-header')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-header__back'),
-					$elm$html$Html$Attributes$href('index.html')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('←')
-						])),
-					$elm$html$Html$text('BACK TO ROBERT')
-				])),
-			A2(
-			$elm$html$Html$p,
-			_List_Nil,
-			_List_fromArray(
-				[
-					$elm$html$Html$text('RF / BUILD MANIFEST')
-				])),
-			A2(
-			$elm$html$Html$a,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$href('https://github.com/RobertFlexx/Portfolio'),
-					$elm$html$Html$Attributes$target('_blank'),
-					$elm$html$Html$Attributes$rel('noreferrer')
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text('SOURCE ↗')
-				]))
-		]));
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $elm$html$Html$strong = _VirtualDom_node('strong');
-var $author$project$Build$reactorNode = F3(
-	function (name, description, className) {
+var $author$project$Build$buildFile = F2(
+	function (filename, copy) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('reactor-node ' + className)
+					$elm$html$Html$Attributes$class('build-file')
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$strong,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(name)
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(description)
-						]))
-				]));
-	});
-var $author$project$Build$viewHero = A2(
-	$elm$html$Html$section,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('build-hero')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-hero__copy')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('THE SITE / TAKEN APART')
-						])),
-					A2(
-					$elm$html$Html$h1,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('WHAT’S')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('build-hero__outline')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('UNDER')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('THE HOOD?')
-								]))
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-hero__lede')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('The short answer is '),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Elm + SCSS.')
-								])),
-							$elm$html$Html$text(' The longer answer is typed state, hand-built views, Sass tokens and loops, two compiled assets, and an unreasonable amount of attention to whether a one-pixel line feels right.')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-reactor'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Animated technology stack diagram')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-reactor__grid'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-reactor__ring build-reactor__ring--one')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-reactor__ring build-reactor__ring--two')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-reactor__ring build-reactor__ring--three')
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-reactor__core')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('STATIC')
-								])),
-							A2(
-							$elm$html$Html$strong,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('RF')
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('BUILD')
-								]))
-						])),
-					A3($author$project$Build$reactorNode, 'ELM', 'VIEW + STATE', 'reactor-node--elm'),
-					A3($author$project$Build$reactorNode, 'SCSS', 'SYSTEM + MOTION', 'reactor-node--scss'),
-					A3($author$project$Build$reactorNode, 'HTML', 'ENTRY + META', 'reactor-node--html'),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-reactor__status')
-						]),
-					_List_fromArray(
-						[
-							A2($elm$html$Html$span, _List_Nil, _List_Nil),
-							$elm$html$Html$text('NO SERVER REQUIRED')
-						]))
-				]))
-		]));
-var $elm$html$Html$i = _VirtualDom_node('i');
-var $author$project$Build$pipelineArrow = function (label) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('pipeline-arrow'),
-				A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$span,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(label)
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2($elm$html$Html$i, _List_Nil, _List_Nil),
-						A2($elm$html$Html$i, _List_Nil, _List_Nil),
-						A2($elm$html$Html$i, _List_Nil, _List_Nil)
-					]))
-			]));
-};
-var $author$project$Build$pipelineJoin = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('pipeline-join'),
-			A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-		]),
-	_List_fromArray(
-		[
-			A2($elm$html$Html$span, _List_Nil, _List_Nil),
-			A2($elm$html$Html$span, _List_Nil, _List_Nil)
-		]));
-var $author$project$Build$pipelineStage = F4(
-	function (index, name, description, className) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('pipeline-stage ' + className)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('pipeline-stage__index')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(index)
-						])),
-					A2(
-					$elm$html$Html$h3,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(name)
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(description)
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('pipeline-stage__pulse'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_Nil)
-				]));
-	});
-var $author$project$Build$viewPipeline = A2(
-	$elm$html$Html$section,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('build-pipeline')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-section-heading build-section-heading--dark')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('03 / BUILD PIPELINE')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Source goes in. Static comes out.')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('No backend waiting to fall over. No database yearning for credentials. Just a deterministic little production line.')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('pipeline-track')
-				]),
-			_List_fromArray(
-				[
-					A4($author$project$Build$pipelineStage, '01', 'src/Main.elm', 'CONTENT + INTERACTION', 'pipeline-stage--elm'),
-					$author$project$Build$pipelineArrow('elm make --optimize'),
-					A4($author$project$Build$pipelineStage, '02', 'main.js', 'TYPED APP / COMPILED', 'pipeline-stage--output'),
-					$author$project$Build$pipelineJoin,
-					A4($author$project$Build$pipelineStage, '03', 'src/styles.scss', 'TOKENS + MOTION', 'pipeline-stage--scss'),
-					$author$project$Build$pipelineArrow('sassc -t compressed'),
-					A4($author$project$Build$pipelineStage, '04', 'styles.css', 'MINIFIED STYLESHEET', 'pipeline-stage--output'),
-					$author$project$Build$pipelineJoin,
-					A4($author$project$Build$pipelineStage, '05', 'static host', 'SNAPSHOT + FILES', 'pipeline-stage--deploy')
-				]))
-		]));
-var $author$project$Build$receiptItem = F2(
-	function (value, label) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('receipt-item')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(value)
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(label)
-						]))
-				]));
-	});
-var $author$project$Build$viewReceipt = A2(
-	$elm$html$Html$section,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('build-receipt')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-receipt__copy')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('06 / THE RECEIPT')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Small stack. Full experience.')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('The page is static, but it is not dead. Elm owns the interactions. SCSS owns the visual behavior. A six-hour GitHub snapshot keeps the pins and stars honest without shipping credentials. Everyone leaves satisfied.')
-						])),
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('index.html')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('BACK TO THE PORTFOLIO'),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('→')
-								]))
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('receipt-grid')
-				]),
-			_List_fromArray(
-				[
-					A2($author$project$Build$receiptItem, '0', 'BACKEND SERVICES'),
-					A2($author$project$Build$receiptItem, '0', 'RUNTIME API CALLS'),
-					A2($author$project$Build$receiptItem, '2', 'COMPILED ASSETS'),
-					A2($author$project$Build$receiptItem, '6H', 'GITHUB REFRESH')
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-receipt__stamp'),
-					A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('COMPILED')
-						])),
-					A2(
-					$elm$html$Html$strong,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('CLEAN')
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('STATIC / LOCAL')
-						]))
-				]))
-		]));
-var $author$project$Build$scssCard = F4(
-	function (index, title, snippet, copy) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('scss-card')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('scss-card__top')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(index)
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(title)
-								]))
-						])),
 					A2(
 					$elm$html$Html$code,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(snippet)
+							$elm$html$Html$text(filename)
 						])),
 					A2(
 					$elm$html$Html$p,
@@ -6222,310 +5541,45 @@ var $author$project$Build$scssCard = F4(
 						]))
 				]));
 	});
-var $author$project$Build$viewScss = A2(
+var $author$project$Build$viewFiles = A2(
 	$elm$html$Html$section,
 	_List_fromArray(
 		[
-			$elm$html$Html$Attributes$class('scss-showcase')
+			$elm$html$Html$Attributes$class('build-section build-section--surface')
 		]),
 	_List_fromArray(
 		[
 			A2(
-			$elm$html$Html$div,
+			$elm$html$Html$p,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('build-section-heading')
+					$elm$html$Html$Attributes$class('kicker')
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('05 / SCSS, ACTUALLY USED')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Not CSS wearing a fake moustache.')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('The stylesheet uses Sass as a design tool, not just as a file extension somebody forgot to remove.')
-						]))
+					$elm$html$Html$text('Inside the repository')
+				])),
+			A2(
+			$elm$html$Html$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('A few files do most of the work.')
 				])),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('scss-grid')
+					$elm$html$Html$Attributes$class('build-files')
 				]),
 			_List_fromArray(
 				[
-					A4($author$project$Build$scssCard, '01', 'TOKENS', '$acid: #d8ff45;', 'One palette drives the entire visual system.'),
-					A4($author$project$Build$scssCard, '02', 'MAPS + LOOPS', '@each $language...', 'Language themes are generated from a color map.'),
-					A4($author$project$Build$scssCard, '03', 'MIXINS', '@include below(...)', 'Responsive rules stay readable at three real breakpoints.'),
-					A4($author$project$Build$scssCard, '04', 'FUNCTIONS', 'rem($pixels)', 'Measurements use a small conversion function instead of calculator foreplay.'),
-					A4($author$project$Build$scssCard, '05', 'PLACEHOLDERS', '%micro-label', 'Repeated typography is extended without class soup.'),
-					A4($author$project$Build$scssCard, '06', 'MOTION', '@keyframes...', 'Entrance, orbit, ticker, scan, hover, and reduced-motion behavior.')
-				]))
-		]));
-var $author$project$Build$sourceSnippet = F5(
-	function (index, filename, language, className, lines) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('source-snippet ' + className)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('source-snippet__top')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(index + (' / ' + filename))
-								])),
-							A2(
-							$elm$html$Html$span,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(language)
-								]))
-						])),
-					A2(
-					$elm$html$Html$pre,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$code,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text(
-									A2($elm$core$String$join, '\u000A', lines))
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('source-snippet__signal'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							A2($elm$html$Html$span, _List_Nil, _List_Nil),
-							A2($elm$html$Html$span, _List_Nil, _List_Nil),
-							A2($elm$html$Html$span, _List_Nil, _List_Nil)
-						]))
-				]));
-	});
-var $author$project$Build$viewSourcePortal = A2(
-	$elm$html$Html$section,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('source-portal')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('build-section-heading build-section-heading--dark')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$p,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('build-kicker')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('02 / THE ACTUAL SOURCE')
-						])),
-					A2(
-					$elm$html$Html$h2,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Here’s the real code.')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Four scraps from the files running this place. The complete repository is sitting in the middle.')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('source-portal__stage')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('source-portal__wires'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							A2($elm$html$Html$span, _List_Nil, _List_Nil),
-							A2($elm$html$Html$span, _List_Nil, _List_Nil),
-							A2($elm$html$Html$span, _List_Nil, _List_Nil),
-							A2($elm$html$Html$span, _List_Nil, _List_Nil)
-						])),
-					A5(
-					$author$project$Build$sourceSnippet,
-					'01',
-					'src/Main.elm',
-					'ELM',
-					'source-snippet--elm',
-					_List_fromArray(
-						['view model =', '    div [ class \u0022site-shell\u0022 ]', '        [ viewHeader model', '        , viewProjects model', '        ]'])),
-					A5(
-					$author$project$Build$sourceSnippet,
-					'02',
-					'src/styles.scss',
-					'SCSS',
-					'source-snippet--scss',
-					_List_fromArray(
-						['$acid: #d8ff45;', '', '.section-pad {', '  padding: clamp(5rem, 12vw, 11rem);', '}'])),
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('source-core'),
-							$elm$html$Html$Attributes$href('https://github.com/RobertFlexx/Portfolio'),
-							$elm$html$Html$Attributes$target('_blank'),
-							$elm$html$Html$Attributes$rel('noreferrer'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Open the source code for Robert Flexx\u0027s portfolio on GitHub')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('source-core__eyebrow')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('PUBLIC REPOSITORY / 001')
-								])),
-							A2(
-							$elm$html$Html$strong,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('OPEN')
-										])),
-									A2(
-									$elm$html$Html$span,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$elm$html$Html$text('THE SOURCE')
-										]))
-								])),
-							A2(
-							$elm$html$Html$p,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('RobertFlexx / Portfolio')
-								])),
-							A2(
-							$elm$html$Html$div,
-							_List_Nil,
-							_List_fromArray(
-								[
-									$elm$html$Html$text('READ ON GITHUB'),
-									A2(
-									$elm$html$Html$span,
-									_List_fromArray(
-										[
-											A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text('↗')
-										]))
-								]))
-						])),
-					A5(
-					$author$project$Build$sourceSnippet,
-					'03',
-					'.github/workflows/pages.yml',
-					'YAML',
-					'source-snippet--pages',
-					_List_fromArray(
-						['on:', '  push:', '  schedule:', '    - cron: \u002717 */6 * * *\u0027', '', 'run: node scripts/', '  fetch-github-data.mjs'])),
-					A5(
-					$author$project$Build$sourceSnippet,
-					'04',
-					'raylib-game.js',
-					'JAVASCRIPT',
-					'source-snippet--game',
-					_List_fromArray(
-						['const UpdateGame = timestamp => {', '  updateGame(dt)', '  BeginDrawing()', '  drawShip(shakeX, shakeY)', '  EndDrawing()', '}']))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('source-portal__foot')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$span,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('ELM / SCSS / HTML / JAVASCRIPT / WASM')
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text('No screenshots pretending to be proof. Every file is there.')
-						]))
+					A2($author$project$Build$buildFile, 'src/Main.elm', 'The portfolio\u0027s content, project filters, mobile navigation, and GitHub data decoder.'),
+					A2($author$project$Build$buildFile, 'src/Build.elm', 'This page, including the source preview above.'),
+					A2($author$project$Build$buildFile, 'src/styles.scss', 'Shared colors, typography, responsive layouts, and the birthday themes.'),
+					A2($author$project$Build$buildFile, 'index.html', 'The Elm entry point, page metadata, and date-based birthday selection.'),
+					A2($author$project$Build$buildFile, 'raylib.html & raylib-game.js', 'The raylib page and little ship, using a locally hosted WebAssembly runtime.'),
+					A2($author$project$Build$buildFile, 'scripts/fetch-github-data.mjs', 'Fetches public repository data during deployment. The browser receives JSON without an API token.')
 				]))
 		]));
 var $author$project$Build$view = function (model) {
@@ -6537,21 +5591,227 @@ var $author$project$Build$view = function (model) {
 			]),
 		_List_fromArray(
 			[
-				$author$project$Build$viewHeader,
 				A2(
-				$elm$html$Html$main_,
-				_List_Nil,
+				$elm$html$Html$a,
 				_List_fromArray(
 					[
-						$author$project$Build$viewHero,
-						$author$project$Build$viewConsole(model),
-						$author$project$Build$viewSourcePortal,
-						$author$project$Build$viewPipeline,
-						$author$project$Build$viewDecisions,
-						$author$project$Build$viewScss,
-						$author$project$Build$viewReceipt
+						$elm$html$Html$Attributes$class('skip-link'),
+						$elm$html$Html$Attributes$href('#main-content')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Skip to content')
 					])),
-				$author$project$Build$viewFooter
+				A2(
+				$elm$html$Html$header,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('build-header')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$a,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$href('index.html')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Robert Flexx')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('About this site')
+							])),
+						A2(
+						$elm$html$Html$a,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$href('https://github.com/RobertFlexx/Portfolio'),
+								$elm$html$Html$Attributes$target('_blank'),
+								$elm$html$Html$Attributes$rel('noreferrer')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('View source')
+							]))
+					])),
+				A2(
+				$elm$html$Html$main_,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$id('main-content'),
+						A2($elm$html$Html$Attributes$attribute, 'tabindex', '-1')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$section,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('build-hero')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('kicker')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('About this site')
+									])),
+								A2(
+								$elm$html$Html$h1,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('What runs this thing.')
+									])),
+								A2(
+								$elm$html$Html$p,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('build-hero__lede')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Elm, SCSS, and files on GitHub Pages. Here\u0027s the code if you want to poke around.')
+									]))
+							])),
+						$author$project$Build$viewConsole(model),
+						$author$project$Build$viewFiles,
+						$author$project$Build$viewDecisions,
+						A2(
+						$elm$html$Html$section,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('build-section build-section--surface')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('kicker')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Build it yourself')
+									])),
+								A2(
+								$elm$html$Html$h2,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('The source is on GitHub.')
+									])),
+								A2(
+								$elm$html$Html$p,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Install the dependencies, compile the Elm and SCSS, then serve the directory. The repository includes the pages, the raylib game, and the GitHub snapshot script.')
+									])),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('build-console')
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$pre,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('code-panel build-console__screen')
+											]),
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$code,
+												_List_Nil,
+												_List_fromArray(
+													[
+														$elm$html$Html$text('npm ci\u000Anpm run build\u000Anpm run serve')
+													]))
+											]))
+									])),
+								A2(
+								$elm$html$Html$a,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('build-source-link'),
+										$elm$html$Html$Attributes$href('https://github.com/RobertFlexx/Portfolio'),
+										$elm$html$Html$Attributes$target('_blank'),
+										$elm$html$Html$Attributes$rel('noreferrer')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Open RobertFlexx / Portfolio')
+									]))
+							]))
+					])),
+				A2(
+				$elm$html$Html$footer,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('footer')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('© 2026 Robert Flexx')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Made with Elm & SCSS')
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('footer__links')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$a,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$href('index.html')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Back to the portfolio')
+									])),
+								A2(
+								$elm$html$Html$a,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$href('raylib.html')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('Raylib & little ship')
+									]))
+							]))
+					]))
 			]));
 };
 var $author$project$Build$main = $elm$browser$Browser$element(
@@ -6565,8 +5825,8 @@ var $author$project$Build$main = $elm$browser$Browser$element(
 			return $elm$core$Platform$Sub$none;
 		},
 		aC: F2(
-			function (msg, model) {
-				var selected = msg;
+			function (_v2, model) {
+				var selected = _v2;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
