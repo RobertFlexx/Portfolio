@@ -18,4 +18,8 @@ Pinned repositories, star counts, repository totals, and language totals are pul
 
 ## Birthday themes
 
-The portfolio shows a greeting on Robert's birthday (November 21), Kokonico's (October 24), and Moritisimor's (July 28). The first two use the visitor's local date; Moritisimor's uses Europe/Berlin. Greetings update when the date changes, including when the page stays open overnight.
+The portfolio shows a greeting on Robert's birthday (November 21), Kokonico's (October 24), and Moritisimor's (July 28). Each uses the visitor's local date. Friend cards get a cake, birthday greeting, and party trim on their birthday.
+
+Dates refresh at local midnight, when the page regains focus, and when it returns from the background or browser history. A minute check also picks up timezone and clock changes while the page stays open.
+
+Run `npm run test:birthdays` to check the dates across the available IANA timezones, midnight rollovers, and page wake events.

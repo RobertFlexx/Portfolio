@@ -5818,6 +5818,37 @@ var $author$project$Main$viewAbout = A2(
 						]))
 				]))
 		]));
+var $author$project$Main$viewBirthdayCake = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('birthday-cake'),
+			A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$span,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('birthday-cake__candle')
+				]),
+			_List_Nil),
+			A2(
+			$elm$html$Html$span,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('birthday-cake__icing')
+				]),
+			_List_Nil),
+			A2(
+			$elm$html$Html$span,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('birthday-cake__base')
+				]),
+			_List_Nil)
+		]));
 var $author$project$Main$birthdayNote = F6(
 	function (person, date, greeting, copy, destination, label) {
 		return A2(
@@ -5829,37 +5860,7 @@ var $author$project$Main$birthdayNote = F6(
 				]),
 			_List_fromArray(
 				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('birthday-cake'),
-							A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('birthday-cake__candle')
-								]),
-							_List_Nil),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('birthday-cake__icing')
-								]),
-							_List_Nil),
-							A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('birthday-cake__base')
-								]),
-							_List_Nil)
-						])),
+					$author$project$Main$viewBirthdayCake,
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
@@ -7515,8 +7516,9 @@ var $author$project$Main$viewTraction = function (github) {
 					]))
 			]));
 };
-var $author$project$Main$friendCard = F6(
-	function (variant, name, copy, domain, url, greeting) {
+var $author$project$Main$friendCard = F7(
+	function (variant, name, copy, domain, url, greeting, joke) {
+		var isGerman = variant === 'friend-reference--moritisimor';
 		return A2(
 			$elm$html$Html$a,
 			_List_fromArray(
@@ -7529,38 +7531,112 @@ var $author$project$Main$friendCard = F6(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$p,
+					$elm$html$Html$div,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('friend-reference__birthday')
+							$elm$html$Html$Attributes$class('friend-reference__main')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text(greeting)
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('friend-reference__eyebrow')
+								]),
+							_List_fromArray(
+								[
+									isGerman ? A2(
+									$elm$html$Html$span,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('friend-reference__flag'),
+											A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
+										]),
+									_List_Nil) : $elm$html$Html$text(''),
+									$elm$html$Html$text(
+									isGerman ? 'Deutschland' : 'Idea borrowed with love.')
+								])),
+							A2(
+							$elm$html$Html$div,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('friend-reference__birthday')
+								]),
+							_List_fromArray(
+								[
+									$author$project$Main$viewBirthdayCake,
+									A2(
+									$elm$html$Html$p,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text(greeting)
+										]))
+								])),
+							A2(
+							$elm$html$Html$h3,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(name)
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('friend-reference__description')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(copy)
+								])),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('friend-reference__domain')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(domain)
+								]))
 						])),
 					A2(
-					$elm$html$Html$h3,
-					_List_Nil,
+					$elm$html$Html$div,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(name)
-						])),
-					A2(
-					$elm$html$Html$p,
-					_List_Nil,
-					_List_fromArray(
-						[
-							$elm$html$Html$text(copy)
-						])),
-					A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('friend-reference__domain')
+							$elm$html$Html$Attributes$classList(
+							_List_fromArray(
+								[
+									_Utils_Tuple2('friend-reference__reveal', true),
+									_Utils_Tuple2('friend-reference__reveal--germany', isGerman)
+								]))
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text(domain)
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(joke)
+								])),
+							isGerman ? A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Even in the heap.')
+								])) : $elm$html$Html$text(''),
+							A2(
+							$elm$html$Html$strong,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									isGerman ? 'Sag Hallo.' : 'Go say hello.')
+								]))
 						]))
 				]));
 	});
@@ -7617,8 +7693,8 @@ var $author$project$Main$viewWebFriends = A2(
 				]),
 			_List_fromArray(
 				[
-					A6($author$project$Main$friendCard, 'friend-reference--kokonico', 'Kokonico', 'Python, backend systems, databases, and web design.', 'kokonico.me', 'https://kokonico.me', 'Happy birthday, Kokonico!'),
-					A6($author$project$Main$friendCard, 'friend-reference--moritisimor', 'Moritisimor', 'Runtimes, virtual machines, and small tools. Based in Germany.', 'github.com/Moritisimor', 'https://github.com/Moritisimor/', 'Happy birthday, Moritisimor!')
+					A7($author$project$Main$friendCard, 'friend-reference--kokonico', 'Kokonico', 'Python, backend systems, databases, and web design.', 'kokonico.me', 'https://kokonico.me', 'Happy birthday, Kokonico!', 'Please don\u0027t invoice me.'),
+					A7($author$project$Main$friendCard, 'friend-reference--moritisimor', 'Moritisimor', 'Runtimes, virtual machines, and small tools. Based in Germany.', 'github.com/Moritisimor', 'https://github.com/Moritisimor/', 'Alles Gute zum Geburtstag, Moritisimor!', 'Ordnung muss sein.')
 				]))
 		]));
 var $author$project$Main$view = function (model) {

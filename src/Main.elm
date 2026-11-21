@@ -228,17 +228,22 @@ viewBirthdayNotes =
 birthdayNote : String -> String -> String -> String -> String -> String -> Html Msg
 birthdayNote person date greeting copy destination label =
     section [ class ("birthday-note birthday-note--" ++ person), attribute "aria-label" greeting ]
-        [ div [ class "birthday-cake", attribute "aria-hidden" "true" ]
-            [ span [ class "birthday-cake__candle" ] []
-            , span [ class "birthday-cake__icing" ] []
-            , span [ class "birthday-cake__base" ] []
-            ]
+        [ viewBirthdayCake
         , div [ class "birthday-note__copy" ]
             [ p [ class "birthday-note__date" ] [ text date ]
             , h2 [] [ text greeting ]
             , p [] [ text copy ]
             ]
         , a [ href destination ] [ text label ]
+        ]
+
+
+viewBirthdayCake : Html Msg
+viewBirthdayCake =
+    div [ class "birthday-cake", attribute "aria-hidden" "true" ]
+        [ span [ class "birthday-cake__candle" ] []
+        , span [ class "birthday-cake__icing" ] []
+        , span [ class "birthday-cake__base" ] []
         ]
 
 
@@ -503,19 +508,59 @@ viewWebFriends =
             , p [ class "section-heading__aside" ] [ text "Go bother them. Tell them I sent you." ]
             ]
         , div [ class "web-friends__cards" ]
-            [ friendCard "friend-reference--kokonico" "Kokonico" "Python, backend systems, databases, and web design." "kokonico.me" "https://kokonico.me" "Happy birthday, Kokonico!"
-            , friendCard "friend-reference--moritisimor" "Moritisimor" "Runtimes, virtual machines, and small tools. Based in Germany." "github.com/Moritisimor" "https://github.com/Moritisimor/" "Happy birthday, Moritisimor!"
+            [ friendCard "friend-reference--kokonico" "Kokonico" "Python, backend systems, databases, and web design." "kokonico.me" "https://kokonico.me" "Happy birthday, Kokonico!" "Please don't invoice me."
+            , friendCard "friend-reference--moritisimor" "Moritisimor" "Runtimes, virtual machines, and small tools. Based in Germany." "github.com/Moritisimor" "https://github.com/Moritisimor/" "Alles Gute zum Geburtstag, Moritisimor!" "Ordnung muss sein."
             ]
         ]
 
 
-friendCard : String -> String -> String -> String -> String -> String -> Html Msg
-friendCard variant name copy domain url greeting =
+friendCard : String -> String -> String -> String -> String -> String -> String -> Html Msg
+friendCard variant name copy domain url greeting joke =
+    let
+        isGerman =
+            variant == "friend-reference--moritisimor"
+    in
     a [ class ("friend-reference " ++ variant), href url, target "_blank", rel "noreferrer" ]
-        [ p [ class "friend-reference__birthday" ] [ text greeting ]
-        , h3 [] [ text name ]
-        , p [] [ text copy ]
-        , span [ class "friend-reference__domain" ] [ text domain ]
+        [ div [ class "friend-reference__main" ]
+            [ p [ class "friend-reference__eyebrow" ]
+                [ if isGerman then
+                    span [ class "friend-reference__flag", attribute "aria-hidden" "true" ] []
+
+                  else
+                    text ""
+                , text
+                    (if isGerman then
+                        "Deutschland"
+
+                     else
+                        "Idea borrowed with love."
+                    )
+                ]
+            , div [ class "friend-reference__birthday" ]
+                [ viewBirthdayCake
+                , p [] [ text greeting ]
+                ]
+            , h3 [] [ text name ]
+            , p [ class "friend-reference__description" ] [ text copy ]
+            , span [ class "friend-reference__domain" ] [ text domain ]
+            ]
+        , div [ classList [ ( "friend-reference__reveal", True ), ( "friend-reference__reveal--germany", isGerman ) ] ]
+            [ p [] [ text joke ]
+            , if isGerman then
+                p [] [ text "Even in the heap." ]
+
+              else
+                text ""
+            , strong []
+                [ text
+                    (if isGerman then
+                        "Sag Hallo."
+
+                     else
+                        "Go say hello."
+                    )
+                ]
+            ]
         ]
 
 

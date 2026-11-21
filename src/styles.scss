@@ -855,37 +855,146 @@ noscript {
 }
 
 .friend-reference {
+  --friend-accent: #8ec2ee;
+  --friend-shadow: #39617f;
+  --friend-shadow-back: #273d50;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--line);
+  min-height: rem(360);
+  overflow: hidden;
+  border: 2px solid #62615a;
+  background: var(--bg);
+  transition: border-color 180ms ease, box-shadow 220ms ease;
+
+  &--moritisimor {
+    --friend-accent: #e3c58d;
+    --friend-shadow: #7f6233;
+    --friend-shadow-back: #4e402c;
+  }
+
+  &__main {
+    flex: 1;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  &__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    color: var(--friend-accent);
+    font-size: rem(14);
+  }
+
+  &__flag {
+    flex: 0 0 rem(28);
+    width: rem(28);
+    height: rem(18);
+    background: linear-gradient(#080808 0 33.333%, #d00 33.333% 66.667%, #ffce00 66.667%);
+  }
 
   h3 {
     overflow-wrap: anywhere;
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-size: clamp(2rem, 3.4vw, 3.25rem);
   }
 
-  > p:not(.friend-reference__birthday) {
+  &__description {
     max-width: 40ch;
-    margin: 1rem 0 1.5rem;
+    margin-top: 1rem;
     color: var(--muted);
   }
 
   &__domain {
-    margin-top: auto;
+    display: block;
+    margin-top: 1.5rem;
     overflow-wrap: anywhere;
-    color: var(--accent);
+    color: var(--text);
     font-size: rem(14);
     text-decoration: underline;
     text-underline-offset: 0.3em;
   }
 
+  // Reserve the reveal's own row so it cannot slide over the name or birthday.
+  &__reveal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 12rem;
+    margin-top: auto;
+    padding: 1.25rem clamp(1.25rem, 3vw, 2rem) 1.5rem;
+    transform: translateY(calc(100% + 1px));
+    background: var(--friend-accent);
+    color: #161616;
+    transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+
+    p {
+      font-size: rem(14);
+    }
+
+    strong {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 650;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    &--germany {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 1fr 1fr 1.5fr;
+      justify-content: stretch;
+      gap: 0;
+      padding: 0;
+      background: transparent;
+
+      > p,
+      > strong {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem clamp(1.25rem, 3vw, 2rem);
+      }
+
+      > p:first-child {
+        background: #080808;
+        color: #f3f1eb;
+      }
+
+      > p + p {
+        background: #b72e29;
+        color: #fff;
+      }
+
+      > strong {
+        padding-block: 1rem;
+        background: #e3c58d;
+        color: #161616;
+      }
+    }
+  }
+
+  &:focus-visible {
+    border-color: var(--friend-accent);
+    box-shadow: 8px 8px 0 var(--friend-shadow), 16px 16px 0 var(--friend-shadow-back);
+  }
+
+  &:focus-visible &__reveal {
+    transform: translateY(0);
+  }
+
   &__birthday {
     display: none;
-    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin: -0.25rem 0 1.5rem;
     color: #e3c487;
     font-size: rem(14);
+
+    p {
+      flex: 1 1 8rem;
+    }
   }
 }
 
@@ -1009,6 +1118,7 @@ noscript {
     flex-shrink: 0;
     align-items: center;
     min-height: rem(44);
+    max-width: 100%;
     margin-left: auto;
     color: #e4c98d;
     font-size: rem(14);
@@ -1091,11 +1201,22 @@ noscript {
 
 .kokonico-birthday .friend-reference--kokonico,
 .moritisimor-birthday .friend-reference--moritisimor {
+  --friend-accent: #e3c58d;
+  --friend-shadow: #7f6233;
+  --friend-shadow-back: #4e402c;
   border-color: #8e7950;
   background: #25251d;
 
+  &::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: rem(5);
+    background: repeating-linear-gradient(90deg, #e3c58d 0 14px, #cfa5c8 14px 28px, #b7d4aa 28px 42px);
+    content: "";
+  }
+
   .friend-reference__birthday {
-    display: block;
+    display: flex;
   }
 }
 
@@ -1295,8 +1416,7 @@ noscript {
   .project__link:hover .project__name,
   .traction-row:hover h3,
   .game-project:hover h3,
-  .lab-repo:hover h3,
-  .friend-reference:hover h3 {
+  .lab-repo:hover h3 {
     color: var(--accent);
   }
 
@@ -1304,9 +1424,27 @@ noscript {
     color: var(--accent);
   }
 
-  .game-feature:hover img,
-  .friend-reference:hover {
+  .game-feature:hover img {
     border-color: var(--accent);
+  }
+
+  .friend-reference:hover {
+    border-color: var(--friend-accent);
+    box-shadow: 8px 8px 0 var(--friend-shadow), 16px 16px 0 var(--friend-shadow-back);
+  }
+
+  .friend-reference:hover .friend-reference__reveal {
+    transform: translateY(0);
+  }
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 740px) {
+  .friend-reference {
+    box-shadow: 5px 5px 0 var(--friend-shadow), 10px 10px 0 var(--friend-shadow-back);
+
+    &__reveal {
+      transform: none;
+    }
   }
 }
 
@@ -1434,7 +1572,6 @@ noscript {
   .about__statement { max-width: 45ch; }
   .about__body > p:not(.about__statement) { max-width: 60ch; }
 
-  .friend-reference { padding: 1.5rem 0; }
   .contact { align-items: start; gap: 1.5rem; }
   .contact h2 { max-width: 20ch; }
   .footer__links { margin-left: 0; }
@@ -1444,7 +1581,7 @@ noscript {
     gap: 1rem;
     padding: 1.25rem;
 
-    &__copy { flex: 1 1 calc(100% - 5rem); }
+    &__copy { flex: 1 1 min(100%, 12rem); }
     > a { margin-left: rem(68); }
   }
 

@@ -164,7 +164,7 @@ viewDecisions =
             [ decision "Static hosting" "There is no application server or database. All pages can be served from a regular static host."
             , decision "Fresh data at build time" "GitHub Actions refreshes repository pins, language counts, and stars every six hours. A built-in snapshot is available if the request fails."
             , decision "Layouts that can reflow" "Flexible columns, wrapping navigation, and shared page margins keep the layout usable at different widths and text sizes."
-            , decision "A little celebration" "Birthday greetings appear on the day. Robert's and Kokonico's use the visitor's local date; Moritisimor's uses the date in Berlin."
+            , decision "A little celebration" "Birthday cards use the visitor's local date. They update at local midnight and when the page regains focus, including after a timezone change."
             ]
         ]
 

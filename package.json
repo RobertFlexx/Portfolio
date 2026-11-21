@@ -5,6 +5,7 @@
   "description": "A static Elm and SCSS portfolio for Robert Flexx.",
   "scripts": {
     "build": "sh ./build.sh",
+    "test:birthdays": "node scripts/test-birthday-themes.mjs",
     "serve": "python3 -m http.server 8000"
   },
   "dependencies": {

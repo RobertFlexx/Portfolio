@@ -12,45 +12,35 @@
     <meta property="og:url" content="https://github.com/RobertFlexx">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <script>
-      (function syncBirthdayThemes() {
-        const now = new Date();
+      (function watchBirthdayThemes() {
         const birthdayThemes = [
-          {
-            className: "moritisimor-birthday",
-            month: 7,
-            day: 28,
-            timeZone: "Europe/Berlin"
-          },
+          { className: "moritisimor-birthday", month: 7, day: 28 },
           { className: "kokonico-birthday", month: 10, day: 24 },
           { className: "robert-birthday", month: 11, day: 21 }
         ];
+        let refreshTimer;
 
-        birthdayThemes.forEach(({ className, month, day, timeZone }) => {
-          let currentMonth = now.getMonth() + 1;
-          let currentDay = now.getDate();
+        function syncBirthdayThemes() {
+          window.clearTimeout(refreshTimer);
+          const now = new Date();
 
-          if (timeZone) {
-            const dateParts = new Intl.DateTimeFormat("en-US", {
-              timeZone,
-              month: "numeric",
-              day: "numeric"
-            }).formatToParts(now);
-            const partValue = (type) =>
-              Number(dateParts.find((part) => part.type === type).value);
+          birthdayThemes.forEach(({ className, month, day }) => {
+            const isBirthday = now.getMonth() + 1 === month && now.getDate() === day;
+            document.documentElement.classList.toggle(className, isBirthday);
+          });
 
-            currentMonth = partValue("month");
-            currentDay = partValue("day");
-          }
+          const nextMidnight = new Date(now);
+          nextMidnight.setHours(24, 0, 0, 0);
+          const nextCheck = Math.max(50, Math.min(60000, nextMidnight - now + 50));
+          refreshTimer = window.setTimeout(syncBirthdayThemes, nextCheck);
+        }
 
-          const isBirthday = currentMonth === month && currentDay === day;
-          document.documentElement.classList.toggle(className, isBirthday);
+        window.addEventListener("focus", syncBirthdayThemes);
+        window.addEventListener("pageshow", syncBirthdayThemes);
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "visible") syncBirthdayThemes();
         });
-
-        const nextMinute = 60000 - (now.getTime() % 60000) + 50;
-        window.setTimeout(
-          syncBirthdayThemes,
-          nextMinute
-        );
+        syncBirthdayThemes();
       })();
     </script>
     <link rel="stylesheet" href="styles.css">
