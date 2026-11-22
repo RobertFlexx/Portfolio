@@ -1,14 +1,22 @@
 {
-  "generatedAt": "2026-08-24T06:08:17Z",
-  "publicRepoCount": 59,
-  "totalStars": 137,
-  "primaryLanguageCount": 34,
+  "generatedAt": "2026-11-22T00:23:37.462Z",
+  "source": "snapshot",
+  "publicRepoCount": 80,
+  "totalStars": 181,
+  "primaryLanguageCount": 38,
   "pinned": [
+    {
+      "name": "Plainwire",
+      "description": "A simple web chat app, of familiar style thats oriented around chat spaces, and threads.",
+      "language": "Erlang",
+      "stars": 2,
+      "url": "https://github.com/Plainwire-development/Plainwire"
+    },
     {
       "name": "fastfind",
       "description": "Fast, smart file search with fuzzy matching and natural language queries",
       "language": "Nim",
-      "stars": 17,
+      "stars": 19,
       "url": "https://github.com/RobertFlexx/fastfind"
     },
     {
@@ -19,32 +27,111 @@
       "url": "https://github.com/RobertFlexx/ObeliskOS"
     },
     {
-      "name": "rayscal",
-      "description": "Early experimental Scala Native bindings for raylib 6.0",
-      "language": "Scala",
-      "stars": 7,
-      "url": "https://github.com/RobertFlexx/rayscal"
-    },
-    {
       "name": "rookcc",
-      "description": "rookcc, also known as 'rcc', is a simple standalone C compiler, with its own optimization toolchain and linker, without invoking external tools.",
+      "description": "rookcc, also known as 'rcc', is a simple standalone C compiler, with its own optimization toolchain, linker, without invocation of external tools.",
       "language": "Pascal",
       "stars": 3,
       "url": "https://github.com/RobertFlexx/rookcc"
     },
     {
-      "name": "pawnasm",
-      "description": "A lean standalone Intel-syntax assembler supporting common NASM conventions, built as a simple and educational codebase.",
-      "language": "Component Pascal",
+      "name": "tankyard",
+      "description": "A native game in Rust heavily inspired by diep.io and arras.io, now brought as a native desktop game.",
+      "language": "Rust",
       "stars": 3,
-      "url": "https://github.com/RobertFlexx/pawnasm"
+      "url": "https://github.com/RobertFlexx/tankyard"
     },
     {
-      "name": "knightlinker",
-      "description": "A standalone Ada 2022 linker for the RookCC toolchain, emitting multiple executable and record formats without invoking another linker.",
-      "language": "Ada",
+      "name": "gputop",
+      "description": "top but for your gpu, supports numerous gpus and operating systems.",
+      "language": "Python",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/gputop"
+    }
+  ],
+  "featured": [
+    {
+      "name": "Plainwire",
+      "description": "A simple web chat app, of familiar style thats oriented around chat spaces, and threads.",
+      "language": "Erlang",
       "stars": 2,
-      "url": "https://github.com/RobertFlexx/knightlinker"
+      "url": "https://github.com/Plainwire-development/Plainwire"
+    },
+    {
+      "name": "fastfind",
+      "description": "Fast, smart file search with fuzzy matching and natural language queries",
+      "language": "Nim",
+      "stars": 19,
+      "url": "https://github.com/RobertFlexx/fastfind"
+    },
+    {
+      "name": "ObeliskOS",
+      "description": "A standalone UNIX-like OS, based on absolutely nothing, born out of pain and nightmares.",
+      "language": "C",
+      "stars": 12,
+      "url": "https://github.com/RobertFlexx/ObeliskOS"
+    },
+    {
+      "name": "rookcc",
+      "description": "rookcc, also known as 'rcc', is a simple standalone C compiler, with its own optimization toolchain, linker, without invocation of external tools.",
+      "language": "Pascal",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/rookcc"
+    },
+    {
+      "name": "tankyard",
+      "description": "A native game in Rust heavily inspired by diep.io and arras.io, now brought as a native desktop game.",
+      "language": "Rust",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/tankyard"
+    },
+    {
+      "name": "gputop",
+      "description": "top but for your gpu, supports numerous gpus and operating systems.",
+      "language": "Python",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/gputop"
+    },
+    {
+      "name": "MICA",
+      "description": "MICA is an experimental 32/64-bit RISC architecture focused on efficient embedded computing, compact instructions, low-overhead execution, and modular processor design.",
+      "language": "Python",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/MICA"
+    },
+    {
+      "name": "Free-Simula",
+      "description": "A compiler for Standard Simula, and our Free Simula dialect. Free Simula is a modernized Simula dialect, serves as a hobbyist project, and educational environments.",
+      "language": "Pascal",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/Free-Simula"
+    },
+    {
+      "name": "hilbert",
+      "description": "Hilbert is a programming language descended from Modula 3 and 2, and follows Wirth philosophy as close as possible. Has many modern features, while retaining simple syntax.",
+      "language": "Modula-2",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/hilbert"
+    },
+    {
+      "name": "SPS",
+      "description": "SPS, aka \"Source Package System\"; is a simple multibranch package management system heavily inspired off of CRUX pkgutils. implemented in POSIX Awk and POSIX sh.",
+      "language": "Shell",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/SPS"
+    },
+    {
+      "name": "blockbox",
+      "description": "A mediocre free and open source block voxel game, with familiar style.",
+      "language": "Scala",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/blockbox"
+    },
+    {
+      "name": "rayscal",
+      "description": "Early experimental Scala Native bindings for raylib 6.0",
+      "language": "Scala",
+      "stars": 7,
+      "url": "https://github.com/RobertFlexx/rayscal"
     }
   ],
   "topRepositories": [
@@ -52,7 +139,7 @@
       "name": "fastfind",
       "description": "Fast, smart file search with fuzzy matching and natural language queries",
       "language": "Nim",
-      "stars": 17,
+      "stars": 19,
       "url": "https://github.com/RobertFlexx/fastfind"
     },
     {
@@ -70,18 +157,503 @@
       "url": "https://github.com/RobertFlexx/rayscal"
     },
     {
+      "name": "RSH",
+      "description": "A Simple Ruby SHell (srsh), very feature-ful, and fills your needs.",
+      "language": "Ruby",
+      "stars": 5,
+      "url": "https://github.com/RobertFlexx/RSH"
+    },
+    {
       "name": "Free-Simula",
-      "description": "A compiler for Standard Simula and a modernized Free Simula dialect.",
+      "description": "A compiler for Standard Simula, and our Free Simula dialect. Free Simula is a modernized Simula dialect, serves as a hobbyist project, and educational environments.",
+      "language": "Pascal",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/Free-Simula"
+    }
+  ],
+  "repositories": [
+    {
+      "name": "tankyard-site",
+      "description": "Download page for Tank Yard, styled like the game: OS-aware downloads, animated install steps and a playable Arena Workshop.",
+      "language": "JavaScript",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/tankyard-site"
+    },
+    {
+      "name": "glorious-red-button",
+      "description": "a sexy, beautiful, and useful red button specially for you ;)",
+      "language": "C++",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/glorious-red-button"
+    },
+    {
+      "name": "tankyard",
+      "description": "A native game in Rust heavily inspired by diep.io and arras.io, now brought as a native desktop game.",
+      "language": "Rust",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/tankyard"
+    },
+    {
+      "name": "ObeliskOS",
+      "description": "A standalone UNIX-like OS, based on absolutely nothing, born out of pain and nightmares.",
+      "language": "C",
+      "stars": 12,
+      "url": "https://github.com/RobertFlexx/ObeliskOS"
+    },
+    {
+      "name": "romad",
+      "description": "romad is the Rust implementation of the nomad-lisp standard.",
+      "language": "Rust",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/romad"
+    },
+    {
+      "name": "fastfind",
+      "description": "Fast, smart file search with fuzzy matching and natural language queries",
+      "language": "Nim",
+      "stars": 19,
+      "url": "https://github.com/RobertFlexx/fastfind"
+    },
+    {
+      "name": "MICA",
+      "description": "MICA is an experimental 32/64-bit RISC architecture focused on efficient embedded computing, compact instructions, low-overhead execution, and modular processor design.",
+      "language": "Python",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/MICA"
+    },
+    {
+      "name": "blockbox-launcher",
+      "description": "official launcher for blockbox",
+      "language": "Kotlin",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/blockbox-launcher"
+    },
+    {
+      "name": "blockbox",
+      "description": "A mediocre free and open source block voxel game, with familiar style.",
+      "language": "Scala",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/blockbox"
+    },
+    {
+      "name": "tedit",
+      "description": "tedit - also stands for Tedit Editor, true ED in theory, or text edit. It is a simple command line text editor that serves as a general purpose CLI text editor.",
+      "language": "C++",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/tedit"
+    },
+    {
+      "name": "shapes",
+      "description": "very useful cube terminal program thats simple and i put thought into making this",
+      "language": "Fortran",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/shapes"
+    },
+    {
+      "name": "UnixImage",
+      "description": "Graphical (GTK) ISO image writing software that supports (almost) every UNIX operating system.",
+      "language": "C",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/UnixImage"
+    },
+    {
+      "name": "chroot-pilot",
+      "description": "automated and interactive chroot tool written in commonlisp",
+      "language": "Common Lisp",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/chroot-pilot"
+    },
+    {
+      "name": "raymojo",
+      "description": "experimental full raylib bindings for the Mojo programming language",
+      "language": "Mojo",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/raymojo"
+    },
+    {
+      "name": "raymod",
+      "description": "raylib 6.0 bindings for gnu modula 2 and critical mass modula 3",
+      "language": "Modula-3",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/raymod"
+    },
+    {
+      "name": "sps-community",
+      "description": "",
+      "language": "Other",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/sps-community"
+    },
+    {
+      "name": "Free-Simula",
+      "description": "A compiler for Standard Simula, and our Free Simula dialect. Free Simula is a modernized Simula dialect, serves as a hobbyist project, and educational environments.",
       "language": "Pascal",
       "stars": 4,
       "url": "https://github.com/RobertFlexx/Free-Simula"
     },
     {
+      "name": "ionlancer",
+      "description": "a retro arcade styled space shooter game",
+      "language": "Modula-2",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/ionlancer"
+    },
+    {
+      "name": "gputop",
+      "description": "top but for your gpu, supports numerous gpus and operating systems.",
+      "language": "Python",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/gputop"
+    },
+    {
+      "name": "DotMad",
+      "description": "DotNet port of nomad lisp, a small and fast embeddable scripting lisp dialect.",
+      "language": "F#",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/DotMad"
+    },
+    {
+      "name": "sps-extra",
+      "description": "",
+      "language": "Shell",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/sps-extra"
+    },
+    {
+      "name": "sps-core",
+      "description": "",
+      "language": "Shell",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/sps-core"
+    },
+    {
+      "name": "SPS",
+      "description": "SPS, aka \"Source Package System\"; is a simple multibranch package management system heavily inspired off of CRUX pkgutils. implemented in POSIX Awk and POSIX sh.",
+      "language": "Shell",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/SPS"
+    },
+    {
+      "name": "splux-site",
+      "description": "Website for Splux Linux and the official SPS package collections",
+      "language": "JavaScript",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/splux-site"
+    },
+    {
+      "name": "fsx",
+      "description": "a set of filesystem utilities, because old existing ones are slow and suck.",
+      "language": "C++",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/fsx"
+    },
+    {
+      "name": "RSH",
+      "description": "A Simple Ruby SHell (srsh), very feature-ful, and fills your needs.",
+      "language": "Ruby",
+      "stars": 5,
+      "url": "https://github.com/RobertFlexx/RSH"
+    },
+    {
+      "name": "RobertFlexx",
+      "description": "Config files for my GitHub profile.",
+      "language": "Other",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/RobertFlexx"
+    },
+    {
+      "name": "system-lens",
+      "description": "A simple GTK system monitor app in Vala",
+      "language": "Vala",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/system-lens"
+    },
+    {
+      "name": "quecto",
+      "description": "quecto is a nano/pico inspired text editor, aimed for scriptability, modularity, speed, and trying to be decent.",
+      "language": "Ruby",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/quecto"
+    },
+    {
+      "name": "madBeef",
+      "description": "madBeef is a beef port of Nomad Lisp, for the beef ecosystem.",
+      "language": "Beef",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/madBeef"
+    },
+    {
+      "name": "lispal",
+      "description": "lispa, aka \"LFP\" or \"Lisp Flavored Pascal\"; is a fast, and embeddable scripting lisp that is fundamentally pascal with lisp syntax. Inspired from LFE (Lisp Flavored Erlang)",
+      "language": "Pascal",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/lispal"
+    },
+    {
       "name": "raid",
-      "description": "A low-level recursive filesystem traversal tool in Zig: fast, predictable, and minimal.",
+      "description": "A minimal, zig written, pretty fast low level rigorous fileystem traversal tool. basically a less shitty \"find\", while accidentally being ~as fast as fd. give or take, this is bullshit and beta code i rushed through",
       "language": "Zig",
       "stars": 4,
       "url": "https://github.com/RobertFlexx/raid"
+    },
+    {
+      "name": "pawnasm",
+      "description": "pawn assembler, also know as 'pawnasm', is a simplistic intel syntax assembler that supports common NASM intel syntax conventional standards, yet a standalone project. built to be lean, and simple codebase, and an educational basis.",
+      "language": "Component Pascal",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/pawnasm"
+    },
+    {
+      "name": "hilbert",
+      "description": "Hilbert is a programming language descended from Modula 3 and 2, and follows Wirth philosophy as close as possible. Has many modern features, while retaining simple syntax.",
+      "language": "Modula-2",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/hilbert"
+    },
+    {
+      "name": "DropNest",
+      "description": "DropNest is a lightweight local-network file drop server. Start it on the device that should receive files, open the provided web address from another phone, laptop, or PC on the same network, and quickly send files, links, notes, or clipboard text without using cloud storage or accounts.",
+      "language": "Gleam",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/DropNest"
+    },
+    {
+      "name": "rookcc",
+      "description": "rookcc, also known as 'rcc', is a simple standalone C compiler, with its own optimization toolchain, linker, without invocation of external tools.",
+      "language": "Pascal",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/rookcc"
+    },
+    {
+      "name": "knightlinker",
+      "description": "Knight Linker, or KLD for short, is a standalone Ada 2022 linker for the RookCC toolchain. It links ELF64 x86 64 objects and static archives, resolves symbols and relocations, and emits executables, flat binaries, Intel HEX, and Motorola S records without invoking another linker.",
+      "language": "Ada",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/knightlinker"
+    },
+    {
+      "name": "bomad",
+      "description": "nomad implementation for the BEAM. Usable across many BEAM languages. Written in Gleam.",
+      "language": "Gleam",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/bomad"
+    },
+    {
+      "name": "Penguin-Pages",
+      "description": "A small HTML Linux handbook",
+      "language": "HTML",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/Penguin-Pages"
+    },
+    {
+      "name": "Portfolio",
+      "description": "My long awaited portfolio that took me ages to handwrite",
+      "language": "JavaScript",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/Portfolio"
+    },
+    {
+      "name": "simula-tmlanguage",
+      "description": "Textmate grammar for simula",
+      "language": "Other",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/simula-tmlanguage"
+    },
+    {
+      "name": "raystar",
+      "description": "raylib 6.0 bindings for the F* programming language",
+      "language": "C",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/raystar"
+    },
+    {
+      "name": "ProObjlogLite",
+      "description": "Logging, Universalized. Universal logging made easy.",
+      "language": "C#",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/ProObjlogLite"
+    },
+    {
+      "name": "Rayberon",
+      "description": "Raylib bindings for Oberon and Component Pascal, designed for the Ofront+ transpiler. Easily build lightweight, high-performance, cross-platform 2D/3D graphical applications using pure Oberon dialects",
+      "language": "C",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/Rayberon"
+    },
+    {
+      "name": "racket-tutor",
+      "description": "A tutor script to help learn racket, for the DrRacket IDE.",
+      "language": "Racket",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/racket-tutor"
+    },
+    {
+      "name": "rayscal",
+      "description": "Early experimental Scala Native bindings for raylib 6.0",
+      "language": "Scala",
+      "stars": 7,
+      "url": "https://github.com/RobertFlexx/rayscal"
+    },
+    {
+      "name": "Volt",
+      "description": "simple, fast, standalone intermediate HTTP Client alternative to curl, entirely in Odin.",
+      "language": "Odin",
+      "stars": 4,
+      "url": "https://github.com/RobertFlexx/Volt"
+    },
+    {
+      "name": "PlayboxLib",
+      "description": "A simplistic TUI 2D \"game engine\" library. easy to use, robust.",
+      "language": "C",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/PlayboxLib"
+    },
+    {
+      "name": "lansentinel",
+      "description": "A simple to use network scanning tool, if nmap had a cron job but made easy",
+      "language": "Pony",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/lansentinel"
+    },
+    {
+      "name": "unlimited-minecart-speed",
+      "description": "simple minecraft mod to remove minecart max speed gamerule cap, and faster acceleration so you get to that limit quicker",
+      "language": "Java",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/unlimited-minecart-speed"
+    },
+    {
+      "name": "Value-Unlocker",
+      "description": "a simple minecraft mod that basically unlocks almost every float/value that i could possibly find. i believe in player freedom! down with the minecraft restrictions!",
+      "language": "Java",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/Value-Unlocker"
+    },
+    {
+      "name": "hello",
+      "description": "hello in haxe",
+      "language": "Haxe",
+      "stars": 1,
+      "url": "https://github.com/RobertFlexx/hello"
+    },
+    {
+      "name": "Nacre",
+      "description": "A decent system shell in Perl. Uses perl instead of bash in the shell environment (and for .rc file.)",
+      "language": "Perl",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/Nacre"
+    },
+    {
+      "name": "Windows-11-Debloat-Script",
+      "description": "my own implementation of windows 11 debloating in which i worked hard on, and i found it in my files and decided to release it. have fun",
+      "language": "PowerShell",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/Windows-11-Debloat-Script"
+    },
+    {
+      "name": "PRSH",
+      "description": "A light, simple, unix friendly alternative to my Ruby SHell (srsh/RSH)",
+      "language": "Perl",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/PRSH"
+    },
+    {
+      "name": "neonfetch",
+      "description": "a simple fetch program written in pure Raku. (Perl 6 basically)",
+      "language": "Raku",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/neonfetch"
+    },
+    {
+      "name": "PHPfetch",
+      "description": "What neonfetch is based off of, i made this but never released it. Enjoy?",
+      "language": "PHP",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/PHPfetch"
+    },
+    {
+      "name": "CSH",
+      "description": "Fork of my project \"RSH\", (scsh) Simple Crystal SHell, compiled srsh :)",
+      "language": "Crystal",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/CSH"
+    },
+    {
+      "name": "JvmShell",
+      "description": "A fully featured, fully interactive LINUX shell that is fully JVM oriented, (scala, java, kotlin, etc) mainly java based languages. see readme for more details. (this shell works but with some minor caveats)",
+      "language": "Scala",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/JvmShell"
+    },
+    {
+      "name": "DTOP",
+      "description": "A unix process manager, with a simple user friendly TUI. Older unreleased project",
+      "language": "D",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/DTOP"
+    },
+    {
+      "name": "FerriteOS",
+      "description": "This \"OS\" is completely standalone/original, it is a kernel-less \"OS\" that runs in your terminal. Read the documentation files for more info.",
+      "language": "C++",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/FerriteOS"
+    },
+    {
+      "name": "YAFP",
+      "description": "Yet Another Fetch Program, is a UNIX fetch tool, aimed for preciseness, clarity, and beauty.",
+      "language": "C",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/YAFP"
+    },
+    {
+      "name": "GLSL-Hallway-GPU-Benchmark",
+      "description": "Raw GLSL shader i wrote myself, acts as the game map. Ray traced gpu benchmark, run with mangohud for results.",
+      "language": "GLSL",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/GLSL-Hallway-GPU-Benchmark"
+    },
+    {
+      "name": "mote",
+      "description": "super lightweight, dead-simple CLI text editor in GNU Assembly.",
+      "language": "Assembly",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/mote"
+    },
+    {
+      "name": "trust",
+      "description": "trust, aka \"tedit-rust\" is a friendly, fast, and rust-native alternative to my \"tedit\". it includes rust-native commands, and cargo built in.",
+      "language": "Rust",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/trust"
+    },
+    {
+      "name": "obelisk-pkg",
+      "description": "This includes the source code for the official package manager of ObeliskOS, and the web repository for packges (binaries) or build recipes.",
+      "language": "Other",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/obelisk-pkg"
+    },
+    {
+      "name": "Photon",
+      "description": "A simple, but smart, Portage-inspired package management system. (package manager) entirely in Ruby.",
+      "language": "Ruby",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/Photon"
+    },
+    {
+      "name": "my-zsh-dotfiles",
+      "description": "my personal custom zsh config i made myself :D",
+      "language": "Shell",
+      "stars": 3,
+      "url": "https://github.com/RobertFlexx/my-zsh-dotfiles"
+    },
+    {
+      "name": "rise",
+      "description": "a mediocre simplistic sudo/doas alternative. beta, dont trust it as a daily sudo alternative.",
+      "language": "Ada",
+      "stars": 2,
+      "url": "https://github.com/RobertFlexx/rise"
     }
   ]
 }

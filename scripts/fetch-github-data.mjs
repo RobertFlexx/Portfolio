@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { createGithubSnapshot } from "../github-data.mjs";
 
 const login = process.env.GITHUB_LOGIN || "RobertFlexx";
 const token = process.env.GITHUB_TOKEN;
@@ -105,26 +106,14 @@ while (pageInfo.hasNextPage) {
 }
 
 const normalizedRepositories = repositories.map(normalizeRepository);
-const topRepositories = [...normalizedRepositories]
-  .sort((left, right) => right.stars - left.stars || left.name.localeCompare(right.name))
-  .slice(0, 5);
-const primaryLanguages = new Set(
-  normalizedRepositories
-    .map(({ language }) => language)
-    .filter((language) => language !== "Other")
-);
-
-const snapshot = {
-  generatedAt: new Date().toISOString(),
+const snapshot = createGithubSnapshot({
   publicRepoCount: firstPage.publicRepositories.totalCount,
-  totalStars: normalizedRepositories.reduce((total, repository) => total + repository.stars, 0),
-  primaryLanguageCount: primaryLanguages.size,
   pinned: firstPage.pinnedItems.nodes.filter(Boolean).map(normalizeRepository),
-  topRepositories
-};
+  repositories: normalizedRepositories
+});
 
 await mkdir(dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
 console.log(
-  `Wrote ${snapshot.pinned.length} pins and ${normalizedRepositories.length} repositories to ${outputPath}`
+  `Wrote ${snapshot.featured.length} featured projects and ${normalizedRepositories.length} repositories to ${outputPath}`
 );

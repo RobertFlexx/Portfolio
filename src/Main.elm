@@ -43,7 +43,7 @@ type alias Project =
     , detail : String
     , url : String
     , tone : String
-    , stars : Int
+    , stars : Maybe Int
     }
 
 
@@ -70,6 +70,8 @@ type alias GithubData =
     , primaryLanguageCount : Int
     , pinned : List GithubRepo
     , topRepositories : List GithubRepo
+    , featured : List GithubRepo
+    , status : String
     }
 
 
@@ -301,7 +303,7 @@ viewProjects model =
             [ div []
                 [ h2 [ id "work-title" ] [ text "Some things I've made." ]
                 ]
-            , p [ class "section-heading__aside" ] [ text "My current GitHub pins. Some are useful. Some got wildly out of hand." ]
+            , p [ class "section-heading__aside" ] [ text "My GitHub pins, plus a few more worth showing. Some got wildly out of hand." ]
             ]
         , div [ class "project-filters", attribute "role" "group", attribute "aria-label" "Filter projects" ]
             [ filterButton model.activeFilter All (filterLabel "All" All selectedProjects)
@@ -312,7 +314,7 @@ viewProjects model =
         , p [ class "sr-only", attribute "role" "status" ] [ text (String.fromInt (List.length visibleProjects) ++ " projects shown") ]
         , div [ class "project-list" ]
             (if List.isEmpty visibleProjects then
-                [ p [ class "project-list__empty" ] [ text "No pinned projects in this category right now. Try another filter, or see the games below." ] ]
+                [ p [ class "project-list__empty" ] [ text "No featured projects in this category right now. Try another filter, or see the games below." ] ]
 
              else
                 List.map viewProject visibleProjects
@@ -356,7 +358,12 @@ viewProject project =
             , p [ class "project__detail" ] [ text (cleanCopy project.detail) ]
             , div [ class "project__meta" ]
                 [ span [ class "language-pill" ] [ text project.language ]
-                , span [ class "star-pill", attribute "aria-label" (String.fromInt project.stars ++ " GitHub stars") ] [ text ("★ " ++ String.fromInt project.stars) ]
+                , case project.stars of
+                    Just stars ->
+                        span [ class "star-pill", attribute "aria-label" (String.fromInt stars ++ " GitHub stars") ] [ text ("★ " ++ String.fromInt stars) ]
+
+                    Nothing ->
+                        text ""
                 , span [ class "project__open" ] [ text "View code" ]
                 ]
             ]
@@ -367,19 +374,19 @@ viewTraction : Maybe GithubData -> Html Msg
 viewTraction github =
     let
         rankedRepos =
-            github |> Maybe.map .topRepositories |> Maybe.andThen nonEmptyList |> Maybe.withDefault tractionRepos
+            github |> Maybe.map .topRepositories |> Maybe.withDefault []
 
-        statValue accessor fallback =
-            github |> Maybe.map accessor |> Maybe.withDefault fallback |> String.fromInt
+        statValue accessor =
+            github |> Maybe.map (accessor >> String.fromInt) |> Maybe.withDefault "…"
     in
     section [ class "traction section-pad", attribute "aria-labelledby" "github-title" ]
         [ div [ class "traction__intro" ]
             [ h2 [ id "github-title" ] [ text "The source is the fun part." ]
             , p [] [ text "Most of my work lives on GitHub. Open an issue, steal an idea, or tell me where I've fucked up. Preferably with a line number." ]
             , div [ class "traction__stats" ]
-                [ githubStat (statValue .publicRepoCount 59) "Public repos"
-                , githubStat (statValue .totalStars 137) "GitHub stars"
-                , githubStat (statValue .primaryLanguageCount 34) "Languages used"
+                [ githubStat (statValue .publicRepoCount) "Public repos"
+                , githubStat (statValue .totalStars) "GitHub stars"
+                , githubStat (statValue .primaryLanguageCount) "Languages used"
                 ]
             ]
         , div [ class "traction__ranking" ]
@@ -454,8 +461,10 @@ viewAbout =
 viewRepoLab : Maybe GithubData -> Html Msg
 viewRepoLab github =
     let
-        repoCount =
-            github |> Maybe.map .publicRepoCount |> Maybe.withDefault 59
+        browseLabel =
+            github
+                |> Maybe.map (\data -> "Browse all " ++ String.fromInt data.publicRepoCount ++ " repositories on GitHub")
+                |> Maybe.withDefault "Browse all repositories on GitHub"
     in
     section [ class "repo-lab section-pad", id "lab", attribute "aria-labelledby" "lab-title" ]
         [ div [ class "section-heading" ]
@@ -464,7 +473,7 @@ viewRepoLab github =
             ]
         , div [ class "repo-lab__grid" ] (List.map viewLabRepo labRepos)
         , a [ class "repo-lab__all", href "https://github.com/RobertFlexx?tab=repositories", target "_blank", rel "noreferrer" ]
-            [ text ("Browse all " ++ String.fromInt repoCount ++ " repositories on GitHub") ]
+            [ text browseLabel ]
         ]
 
 
@@ -480,13 +489,15 @@ viewLabRepo repo =
 viewLanguages : Maybe GithubData -> Html Msg
 viewLanguages github =
     let
-        languageCount =
-            github |> Maybe.map .primaryLanguageCount |> Maybe.withDefault 34
+        languageNote =
+            github
+                |> Maybe.map (\data -> String.fromInt data.primaryLanguageCount ++ " languages across my public repos. I may have a problem.")
+                |> Maybe.withDefault "These are the regulars. I may have a problem."
     in
     section [ class "stack section-pad", id "stack", attribute "aria-labelledby" "stack-title" ]
         [ div [ class "section-heading" ]
             [ div [] [ h2 [ id "stack-title" ] [ text "Languages, plural." ] ]
-            , p [ class "section-heading__aside" ] [ text (String.fromInt languageCount ++ " languages across my public repos. I may have a problem.") ]
+            , p [ class "section-heading__aside" ] [ text languageNote ]
             ]
         , div [ class "language-grid" ] (List.map viewLanguage languages)
         ]
@@ -596,6 +607,17 @@ cleanCopy copy =
 projects : List Project
 projects =
     [ { index = "001"
+      , name = "Plainwire"
+      , command = "$ make build"
+      , language = "ERLANG / ELM"
+      , kind = Tools
+      , summary = "Chat, calls, and a lot of Erlang."
+      , detail = "A community chat app with an Erlang/OTP backend, Elm frontend, channels, DMs, voice calls, screen sharing, and WebRTC. Self-hosting supported."
+      , url = "https://github.com/Plainwire-development/Plainwire"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "002"
       , name = "fastfind"
       , command = "$ ff \"what you meant\""
       , language = "NIM"
@@ -604,9 +626,9 @@ projects =
       , detail = "Fuzzy matching, content filters, natural-language queries, and interactive search in a single static binary."
       , url = "https://github.com/RobertFlexx/fastfind"
       , tone = "project--acid"
-      , stars = 17
+      , stars = Nothing
       }
-    , { index = "002"
+    , { index = "003"
       , name = "ObeliskOS"
       , command = "$ boot /obelisk"
       , language = "C / ASM"
@@ -615,91 +637,9 @@ projects =
       , detail = "An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem."
       , url = "https://github.com/RobertFlexx/ObeliskOS"
       , tone = "project--coral"
-      , stars = 12
-      }
-    , { index = "003"
-      , name = "rayscal"
-      , command = "$ scala-native run"
-      , language = "SCALA"
-      , kind = Games
-      , summary = "raylib bindings for Scala Native."
-      , detail = "Experimental bindings that bring raylib 6.0 graphics, audio, and input to Scala Native."
-      , url = "https://github.com/RobertFlexx/rayscal"
-      , tone = "project--yellow"
-      , stars = 7
+      , stars = Nothing
       }
     , { index = "004"
-      , name = "blockbox"
-      , command = "$ blockbox --play"
-      , language = "SCALA"
-      , kind = Games
-      , summary = "An open-source voxel game in Scala."
-      , detail = "A free block-based voxel game with terrain and gameplay built in Scala."
-      , url = "https://github.com/RobertFlexx/blockbox"
-      , tone = "project--magenta"
-      , stars = 2
-      }
-    , { index = "005"
-      , name = "RSH"
-      , command = "$ srsh"
-      , language = "RUBY"
-      , kind = Systems
-      , summary = "An interactive shell in Ruby."
-      , detail = "A Ruby shell with built-ins, autosuggestions, history, aliases, and scripting support."
-      , url = "https://github.com/RobertFlexx/RSH"
-      , tone = "project--red"
-      , stars = 4
-      }
-    , { index = "006"
-      , name = "raid"
-      , command = "$ raid / -time"
-      , language = "ZIG"
-      , kind = Tools
-      , summary = "Recursive file traversal in Zig."
-      , detail = "Low-level filesystem traversal with predictable behavior and support for hidden files."
-      , url = "https://github.com/RobertFlexx/raid"
-      , tone = "project--blue"
-      , stars = 4
-      }
-    , { index = "007"
-      , name = "tedit"
-      , command = "$ tedit notes.txt"
-      , language = "C++"
-      , kind = Tools
-      , summary = "Opens your files, not a situationship."
-      , detail = "A general-purpose command-line text editor with a familiar workflow, written in C++."
-      , url = "https://github.com/RobertFlexx/tedit"
-      , tone = "project--violet"
-      , stars = 4
-      }
-    , { index = "008"
-      , name = "UnixImage"
-      , command = "$ uniximage disk.iso"
-      , language = "C / GTK"
-      , kind = Tools
-      , summary = "A disk-image writer for UNIX systems."
-      , detail = "Graphical and command-line interfaces for writing disk images, including compressed archives, on UNIX-like systems."
-      , url = "https://github.com/RobertFlexx/UnixImage"
-      , tone = "project--green"
-      , stars = 4
-      }
-    , { index = "009"
-      , name = "Volt"
-      , command = "$ volt get /api"
-      , language = "ODIN"
-      , kind = Tools
-      , summary = "Gets, posts, and leaves."
-      , detail = "A command-line HTTP client for making requests and inspecting responses, written in Odin."
-      , url = "https://github.com/RobertFlexx/Volt"
-      , tone = "project--orange"
-      , stars = 4
-      }
-    ]
-
-
-pinnedProjectTemplates : List Project
-pinnedProjectTemplates =
-    [ { index = "000"
       , name = "rookcc"
       , command = "$ rcc source.c"
       , language = "PASCAL"
@@ -708,9 +648,157 @@ pinnedProjectTemplates =
       , detail = "A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools."
       , url = "https://github.com/RobertFlexx/rookcc"
       , tone = "project--magenta"
-      , stars = 0
+      , stars = Nothing
       }
-    , { index = "000"
+    , { index = "005"
+      , name = "tankyard"
+      , command = "$ cargo build --release --workspace"
+      , language = "RUST / LUAU"
+      , kind = Games
+      , summary = "A native tank arena. Bring your own grudges."
+      , detail = "A Rust game with online and offline play, a dedicated server, Luau mods, and an in-game map editor with logic gates, physics, and lighting."
+      , url = "https://github.com/RobertFlexx/tankyard"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "006"
+      , name = "gputop"
+      , command = "$ python3 -m gputop"
+      , language = "PYTHON"
+      , kind = Tools
+      , summary = "Find out why your GPU sounds pissed off."
+      , detail = "An htop-style GPU monitor for load, memory, temperature, power, and per-process activity, with collectors for Apple Silicon, Linux, and Windows."
+      , url = "https://github.com/RobertFlexx/gputop"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "007"
+      , name = "MICA"
+      , command = "$ mica-run --profile MICA-2C short.bin"
+      , language = "C++ / SYSTEMVERILOG"
+      , kind = Systems
+      , summary = "Apparently software wasn't low-level enough."
+      , detail = "An experimental 32/64-bit processor architecture with an assembler, linker, emulator, C++23 toolchain, and a SystemVerilog CPU. Includes RTL simulation and an FPGA board target."
+      , url = "https://github.com/RobertFlexx/MICA"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "008"
+      , name = "Free-Simula"
+      , command = "$ fsim -std=fsim hello.sim -o hello"
+      , language = "PASCAL"
+      , kind = Tools
+      , summary = "A school project that got slightly out of hand."
+      , detail = "A native compiler for a modern Simula dialect, with its own x86-64 machine-code and ELF backend, managed memory, tasks, and native-library bindings."
+      , url = "https://github.com/RobertFlexx/Free-Simula"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "009"
+      , name = "hilbert"
+      , command = "$ make test"
+      , language = "MODULA-2 / C"
+      , kind = Tools
+      , summary = "A systems language in the Wirth tradition."
+      , detail = "A native x86-64 Linux compiler with modules, generics, tracing garbage collection, tasks, and C interoperability. Written in GNU Modula-2, with a C runtime."
+      , url = "https://github.com/RobertFlexx/hilbert"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "010"
+      , name = "SPS"
+      , command = "$ sget upgrade --plan"
+      , language = "SH / AWK"
+      , kind = Systems
+      , summary = "Dependency hell, now with my own tools."
+      , detail = "A POSIX shell and AWK package system with recipe-based builds, dependency handling, and upgrades. Used by SPS Linux, also called Splux."
+      , url = "https://github.com/RobertFlexx/SPS"
+      , tone = "project--coral"
+      , stars = Nothing
+      }
+    , { index = "011"
+      , name = "blockbox"
+      , command = "$ blockbox --play"
+      , language = "SCALA"
+      , kind = Games
+      , summary = "An open-source voxel game in Scala."
+      , detail = "A playable Scala 3/LWJGL voxel sandbox with procedural terrain, survival systems, world saves, shader packs, and scripting."
+      , url = "https://github.com/RobertFlexx/blockbox"
+      , tone = "project--magenta"
+      , stars = Nothing
+      }
+    , { index = "012"
+      , name = "rayscal"
+      , command = "$ scala-native run"
+      , language = "SCALA"
+      , kind = Games
+      , summary = "raylib bindings for Scala Native."
+      , detail = "Experimental bindings that bring raylib 6.0 graphics, audio, and input to Scala Native."
+      , url = "https://github.com/RobertFlexx/rayscal"
+      , tone = "project--yellow"
+      , stars = Nothing
+      }
+    ]
+
+
+pinnedProjectTemplates : List Project
+pinnedProjectTemplates =
+    [ { index = "001"
+      , name = "RSH"
+      , command = "$ srsh"
+      , language = "RUBY"
+      , kind = Systems
+      , summary = "An interactive shell in Ruby."
+      , detail = "A Ruby shell with built-ins, autosuggestions, history, aliases, and scripting support."
+      , url = "https://github.com/RobertFlexx/RSH"
+      , tone = "project--red"
+      , stars = Nothing
+      }
+    , { index = "002"
+      , name = "raid"
+      , command = "$ raid / -time"
+      , language = "ZIG"
+      , kind = Tools
+      , summary = "Recursive file traversal in Zig."
+      , detail = "Low-level filesystem traversal with predictable behavior and support for hidden files."
+      , url = "https://github.com/RobertFlexx/raid"
+      , tone = "project--blue"
+      , stars = Nothing
+      }
+    , { index = "003"
+      , name = "tedit"
+      , command = "$ tedit notes.txt"
+      , language = "C++"
+      , kind = Tools
+      , summary = "Opens your files, not a situationship."
+      , detail = "A general-purpose command-line text editor with a familiar workflow, written in C++."
+      , url = "https://github.com/RobertFlexx/tedit"
+      , tone = "project--violet"
+      , stars = Nothing
+      }
+    , { index = "004"
+      , name = "UnixImage"
+      , command = "$ uniximage disk.iso"
+      , language = "C / GTK"
+      , kind = Tools
+      , summary = "A disk-image writer for UNIX systems."
+      , detail = "Graphical and command-line interfaces for writing disk images, including compressed archives, on UNIX-like systems."
+      , url = "https://github.com/RobertFlexx/UnixImage"
+      , tone = "project--green"
+      , stars = Nothing
+      }
+    , { index = "005"
+      , name = "Volt"
+      , command = "$ volt get /api"
+      , language = "ODIN"
+      , kind = Tools
+      , summary = "Gets, posts, and leaves."
+      , detail = "A command-line HTTP client for making requests and inspecting responses, written in Odin."
+      , url = "https://github.com/RobertFlexx/Volt"
+      , tone = "project--orange"
+      , stars = Nothing
+      }
+    , { index = "006"
       , name = "pawnasm"
       , command = "$ pawnasm input.asm"
       , language = "COMPONENT PASCAL"
@@ -719,9 +807,9 @@ pinnedProjectTemplates =
       , detail = "A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase."
       , url = "https://github.com/RobertFlexx/pawnasm"
       , tone = "project--red"
-      , stars = 0
+      , stars = Nothing
       }
-    , { index = "000"
+    , { index = "007"
       , name = "knightlinker"
       , command = "$ kld main.o"
       , language = "ADA"
@@ -730,59 +818,20 @@ pinnedProjectTemplates =
       , detail = "A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats."
       , url = "https://github.com/RobertFlexx/knightlinker"
       , tone = "project--blue"
-      , stars = 0
+      , stars = Nothing
       }
     ]
-
-
-tractionRepos : List GithubRepo
-tractionRepos =
-    [ { name = "fastfind"
-      , description = "A static Nim binary for fuzzy file search, content filters, natural-language queries, and interactive selection."
-      , language = "NIM"
-      , stars = 17
-      , url = "https://github.com/RobertFlexx/fastfind"
-      }
-    , { name = "ObeliskOS"
-      , description = "An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem."
-      , language = "C"
-      , stars = 12
-      , url = "https://github.com/RobertFlexx/ObeliskOS"
-      }
-    , { name = "rayscal"
-      , description = "Early experimental raylib 6.0 bindings for Scala Native."
-      , language = "SCALA"
-      , stars = 7
-      , url = "https://github.com/RobertFlexx/rayscal"
-      }
-    , { name = "RSH"
-      , description = "A Ruby shell with built-ins, autosuggestions, history tools, aliases, scripting, and quality-of-life features."
-      , language = "RUBY"
-      , stars = 4
-      , url = "https://github.com/RobertFlexx/RSH"
-      }
-    , { name = "UnixImage"
-      , description = "A GTK and CLI disk-image writer for UNIX and UNIX-like systems."
-      , language = "C / GTK"
-      , stars = 4
-      , url = "https://github.com/RobertFlexx/UnixImage"
-      }
-    ]
-
-
-fallbackSpotlight : GithubRepo
-fallbackSpotlight =
-    { name = "fastfind"
-    , description = "A static Nim binary for fuzzy file search, content filters, natural-language queries, and interactive selection."
-    , language = "NIM"
-    , stars = 17
-    , url = "https://github.com/RobertFlexx/fastfind"
-    }
 
 
 gameProjects : List GameProject
 gameProjects =
-    [ { index = "G.01"
+    [ { index = "G.00"
+      , name = "Tank Yard"
+      , language = "RUST / LUAU"
+      , copy = "A native tank arena with multiplayer, scripted mods, and a map editor that got wildly out of hand."
+      , url = "https://github.com/RobertFlexx/tankyard"
+      }
+    , { index = "G.01"
       , name = "rayscal"
       , language = "SCALA / RAYLIB"
       , copy = "Graphics, audio, and input from raylib 6.0, available in Scala Native."
@@ -887,7 +936,7 @@ languages =
 
 projectsFromGithub : Maybe GithubData -> List Project
 projectsFromGithub github =
-    case github |> Maybe.map .pinned |> Maybe.andThen nonEmptyList of
+    case github |> Maybe.map .featured |> Maybe.andThen nonEmptyList of
         Just pinnedRepos ->
             List.indexedMap githubRepoToProject pinnedRepos
 
@@ -908,15 +957,15 @@ githubRepoToProject index repo =
             else
                 repo.description
     in
-    case findProject repo.name of
+    case findProject repo.url of
         Just template ->
             { template
                 | index = projectIndex
                 , name = repo.name
-                , language = String.toUpper repo.language
+                , language = template.language
                 , detail = template.detail
                 , url = repo.url
-                , stars = repo.stars
+                , stars = Just repo.stars
             }
 
         Nothing ->
@@ -929,20 +978,20 @@ githubRepoToProject index repo =
             , detail = liveDescription "Open the repository for source code, documentation, and project updates."
             , url = repo.url
             , tone = toneForIndex index
-            , stars = repo.stars
+            , stars = Just repo.stars
             }
 
 
 findProject : String -> Maybe Project
-findProject repoName =
+findProject repoUrl =
     (projects ++ pinnedProjectTemplates)
-        |> List.filter (\project -> String.toLower project.name == String.toLower repoName)
+        |> List.filter (\project -> String.toLower project.url == String.toLower repoUrl)
         |> List.head
 
 
 repoDetail : GithubRepo -> String
 repoDetail repo =
-    case findProject repo.name of
+    case findProject repo.url of
         Just project ->
             project.detail
 
@@ -989,12 +1038,14 @@ githubSnapshotLabel : Maybe GithubData -> String
 githubSnapshotLabel github =
     case github of
         Just data ->
-            "Snapshot updated "
-                ++ String.left 10 data.generatedAt
-                ++ ". Refreshed every six hours."
+            if String.isEmpty data.status then
+                "Saved GitHub snapshot from " ++ String.left 10 data.generatedAt ++ "."
+
+            else
+                data.status
 
         Nothing ->
-            "Showing the built-in snapshot. Updated data is temporarily unavailable."
+            "Star counts appear when GitHub data is available."
 
 
 nonEmptyList : List a -> Maybe (List a)
@@ -1008,13 +1059,15 @@ nonEmptyList values =
 
 githubDataDecoder : Decoder GithubData
 githubDataDecoder =
-    Decode.map6 GithubData
+    Decode.map8 GithubData
         (Decode.field "generatedAt" Decode.string)
         (Decode.field "publicRepoCount" Decode.int)
         (Decode.field "totalStars" Decode.int)
         (Decode.field "primaryLanguageCount" Decode.int)
         (Decode.field "pinned" (Decode.list githubRepoDecoder))
         (Decode.field "topRepositories" (Decode.list githubRepoDecoder))
+        (Decode.oneOf [ Decode.field "featured" (Decode.list githubRepoDecoder), Decode.field "pinned" (Decode.list githubRepoDecoder) ])
+        (Decode.oneOf [ Decode.field "status" Decode.string, Decode.succeed "" ])
 
 
 githubRepoDecoder : Decoder GithubRepo

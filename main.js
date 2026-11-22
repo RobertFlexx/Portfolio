@@ -519,11 +519,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.aa.Q === region.af.Q)
+	if (region.aa.Q === region.ag.Q)
 	{
 		return 'on line ' + region.aa.Q;
 	}
-	return 'on lines ' + region.aa.Q + ' through ' + region.af.Q;
+	return 'on lines ' + region.aa.Q + ' through ' + region.ag.Q;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aQ,
+		impl.aR,
+		impl.aZ,
 		impl.aX,
-		impl.aV,
 		function() { return function() {} }
 	);
 });
@@ -2719,8 +2719,8 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		E: func(record.E),
-		ab: record.ab,
+		D: func(record.D),
+		ac: record.ac,
 		X: record.X
 	}
 });
@@ -2989,8 +2989,8 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.E;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.ab;
+		var message = !tag ? value : tag < 3 ? value.a : value.D;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.ac;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
 			(tag == 2 ? value.b : tag == 3 && value.X) && event.preventDefault(),
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aQ,
+		impl.aR,
+		impl.aZ,
 		impl.aX,
-		impl.aV,
 		function(sendToApp, initialModel) {
-			var view = impl.aY;
+			var view = impl.a_;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aQ,
+		impl.aR,
+		impl.aZ,
 		impl.aX,
-		impl.aV,
 		function(sendToApp, initialModel) {
 			var divertHrefToApp = impl._ && impl._(sendToApp)
-			var view = impl.aY;
+			var view = impl.a_;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aJ);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aK);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.aW) && (_VirtualDom_doc.title = title = doc.aW);
+				(title !== doc.aY) && (_VirtualDom_doc.title = title = doc.aY);
 			});
 		}
 	);
@@ -4053,8 +4053,8 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aR;
-	var onUrlRequest = impl.aS;
+	var onUrlChange = impl.aS;
+	var onUrlRequest = impl.aT;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.au === next.au
-							&& curr.ak === next.ak
-							&& curr.ar.a === next.ar.a
+							&& curr.av === next.av
+							&& curr.am === next.am
+							&& curr.as.a === next.as.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aQ: function(flags)
+		aR: function(flags)
 		{
-			return A3(impl.aQ, flags, _Browser_getUrl(), key);
+			return A3(impl.aR, flags, _Browser_getUrl(), key);
 		},
-		aY: impl.aY,
-		aX: impl.aX,
-		aV: impl.aV
+		a_: impl.a_,
+		aZ: impl.aZ,
+		aX: impl.aX
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aO: 'hidden', aK: 'visibilitychange' }
+		? { aP: 'hidden', aL: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aO: 'mozHidden', aK: 'mozvisibilitychange' }
+		? { aP: 'mozHidden', aL: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aO: 'msHidden', aK: 'msvisibilitychange' }
+		? { aP: 'msHidden', aL: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aO: 'webkitHidden', aK: 'webkitvisibilitychange' }
-		: { aO: 'hidden', aK: 'visibilitychange' };
+		? { aP: 'webkitHidden', aL: 'webkitvisibilitychange' }
+		: { aP: 'hidden', aL: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		ay: _Browser_getScene(),
-		aD: {
-			aF: _Browser_window.pageXOffset,
-			aG: _Browser_window.pageYOffset,
-			aE: _Browser_doc.documentElement.clientWidth,
-			aj: _Browser_doc.documentElement.clientHeight
+		az: _Browser_getScene(),
+		aE: {
+			aG: _Browser_window.pageXOffset,
+			aH: _Browser_window.pageYOffset,
+			aF: _Browser_doc.documentElement.clientWidth,
+			al: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		aE: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		aj: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		aF: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		al: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			ay: {
-				aE: node.scrollWidth,
-				aj: node.scrollHeight
+			az: {
+				aF: node.scrollWidth,
+				al: node.scrollHeight
 			},
-			aD: {
-				aF: node.scrollLeft,
-				aG: node.scrollTop,
-				aE: node.clientWidth,
-				aj: node.clientHeight
+			aE: {
+				aG: node.scrollLeft,
+				aH: node.scrollTop,
+				aF: node.clientWidth,
+				al: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			ay: _Browser_getScene(),
-			aD: {
-				aF: x,
-				aG: y,
-				aE: _Browser_doc.documentElement.clientWidth,
-				aj: _Browser_doc.documentElement.clientHeight
+			az: _Browser_getScene(),
+			aE: {
+				aG: x,
+				aH: y,
+				aF: _Browser_doc.documentElement.clientWidth,
+				al: _Browser_doc.documentElement.clientHeight
 			},
-			aM: {
-				aF: x + rect.left,
-				aG: y + rect.top,
-				aE: rect.width,
-				aj: rect.height
+			aN: {
+				aG: x + rect.left,
+				aH: y + rect.top,
+				aF: rect.width,
+				al: rect.height
 			}
 		};
 	});
@@ -4781,25 +4781,25 @@ var $elm$core$Array$treeFromBuilder = F2(
 	});
 var $elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
-		if (!builder.g) {
+		if (!builder.l) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.j),
+				$elm$core$Elm$JsArray$length(builder.n),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.j);
+				builder.n);
 		} else {
-			var treeLen = builder.g * $elm$core$Array$branchFactor;
+			var treeLen = builder.l * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.k) : builder.k;
-			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.g);
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.o) : builder.o;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.l);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.j) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.n) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.j);
+				builder.n);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -4812,7 +4812,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{k: nodeList, g: (len / $elm$core$Array$branchFactor) | 0, j: tail});
+					{o: nodeList, l: (len / $elm$core$Array$branchFactor) | 0, n: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -4881,7 +4881,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {ah: fragment, ak: host, ao: path, ar: port_, au: protocol, av: query};
+		return {aj: fragment, am: host, aq: path, as: port_, av: protocol, aw: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5173,7 +5173,7 @@ var $elm$browser$Browser$Events$MySub = F3(
 	});
 var $elm$browser$Browser$Events$State = F2(
 	function (subs, pids) {
-		return {ap: pids, az: subs};
+		return {ar: pids, aA: subs};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5405,7 +5405,7 @@ var $elm$core$Dict$merge = F6(
 	});
 var $elm$browser$Browser$Events$Event = F2(
 	function (key, event) {
-		return {ag: event, al: key};
+		return {ah: event, an: key};
 	});
 var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
 var $elm$browser$Browser$Events$spawn = F3(
@@ -5480,7 +5480,7 @@ var $elm$browser$Browser$Events$onEffects = F3(
 			stepLeft,
 			stepBoth,
 			stepRight,
-			state.ap,
+			state.ar,
 			$elm$core$Dict$fromList(newSubs),
 			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
 		var deadPids = _v0.a;
@@ -5526,8 +5526,8 @@ var $elm$core$List$filterMap = F2(
 	});
 var $elm$browser$Browser$Events$onSelfMsg = F3(
 	function (router, _v0, state) {
-		var event = _v0.ag;
-		var key = _v0.al;
+		var event = _v0.ah;
+		var key = _v0.an;
 		var toMessage = function (_v2) {
 			var subKey = _v2.a;
 			var _v3 = _v2.b;
@@ -5536,7 +5536,7 @@ var $elm$browser$Browser$Events$onSelfMsg = F3(
 			var decoder = _v3.c;
 			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
 		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.az);
+		var messages = A2($elm$core$List$filterMap, toMessage, state.aA);
 		return A2(
 			$elm$core$Task$andThen,
 			function (_v1) {
@@ -5594,13 +5594,13 @@ var $elm$core$Task$attempt = F2(
 	});
 var $elm$json$Json$Decode$decodeValue = _Json_run;
 var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
-var $author$project$Main$GithubData = F6(
-	function (generatedAt, publicRepoCount, totalStars, primaryLanguageCount, pinned, topRepositories) {
-		return {ai: generatedAt, aq: pinned, Y: primaryLanguageCount, Z: publicRepoCount, aB: topRepositories, aC: totalStars};
+var $author$project$Main$GithubData = F8(
+	function (generatedAt, publicRepoCount, totalStars, primaryLanguageCount, pinned, topRepositories, featured, status) {
+		return {ai: featured, ak: generatedAt, aV: pinned, Y: primaryLanguageCount, Z: publicRepoCount, ab: status, aC: topRepositories, aD: totalStars};
 	});
 var $author$project$Main$GithubRepo = F5(
 	function (name, description, language, stars, url) {
-		return {v: description, b: language, a: name, d: stars, c: url};
+		return {P: description, c: language, a: name, e: stars, b: url};
 	});
 var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$json$Json$Decode$map5 = _Json_map5;
@@ -5613,9 +5613,10 @@ var $author$project$Main$githubRepoDecoder = A6(
 	A2($elm$json$Json$Decode$field, 'stars', $elm$json$Json$Decode$int),
 	A2($elm$json$Json$Decode$field, 'url', $elm$json$Json$Decode$string));
 var $elm$json$Json$Decode$list = _Json_decodeList;
-var $elm$json$Json$Decode$map6 = _Json_map6;
-var $author$project$Main$githubDataDecoder = A7(
-	$elm$json$Json$Decode$map6,
+var $elm$json$Json$Decode$map8 = _Json_map8;
+var $elm$json$Json$Decode$oneOf = _Json_oneOf;
+var $author$project$Main$githubDataDecoder = A9(
+	$elm$json$Json$Decode$map8,
 	$author$project$Main$GithubData,
 	A2($elm$json$Json$Decode$field, 'generatedAt', $elm$json$Json$Decode$string),
 	A2($elm$json$Json$Decode$field, 'publicRepoCount', $elm$json$Json$Decode$int),
@@ -5628,7 +5629,25 @@ var $author$project$Main$githubDataDecoder = A7(
 	A2(
 		$elm$json$Json$Decode$field,
 		'topRepositories',
-		$elm$json$Json$Decode$list($author$project$Main$githubRepoDecoder)));
+		$elm$json$Json$Decode$list($author$project$Main$githubRepoDecoder)),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2(
+				$elm$json$Json$Decode$field,
+				'featured',
+				$elm$json$Json$Decode$list($author$project$Main$githubRepoDecoder)),
+				A2(
+				$elm$json$Json$Decode$field,
+				'pinned',
+				$elm$json$Json$Decode$list($author$project$Main$githubRepoDecoder))
+			])),
+	$elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$field, 'status', $elm$json$Json$Decode$string),
+				$elm$json$Json$Decode$succeed('')
+			])));
 var $elm$core$Basics$not = _Basics_not;
 var $author$project$Main$update = F2(
 	function (msg, model) {
@@ -5638,25 +5657,25 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{A: selected}),
+						{z: selected}),
 					$elm$core$Platform$Cmd$none);
 			case 1:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{x: !model.x}),
+						{w: !model.w}),
 					$elm$core$Platform$Cmd$none);
 			case 2:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{x: false}),
+						{w: false}),
 					$elm$core$Platform$Cmd$none);
 			case 3:
-				return model.x ? _Utils_Tuple2(
+				return model.w ? _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{x: false}),
+						{w: false}),
 					A2(
 						$elm$core$Task$attempt,
 						function (_v1) {
@@ -5674,7 +5693,7 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								I: $elm$core$Maybe$Just(github)
+								H: $elm$core$Maybe$Just(github)
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
@@ -6034,11 +6053,12 @@ var $author$project$Main$viewFooter = A2(
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $author$project$Main$gameProjects = _List_fromArray(
 	[
-		{f: 'Graphics, audio, and input from raylib 6.0, available in Scala Native.', e: 'G.01', b: 'SCALA / RAYLIB', a: 'rayscal', c: 'https://github.com/RobertFlexx/rayscal'},
-		{f: 'A free and open-source block voxel game written in Scala.', e: 'G.02', b: 'SCALA', a: 'blockbox', c: 'https://github.com/RobertFlexx/blockbox'},
-		{f: 'A 2D game-engine library for building games in the terminal.', e: 'G.03', b: 'C', a: 'PlayboxLib', c: 'https://github.com/RobertFlexx/PlayboxLib'},
-		{f: 'A ray-traced hallway that doubles as a GPU benchmark. The hallway is hot; your GPU will be too.', e: 'G.04', b: 'GLSL', a: 'GLSL Hallway', c: 'https://github.com/RobertFlexx/GLSL-Hallway-GPU-Benchmark'},
-		{f: 'Java mods for changing minecart speed and unlocking game values.', e: 'G.05', b: 'JAVA', a: 'Minecraft mods', c: 'https://github.com/RobertFlexx/unlimited-minecart-speed'}
+		{k: 'A native tank arena with multiplayer, scripted mods, and a map editor that got wildly out of hand.', d: 'G.00', c: 'RUST / LUAU', a: 'Tank Yard', b: 'https://github.com/RobertFlexx/tankyard'},
+		{k: 'Graphics, audio, and input from raylib 6.0, available in Scala Native.', d: 'G.01', c: 'SCALA / RAYLIB', a: 'rayscal', b: 'https://github.com/RobertFlexx/rayscal'},
+		{k: 'A free and open-source block voxel game written in Scala.', d: 'G.02', c: 'SCALA', a: 'blockbox', b: 'https://github.com/RobertFlexx/blockbox'},
+		{k: 'A 2D game-engine library for building games in the terminal.', d: 'G.03', c: 'C', a: 'PlayboxLib', b: 'https://github.com/RobertFlexx/PlayboxLib'},
+		{k: 'A ray-traced hallway that doubles as a GPU benchmark. The hallway is hot; your GPU will be too.', d: 'G.04', c: 'GLSL', a: 'GLSL Hallway', b: 'https://github.com/RobertFlexx/GLSL-Hallway-GPU-Benchmark'},
+		{k: 'Java mods for changing minecart speed and unlocking game values.', d: 'G.05', c: 'JAVA', a: 'Minecraft mods', b: 'https://github.com/RobertFlexx/unlimited-minecart-speed'}
 	]);
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$Attributes$height = function (n) {
@@ -6060,7 +6080,7 @@ var $author$project$Main$viewGameProject = function (project) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('game-project'),
-				$elm$html$Html$Attributes$href(project.c),
+				$elm$html$Html$Attributes$href(project.b),
 				$elm$html$Html$Attributes$target('_blank'),
 				$elm$html$Html$Attributes$rel('noreferrer')
 			]),
@@ -6074,7 +6094,7 @@ var $author$project$Main$viewGameProject = function (project) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(project.b)
+						$elm$html$Html$text(project.c)
 					])),
 				A2(
 				$elm$html$Html$h3,
@@ -6088,7 +6108,7 @@ var $author$project$Main$viewGameProject = function (project) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(project.f)
+						$elm$html$Html$text(project.k)
 					]))
 			]));
 };
@@ -6344,13 +6364,13 @@ var $author$project$Main$viewHeader = function (model) {
 						A2(
 						$elm$html$Html$Attributes$attribute,
 						'aria-expanded',
-						$author$project$Main$boolString(model.x)),
+						$author$project$Main$boolString(model.w)),
 						A2($elm$html$Html$Attributes$attribute, 'aria-controls', 'primary-navigation')
 					]),
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						model.x ? 'Close' : 'Menu'),
+						model.w ? 'Close' : 'Menu'),
 						A2(
 						$elm$html$Html$span,
 						_List_fromArray(
@@ -6359,7 +6379,7 @@ var $author$project$Main$viewHeader = function (model) {
 								_List_fromArray(
 									[
 										_Utils_Tuple2('menu-toggle__icon', true),
-										_Utils_Tuple2('menu-toggle__icon--open', model.x)
+										_Utils_Tuple2('menu-toggle__icon--open', model.w)
 									])),
 								A2($elm$html$Html$Attributes$attribute, 'aria-hidden', 'true')
 							]),
@@ -6373,7 +6393,7 @@ var $author$project$Main$viewHeader = function (model) {
 						_List_fromArray(
 							[
 								_Utils_Tuple2('site-nav', true),
-								_Utils_Tuple2('site-nav--open', model.x)
+								_Utils_Tuple2('site-nav--open', model.w)
 							])),
 						A2($elm$html$Html$Attributes$attribute, 'aria-label', 'Primary navigation'),
 						$elm$html$Html$Attributes$id('primary-navigation')
@@ -6668,13 +6688,13 @@ var $elm$core$Maybe$withDefault = F2(
 		}
 	});
 var $author$project$Main$viewLanguages = function (github) {
-	var languageCount = A2(
+	var languageNote = A2(
 		$elm$core$Maybe$withDefault,
-		34,
+		'These are the regulars. I may have a problem.',
 		A2(
 			$elm$core$Maybe$map,
-			function ($) {
-				return $.Y;
+			function (data) {
+				return $elm$core$String$fromInt(data.Y) + ' languages across my public repos. I may have a problem.';
 			},
 			github));
 	return A2(
@@ -6719,8 +6739,7 @@ var $author$project$Main$viewLanguages = function (github) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(
-								$elm$core$String$fromInt(languageCount) + ' languages across my public repos. I may have a problem.')
+								$elm$html$Html$text(languageNote)
 							]))
 					])),
 				A2(
@@ -6772,7 +6791,7 @@ var $author$project$Main$filterLabel = F3(
 			A2(
 				$elm$core$List$filter,
 				function (project) {
-					return _Utils_eq(project.l, selected);
+					return _Utils_eq(project.g, selected);
 				},
 				projectList));
 		return label + (' (' + ($elm$core$String$fromInt(count) + ')'));
@@ -6804,31 +6823,38 @@ var $elm$core$List$head = function (list) {
 };
 var $author$project$Main$pinnedProjectTemplates = _List_fromArray(
 	[
-		{m: '$ rcc source.c', i: 'A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools.', e: '000', l: 2, b: 'PASCAL', a: 'rookcc', d: 0, o: 'A standalone C compiler toolchain.', p: 'project--magenta', c: 'https://github.com/RobertFlexx/rookcc'},
-		{m: '$ pawnasm input.asm', i: 'A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase.', e: '000', l: 2, b: 'COMPONENT PASCAL', a: 'pawnasm', d: 0, o: 'An Intel-syntax assembler.', p: 'project--red', c: 'https://github.com/RobertFlexx/pawnasm'},
-		{m: '$ kld main.o', i: 'A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats.', e: '000', l: 2, b: 'ADA', a: 'knightlinker', d: 0, o: 'An Ada linker for the RookCC toolchain.', p: 'project--blue', c: 'https://github.com/RobertFlexx/knightlinker'}
+		{h: '$ srsh', f: 'A Ruby shell with built-ins, autosuggestions, history, aliases, and scripting support.', d: '001', g: 1, c: 'RUBY', a: 'RSH', e: $elm$core$Maybe$Nothing, i: 'An interactive shell in Ruby.', j: 'project--red', b: 'https://github.com/RobertFlexx/RSH'},
+		{h: '$ raid / -time', f: 'Low-level filesystem traversal with predictable behavior and support for hidden files.', d: '002', g: 2, c: 'ZIG', a: 'raid', e: $elm$core$Maybe$Nothing, i: 'Recursive file traversal in Zig.', j: 'project--blue', b: 'https://github.com/RobertFlexx/raid'},
+		{h: '$ tedit notes.txt', f: 'A general-purpose command-line text editor with a familiar workflow, written in C++.', d: '003', g: 2, c: 'C++', a: 'tedit', e: $elm$core$Maybe$Nothing, i: 'Opens your files, not a situationship.', j: 'project--violet', b: 'https://github.com/RobertFlexx/tedit'},
+		{h: '$ uniximage disk.iso', f: 'Graphical and command-line interfaces for writing disk images, including compressed archives, on UNIX-like systems.', d: '004', g: 2, c: 'C / GTK', a: 'UnixImage', e: $elm$core$Maybe$Nothing, i: 'A disk-image writer for UNIX systems.', j: 'project--green', b: 'https://github.com/RobertFlexx/UnixImage'},
+		{h: '$ volt get /api', f: 'A command-line HTTP client for making requests and inspecting responses, written in Odin.', d: '005', g: 2, c: 'ODIN', a: 'Volt', e: $elm$core$Maybe$Nothing, i: 'Gets, posts, and leaves.', j: 'project--orange', b: 'https://github.com/RobertFlexx/Volt'},
+		{h: '$ pawnasm input.asm', f: 'A lean standalone Intel-syntax assembler supporting common NASM conventions and designed as an educational codebase.', d: '006', g: 2, c: 'COMPONENT PASCAL', a: 'pawnasm', e: $elm$core$Maybe$Nothing, i: 'An Intel-syntax assembler.', j: 'project--red', b: 'https://github.com/RobertFlexx/pawnasm'},
+		{h: '$ kld main.o', f: 'A standalone Ada 2022 linker for the RookCC toolchain, resolving ELF64 objects and emitting multiple executable and record formats.', d: '007', g: 2, c: 'ADA', a: 'knightlinker', e: $elm$core$Maybe$Nothing, i: 'An Ada linker for the RookCC toolchain.', j: 'project--blue', b: 'https://github.com/RobertFlexx/knightlinker'}
 	]);
 var $author$project$Main$projects = _List_fromArray(
 	[
-		{m: '$ ff \u0022what you meant\u0022', i: 'Fuzzy matching, content filters, natural-language queries, and interactive search in a single static binary.', e: '001', l: 2, b: 'NIM', a: 'fastfind', d: 17, o: 'Finds the file before find gets its pants on.', p: 'project--acid', c: 'https://github.com/RobertFlexx/fastfind'},
-		{m: '$ boot /obelisk', i: 'An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem.', e: '002', l: 1, b: 'C / ASM', a: 'ObeliskOS', d: 12, o: 'An OS born from pain, nightmares, and C.', p: 'project--coral', c: 'https://github.com/RobertFlexx/ObeliskOS'},
-		{m: '$ scala-native run', i: 'Experimental bindings that bring raylib 6.0 graphics, audio, and input to Scala Native.', e: '003', l: 3, b: 'SCALA', a: 'rayscal', d: 7, o: 'raylib bindings for Scala Native.', p: 'project--yellow', c: 'https://github.com/RobertFlexx/rayscal'},
-		{m: '$ blockbox --play', i: 'A free block-based voxel game with terrain and gameplay built in Scala.', e: '004', l: 3, b: 'SCALA', a: 'blockbox', d: 2, o: 'An open-source voxel game in Scala.', p: 'project--magenta', c: 'https://github.com/RobertFlexx/blockbox'},
-		{m: '$ srsh', i: 'A Ruby shell with built-ins, autosuggestions, history, aliases, and scripting support.', e: '005', l: 1, b: 'RUBY', a: 'RSH', d: 4, o: 'An interactive shell in Ruby.', p: 'project--red', c: 'https://github.com/RobertFlexx/RSH'},
-		{m: '$ raid / -time', i: 'Low-level filesystem traversal with predictable behavior and support for hidden files.', e: '006', l: 2, b: 'ZIG', a: 'raid', d: 4, o: 'Recursive file traversal in Zig.', p: 'project--blue', c: 'https://github.com/RobertFlexx/raid'},
-		{m: '$ tedit notes.txt', i: 'A general-purpose command-line text editor with a familiar workflow, written in C++.', e: '007', l: 2, b: 'C++', a: 'tedit', d: 4, o: 'Opens your files, not a situationship.', p: 'project--violet', c: 'https://github.com/RobertFlexx/tedit'},
-		{m: '$ uniximage disk.iso', i: 'Graphical and command-line interfaces for writing disk images, including compressed archives, on UNIX-like systems.', e: '008', l: 2, b: 'C / GTK', a: 'UnixImage', d: 4, o: 'A disk-image writer for UNIX systems.', p: 'project--green', c: 'https://github.com/RobertFlexx/UnixImage'},
-		{m: '$ volt get /api', i: 'A command-line HTTP client for making requests and inspecting responses, written in Odin.', e: '009', l: 2, b: 'ODIN', a: 'Volt', d: 4, o: 'Gets, posts, and leaves.', p: 'project--orange', c: 'https://github.com/RobertFlexx/Volt'}
+		{h: '$ make build', f: 'A community chat app with an Erlang/OTP backend, Elm frontend, channels, DMs, voice calls, screen sharing, and WebRTC. Self-hosting supported.', d: '001', g: 2, c: 'ERLANG / ELM', a: 'Plainwire', e: $elm$core$Maybe$Nothing, i: 'Chat, calls, and a lot of Erlang.', j: 'project--coral', b: 'https://github.com/Plainwire-development/Plainwire'},
+		{h: '$ ff \u0022what you meant\u0022', f: 'Fuzzy matching, content filters, natural-language queries, and interactive search in a single static binary.', d: '002', g: 2, c: 'NIM', a: 'fastfind', e: $elm$core$Maybe$Nothing, i: 'Finds the file before find gets its pants on.', j: 'project--acid', b: 'https://github.com/RobertFlexx/fastfind'},
+		{h: '$ boot /obelisk', f: 'An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem.', d: '003', g: 1, c: 'C / ASM', a: 'ObeliskOS', e: $elm$core$Maybe$Nothing, i: 'An OS born from pain, nightmares, and C.', j: 'project--coral', b: 'https://github.com/RobertFlexx/ObeliskOS'},
+		{h: '$ rcc source.c', f: 'A standalone C compiler with its own optimization toolchain and linker, built without invoking external tools.', d: '004', g: 2, c: 'PASCAL', a: 'rookcc', e: $elm$core$Maybe$Nothing, i: 'A standalone C compiler toolchain.', j: 'project--magenta', b: 'https://github.com/RobertFlexx/rookcc'},
+		{h: '$ cargo build --release --workspace', f: 'A Rust game with online and offline play, a dedicated server, Luau mods, and an in-game map editor with logic gates, physics, and lighting.', d: '005', g: 3, c: 'RUST / LUAU', a: 'tankyard', e: $elm$core$Maybe$Nothing, i: 'A native tank arena. Bring your own grudges.', j: 'project--coral', b: 'https://github.com/RobertFlexx/tankyard'},
+		{h: '$ python3 -m gputop', f: 'An htop-style GPU monitor for load, memory, temperature, power, and per-process activity, with collectors for Apple Silicon, Linux, and Windows.', d: '006', g: 2, c: 'PYTHON', a: 'gputop', e: $elm$core$Maybe$Nothing, i: 'Find out why your GPU sounds pissed off.', j: 'project--coral', b: 'https://github.com/RobertFlexx/gputop'},
+		{h: '$ mica-run --profile MICA-2C short.bin', f: 'An experimental 32/64-bit processor architecture with an assembler, linker, emulator, C++23 toolchain, and a SystemVerilog CPU. Includes RTL simulation and an FPGA board target.', d: '007', g: 1, c: 'C++ / SYSTEMVERILOG', a: 'MICA', e: $elm$core$Maybe$Nothing, i: 'Apparently software wasn\u0027t low-level enough.', j: 'project--coral', b: 'https://github.com/RobertFlexx/MICA'},
+		{h: '$ fsim -std=fsim hello.sim -o hello', f: 'A native compiler for a modern Simula dialect, with its own x86-64 machine-code and ELF backend, managed memory, tasks, and native-library bindings.', d: '008', g: 2, c: 'PASCAL', a: 'Free-Simula', e: $elm$core$Maybe$Nothing, i: 'A school project that got slightly out of hand.', j: 'project--coral', b: 'https://github.com/RobertFlexx/Free-Simula'},
+		{h: '$ make test', f: 'A native x86-64 Linux compiler with modules, generics, tracing garbage collection, tasks, and C interoperability. Written in GNU Modula-2, with a C runtime.', d: '009', g: 2, c: 'MODULA-2 / C', a: 'hilbert', e: $elm$core$Maybe$Nothing, i: 'A systems language in the Wirth tradition.', j: 'project--coral', b: 'https://github.com/RobertFlexx/hilbert'},
+		{h: '$ sget upgrade --plan', f: 'A POSIX shell and AWK package system with recipe-based builds, dependency handling, and upgrades. Used by SPS Linux, also called Splux.', d: '010', g: 1, c: 'SH / AWK', a: 'SPS', e: $elm$core$Maybe$Nothing, i: 'Dependency hell, now with my own tools.', j: 'project--coral', b: 'https://github.com/RobertFlexx/SPS'},
+		{h: '$ blockbox --play', f: 'A playable Scala 3/LWJGL voxel sandbox with procedural terrain, survival systems, world saves, shader packs, and scripting.', d: '011', g: 3, c: 'SCALA', a: 'blockbox', e: $elm$core$Maybe$Nothing, i: 'An open-source voxel game in Scala.', j: 'project--magenta', b: 'https://github.com/RobertFlexx/blockbox'},
+		{h: '$ scala-native run', f: 'Experimental bindings that bring raylib 6.0 graphics, audio, and input to Scala Native.', d: '012', g: 3, c: 'SCALA', a: 'rayscal', e: $elm$core$Maybe$Nothing, i: 'raylib bindings for Scala Native.', j: 'project--yellow', b: 'https://github.com/RobertFlexx/rayscal'}
 	]);
 var $elm$core$String$toLower = _String_toLower;
-var $author$project$Main$findProject = function (repoName) {
+var $author$project$Main$findProject = function (repoUrl) {
 	return $elm$core$List$head(
 		A2(
 			$elm$core$List$filter,
 			function (project) {
 				return _Utils_eq(
-					$elm$core$String$toLower(project.a),
-					$elm$core$String$toLower(repoName));
+					$elm$core$String$toLower(project.b),
+					$elm$core$String$toLower(repoUrl));
 			},
 			_Utils_ap($author$project$Main$projects, $author$project$Main$pinnedProjectTemplates)));
 };
@@ -6866,33 +6892,33 @@ var $author$project$Main$githubRepoToProject = F2(
 		var projectIndex = $author$project$Main$threeDigit(index + 1);
 		var liveDescription = function (fallback) {
 			return $elm$core$String$isEmpty(
-				$elm$core$String$trim(repo.v)) ? fallback : repo.v;
+				$elm$core$String$trim(repo.P)) ? fallback : repo.P;
 		};
-		var _v0 = $author$project$Main$findProject(repo.a);
+		var _v0 = $author$project$Main$findProject(repo.b);
 		if (!_v0.$) {
 			var template = _v0.a;
 			return _Utils_update(
 				template,
 				{
-					i: template.i,
-					e: projectIndex,
-					b: $elm$core$String$toUpper(repo.b),
+					f: template.f,
+					d: projectIndex,
+					c: template.c,
 					a: repo.a,
-					d: repo.d,
-					c: repo.c
+					e: $elm$core$Maybe$Just(repo.e),
+					b: repo.b
 				});
 		} else {
 			return {
-				m: '$ open /' + $elm$core$String$toLower(repo.a),
-				i: liveDescription('Open the repository for source code, documentation, and project updates.'),
-				e: projectIndex,
-				l: 2,
-				b: $elm$core$String$toUpper(repo.b),
+				h: '$ open /' + $elm$core$String$toLower(repo.a),
+				f: liveDescription('Open the repository for source code, documentation, and project updates.'),
+				d: projectIndex,
+				g: 2,
+				c: $elm$core$String$toUpper(repo.c),
 				a: repo.a,
-				d: repo.d,
-				o: 'From my current GitHub pins.',
-				p: $author$project$Main$toneForIndex(index),
-				c: repo.c
+				e: $elm$core$Maybe$Just(repo.e),
+				i: 'From my current GitHub pins.',
+				j: $author$project$Main$toneForIndex(index),
+				b: repo.b
 			};
 		}
 	});
@@ -6906,7 +6932,7 @@ var $author$project$Main$projectsFromGithub = function (github) {
 		A2(
 			$elm$core$Maybe$map,
 			function ($) {
-				return $.aq;
+				return $.ai;
 			},
 			github));
 	if (!_v0.$) {
@@ -6937,7 +6963,7 @@ var $author$project$Main$viewProject = function (project) {
 		$elm$html$Html$article,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('project ' + project.p)
+				$elm$html$Html$Attributes$class('project ' + project.j)
 			]),
 		_List_fromArray(
 			[
@@ -6946,7 +6972,7 @@ var $author$project$Main$viewProject = function (project) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('project__link'),
-						$elm$html$Html$Attributes$href(project.c),
+						$elm$html$Html$Attributes$href(project.b),
 						$elm$html$Html$Attributes$target('_blank'),
 						$elm$html$Html$Attributes$rel('noreferrer'),
 						A2($elm$html$Html$Attributes$attribute, 'aria-label', project.a + ' on GitHub')
@@ -6979,7 +7005,7 @@ var $author$project$Main$viewProject = function (project) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text(project.o)
+										$elm$html$Html$text(project.i)
 									])),
 								A2(
 								$elm$html$Html$code,
@@ -6989,7 +7015,7 @@ var $author$project$Main$viewProject = function (project) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text(project.m)
+										$elm$html$Html$text(project.h)
 									]))
 							])),
 						A2(
@@ -7001,7 +7027,7 @@ var $author$project$Main$viewProject = function (project) {
 						_List_fromArray(
 							[
 								$elm$html$Html$text(
-								$author$project$Main$cleanCopy(project.i))
+								$author$project$Main$cleanCopy(project.f))
 							])),
 						A2(
 						$elm$html$Html$div,
@@ -7019,23 +7045,31 @@ var $author$project$Main$viewProject = function (project) {
 									]),
 								_List_fromArray(
 									[
-										$elm$html$Html$text(project.b)
+										$elm$html$Html$text(project.c)
 									])),
-								A2(
-								$elm$html$Html$span,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('star-pill'),
-										A2(
-										$elm$html$Html$Attributes$attribute,
-										'aria-label',
-										$elm$core$String$fromInt(project.d) + ' GitHub stars')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text(
-										'★ ' + $elm$core$String$fromInt(project.d))
-									])),
+								function () {
+								var _v0 = project.e;
+								if (!_v0.$) {
+									var stars = _v0.a;
+									return A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('star-pill'),
+												A2(
+												$elm$html$Html$Attributes$attribute,
+												'aria-label',
+												$elm$core$String$fromInt(stars) + ' GitHub stars')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text(
+												'★ ' + $elm$core$String$fromInt(stars))
+											]));
+								} else {
+									return $elm$html$Html$text('');
+								}
+							}(),
 								A2(
 								$elm$html$Html$span,
 								_List_fromArray(
@@ -7051,11 +7085,11 @@ var $author$project$Main$viewProject = function (project) {
 			]));
 };
 var $author$project$Main$viewProjects = function (model) {
-	var selectedProjects = $author$project$Main$projectsFromGithub(model.I);
+	var selectedProjects = $author$project$Main$projectsFromGithub(model.H);
 	var visibleProjects = A2(
 		$elm$core$List$filter,
 		function (project) {
-			return (!model.A) || _Utils_eq(project.l, model.A);
+			return (!model.z) || _Utils_eq(project.g, model.z);
 		},
 		selectedProjects);
 	return A2(
@@ -7100,7 +7134,7 @@ var $author$project$Main$viewProjects = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('My current GitHub pins. Some are useful. Some got wildly out of hand.')
+								$elm$html$Html$text('My GitHub pins, plus a few more worth showing. Some got wildly out of hand.')
 							]))
 					])),
 				A2(
@@ -7115,22 +7149,22 @@ var $author$project$Main$viewProjects = function (model) {
 					[
 						A3(
 						$author$project$Main$filterButton,
-						model.A,
+						model.z,
 						0,
 						A3($author$project$Main$filterLabel, 'All', 0, selectedProjects)),
 						A3(
 						$author$project$Main$filterButton,
-						model.A,
+						model.z,
 						1,
 						A3($author$project$Main$filterLabel, 'Systems', 1, selectedProjects)),
 						A3(
 						$author$project$Main$filterButton,
-						model.A,
+						model.z,
 						2,
 						A3($author$project$Main$filterLabel, 'Tools', 2, selectedProjects)),
 						A3(
 						$author$project$Main$filterButton,
-						model.A,
+						model.z,
 						3,
 						A3($author$project$Main$filterLabel, 'Games', 3, selectedProjects))
 					])),
@@ -7163,23 +7197,23 @@ var $author$project$Main$viewProjects = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text('No pinned projects in this category right now. Try another filter, or see the games below.')
+								$elm$html$Html$text('No featured projects in this category right now. Try another filter, or see the games below.')
 							]))
 					]) : A2($elm$core$List$map, $author$project$Main$viewProject, visibleProjects))
 			]));
 };
 var $author$project$Main$labRepos = _List_fromArray(
 	[
-		{f: 'A simulated UNIX-like operating system in one process, with a filesystem, services, users, and packages.', b: 'C++', a: 'FerriteOS', c: 'https://github.com/RobertFlexx/FerriteOS'},
-		{f: 'Share files, links, notes, and clipboard text over a local network.', b: 'GLEAM', a: 'DropNest', c: 'https://github.com/RobertFlexx/DropNest'},
-		{f: 'A Portage-inspired package manager in Ruby. Dependency graphs are apparently my idea of a good time.', b: 'RUBY', a: 'Photon', c: 'https://github.com/RobertFlexx/Photon'},
-		{f: 'Preview images, GIFs, and video directly in the terminal.', b: 'RUST', a: 'pre-but-better', c: 'https://github.com/RobertFlexx/pre-but-better'},
-		{f: 'A tiny CLI editor in GNU Assembly. C was feeling a bit too comfortable.', b: 'ASSEMBLY', a: 'mote', c: 'https://github.com/RobertFlexx/mote'},
-		{f: 'A UNIX process manager with a text-based interface.', b: 'D', a: 'DTOP', c: 'https://github.com/RobertFlexx/DTOP'},
-		{f: 'An interactive Linux shell built around Java, Kotlin, and Scala.', b: 'SCALA', a: 'JvmShell', c: 'https://github.com/RobertFlexx/JvmShell'},
-		{f: 'An experimental replacement for rm, written in Pascal.', b: 'PASCAL', a: 'hrm', c: 'https://github.com/RobertFlexx/hrm'},
-		{f: 'A GTK system monitor for viewing resource usage and process activity.', b: 'VALA', a: 'system-lens', c: 'https://github.com/RobertFlexx/system-lens'},
-		{f: 'A system shell in Perl. Yes, another one.', b: 'PERL', a: 'Nacre', c: 'https://github.com/RobertFlexx/Nacre'}
+		{k: 'A simulated UNIX-like operating system in one process, with a filesystem, services, users, and packages.', c: 'C++', a: 'FerriteOS', b: 'https://github.com/RobertFlexx/FerriteOS'},
+		{k: 'Share files, links, notes, and clipboard text over a local network.', c: 'GLEAM', a: 'DropNest', b: 'https://github.com/RobertFlexx/DropNest'},
+		{k: 'A Portage-inspired package manager in Ruby. Dependency graphs are apparently my idea of a good time.', c: 'RUBY', a: 'Photon', b: 'https://github.com/RobertFlexx/Photon'},
+		{k: 'Preview images, GIFs, and video directly in the terminal.', c: 'RUST', a: 'pre-but-better', b: 'https://github.com/RobertFlexx/pre-but-better'},
+		{k: 'A tiny CLI editor in GNU Assembly. C was feeling a bit too comfortable.', c: 'ASSEMBLY', a: 'mote', b: 'https://github.com/RobertFlexx/mote'},
+		{k: 'A UNIX process manager with a text-based interface.', c: 'D', a: 'DTOP', b: 'https://github.com/RobertFlexx/DTOP'},
+		{k: 'An interactive Linux shell built around Java, Kotlin, and Scala.', c: 'SCALA', a: 'JvmShell', b: 'https://github.com/RobertFlexx/JvmShell'},
+		{k: 'An experimental replacement for rm, written in Pascal.', c: 'PASCAL', a: 'hrm', b: 'https://github.com/RobertFlexx/hrm'},
+		{k: 'A GTK system monitor for viewing resource usage and process activity.', c: 'VALA', a: 'system-lens', b: 'https://github.com/RobertFlexx/system-lens'},
+		{k: 'A system shell in Perl. Yes, another one.', c: 'PERL', a: 'Nacre', b: 'https://github.com/RobertFlexx/Nacre'}
 	]);
 var $author$project$Main$viewLabRepo = function (repo) {
 	return A2(
@@ -7187,7 +7221,7 @@ var $author$project$Main$viewLabRepo = function (repo) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('lab-repo'),
-				$elm$html$Html$Attributes$href(repo.c),
+				$elm$html$Html$Attributes$href(repo.b),
 				$elm$html$Html$Attributes$target('_blank'),
 				$elm$html$Html$Attributes$rel('noreferrer')
 			]),
@@ -7201,7 +7235,7 @@ var $author$project$Main$viewLabRepo = function (repo) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(repo.b)
+						$elm$html$Html$text(repo.c)
 					])),
 				A2(
 				$elm$html$Html$h3,
@@ -7215,18 +7249,18 @@ var $author$project$Main$viewLabRepo = function (repo) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						$elm$html$Html$text(repo.f)
+						$elm$html$Html$text(repo.k)
 					]))
 			]));
 };
 var $author$project$Main$viewRepoLab = function (github) {
-	var repoCount = A2(
+	var browseLabel = A2(
 		$elm$core$Maybe$withDefault,
-		59,
+		'Browse all repositories on GitHub',
 		A2(
 			$elm$core$Maybe$map,
-			function ($) {
-				return $.Z;
+			function (data) {
+				return 'Browse all ' + ($elm$core$String$fromInt(data.Z) + ' repositories on GitHub');
 			},
 			github));
 	return A2(
@@ -7292,17 +7326,21 @@ var $author$project$Main$viewRepoLab = function (github) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(
-						'Browse all ' + ($elm$core$String$fromInt(repoCount) + ' repositories on GitHub'))
+						$elm$html$Html$text(browseLabel)
 					]))
 			]));
 };
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
 var $author$project$Main$githubSnapshotLabel = function (github) {
 	if (!github.$) {
 		var data = github.a;
-		return 'Snapshot updated ' + (A2($elm$core$String$left, 10, data.ai) + '. Refreshed every six hours.');
+		return $elm$core$String$isEmpty(data.ab) ? ('Saved GitHub snapshot from ' + (A2($elm$core$String$left, 10, data.ak) + '.')) : data.ab;
 	} else {
-		return 'Showing the built-in snapshot. Updated data is temporarily unavailable.';
+		return 'Star counts appear when GitHub data is available.';
 	}
 };
 var $elm$html$Html$strong = _VirtualDom_node('strong');
@@ -7332,21 +7370,13 @@ var $author$project$Main$githubStat = F2(
 						]))
 				]));
 	});
-var $author$project$Main$tractionRepos = _List_fromArray(
-	[
-		{v: 'A static Nim binary for fuzzy file search, content filters, natural-language queries, and interactive selection.', b: 'NIM', a: 'fastfind', d: 17, c: 'https://github.com/RobertFlexx/fastfind'},
-		{v: 'An independent UNIX-like operating system with a custom kernel, userland, and package ecosystem.', b: 'C', a: 'ObeliskOS', d: 12, c: 'https://github.com/RobertFlexx/ObeliskOS'},
-		{v: 'Early experimental raylib 6.0 bindings for Scala Native.', b: 'SCALA', a: 'rayscal', d: 7, c: 'https://github.com/RobertFlexx/rayscal'},
-		{v: 'A Ruby shell with built-ins, autosuggestions, history tools, aliases, scripting, and quality-of-life features.', b: 'RUBY', a: 'RSH', d: 4, c: 'https://github.com/RobertFlexx/RSH'},
-		{v: 'A GTK and CLI disk-image writer for UNIX and UNIX-like systems.', b: 'C / GTK', a: 'UnixImage', d: 4, c: 'https://github.com/RobertFlexx/UnixImage'}
-	]);
 var $author$project$Main$viewTractionRepo = function (repo) {
 	return A2(
 		$elm$html$Html$a,
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('traction-row'),
-				$elm$html$Html$Attributes$href(repo.c),
+				$elm$html$Html$Attributes$href(repo.b),
 				$elm$html$Html$Attributes$target('_blank'),
 				$elm$html$Html$Attributes$rel('noreferrer')
 			]),
@@ -7372,7 +7402,7 @@ var $author$project$Main$viewTractionRepo = function (repo) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text(repo.b)
+								$elm$html$Html$text(repo.c)
 							]))
 					])),
 				A2(
@@ -7384,31 +7414,29 @@ var $author$project$Main$viewTractionRepo = function (repo) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text(
-						'★ ' + $elm$core$String$fromInt(repo.d))
+						'★ ' + $elm$core$String$fromInt(repo.e))
 					]))
 			]));
 };
 var $author$project$Main$viewTraction = function (github) {
-	var statValue = F2(
-		function (accessor, fallback) {
-			return $elm$core$String$fromInt(
-				A2(
-					$elm$core$Maybe$withDefault,
-					fallback,
-					A2($elm$core$Maybe$map, accessor, github)));
-		});
-	var rankedRepos = A2(
-		$elm$core$Maybe$withDefault,
-		$author$project$Main$tractionRepos,
-		A2(
-			$elm$core$Maybe$andThen,
-			$author$project$Main$nonEmptyList,
+	var statValue = function (accessor) {
+		return A2(
+			$elm$core$Maybe$withDefault,
+			'…',
 			A2(
 				$elm$core$Maybe$map,
-				function ($) {
-					return $.aB;
-				},
-				github)));
+				A2($elm$core$Basics$composeR, accessor, $elm$core$String$fromInt),
+				github));
+	};
+	var rankedRepos = A2(
+		$elm$core$Maybe$withDefault,
+		_List_Nil,
+		A2(
+			$elm$core$Maybe$map,
+			function ($) {
+				return $.aC;
+			},
+			github));
 	return A2(
 		$elm$html$Html$section,
 		_List_fromArray(
@@ -7453,30 +7481,24 @@ var $author$project$Main$viewTraction = function (github) {
 							[
 								A2(
 								$author$project$Main$githubStat,
-								A2(
-									statValue,
+								statValue(
 									function ($) {
 										return $.Z;
-									},
-									59),
+									}),
 								'Public repos'),
 								A2(
 								$author$project$Main$githubStat,
-								A2(
-									statValue,
+								statValue(
 									function ($) {
-										return $.aC;
-									},
-									137),
+										return $.aD;
+									}),
 								'GitHub stars'),
 								A2(
 								$author$project$Main$githubStat,
-								A2(
-									statValue,
+								statValue(
 									function ($) {
 										return $.Y;
-									},
-									34),
+									}),
 								'Languages used')
 							]))
 					])),
@@ -7731,11 +7753,11 @@ var $author$project$Main$view = function (model) {
 						$author$project$Main$viewBirthdayNotes,
 						$author$project$Main$viewHero,
 						$author$project$Main$viewProjects(model),
-						$author$project$Main$viewTraction(model.I),
+						$author$project$Main$viewTraction(model.H),
 						$author$project$Main$viewGameDev,
 						$author$project$Main$viewAbout,
-						$author$project$Main$viewRepoLab(model.I),
-						$author$project$Main$viewLanguages(model.I),
+						$author$project$Main$viewRepoLab(model.H),
+						$author$project$Main$viewLanguages(model.H),
 						$author$project$Main$viewWebFriends,
 						$author$project$Main$viewContact
 					])),
@@ -7744,12 +7766,12 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
-		aQ: function (_v0) {
+		aR: function (_v0) {
 			return _Utils_Tuple2(
-				{A: 0, I: $elm$core$Maybe$Nothing, x: false},
+				{z: 0, H: $elm$core$Maybe$Nothing, w: false},
 				$elm$core$Platform$Cmd$none);
 		},
-		aV: function (_v1) {
+		aX: function (_v1) {
 			return $elm$core$Platform$Sub$batch(
 				_List_fromArray(
 					[
@@ -7763,8 +7785,8 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 							A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string)))
 					]));
 		},
-		aX: $author$project$Main$update,
-		aY: $author$project$Main$view
+		aZ: $author$project$Main$update,
+		a_: $author$project$Main$view
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));

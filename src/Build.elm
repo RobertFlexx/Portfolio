@@ -111,7 +111,7 @@ viewPanel active =
                 [ architectureLayer "Model" "Stores the selected project filter, whether the mobile menu is open, and the decoded GitHub snapshot."
                 , architectureLayer "Update" "Receives messages when someone filters the projects, toggles the menu, or loads the snapshot."
                 , architectureLayer "View" "Renders the page from typed records for projects, games, languages, and friends."
-                , architectureLayer "Build" "Compiles Elm into JavaScript and SCSS into CSS. A scheduled workflow refreshes the public GitHub snapshot every six hours."
+                , architectureLayer "Build" "Compiles Elm into JavaScript and SCSS into CSS. A saved GitHub snapshot loads first; the browser refreshes public star counts every ten minutes."
                 ]
 
         ElmSource ->
@@ -144,6 +144,7 @@ viewFiles =
             , buildFile "src/Build.elm" "This page, including the source preview above."
             , buildFile "src/styles.scss" "Shared colors, typography, responsive layouts, and the birthday themes."
             , buildFile "index.html" "The Elm entry point, page metadata, and date-based birthday selection."
+            , buildFile "github-data.mjs" "Live GitHub counts, additional featured repositories, a local cache, and API retry handling."
             , buildFile "raylib.html & raylib-game.js" "The raylib page and little ship, using a locally hosted WebAssembly runtime."
             , buildFile "scripts/fetch-github-data.mjs" "Fetches public repository data during deployment. The browser receives JSON without an API token."
             ]
@@ -162,7 +163,7 @@ viewDecisions =
         , h2 [] [ text "Keep the moving parts small." ]
         , div [ class "decision-ledger" ]
             [ decision "Static hosting" "There is no application server or database. All pages can be served from a regular static host."
-            , decision "Fresh data at build time" "GitHub Actions refreshes repository pins, language counts, and stars every six hours. A built-in snapshot is available if the request fails."
+            , decision "GitHub data that stays current" "GitHub Actions saves the pins every six hours. The browser refreshes counts directly from GitHub every ten minutes and keeps the last saved data if a request fails."
             , decision "Layouts that can reflow" "Flexible columns, wrapping navigation, and shared page margins keep the layout usable at different widths and text sizes."
             , decision "A little celebration" "Birthday cards use the visitor's local date. They update at local midnight and when the page regains focus, including after a timezone change."
             ]
