@@ -221,7 +221,7 @@ viewBirthdayNotes =
     div [ class "birthday-notes" ]
         [ birthdayNote "robert" "November 21" "It's my birthday." "Yes, I put my own birthday on my website. Let me have this." "#about" "Who's this idiot?"
         , birthdayNote "kokonico" "October 24" "Happy birthday, Kokonico." "A little corner of the internet for a good friend." "https://kokonico.me" "Visit Kokonico"
-        , birthdayNote "moritisimor" "July 28" "Happy birthday, Moritisimor." "Here's to another year of making things." "https://github.com/Moritisimor/" "Visit Moritisimor"
+        , birthdayNote "moritisimor" "July 28" "Happy birthday, shawarma10." "Here's to another year of making things." "https://github.com/shawarma10/" "Visit shawarma10"
         ]
 
 
@@ -509,7 +509,7 @@ viewWebFriends =
             ]
         , div [ class "web-friends__cards" ]
             [ friendCard "friend-reference--kokonico" "Kokonico" "Python, backend systems, databases, and web design." "kokonico.me" "https://kokonico.me" "Happy birthday, Kokonico!" "Please don't invoice me."
-            , friendCard "friend-reference--moritisimor" "Moritisimor" "Runtimes, virtual machines, and small tools. Based in Germany." "github.com/Moritisimor" "https://github.com/Moritisimor/" "Alles Gute zum Geburtstag, Moritisimor!" "Ordnung muss sein."
+            , friendCard "friend-reference--moritisimor" "shawarma10" "Runtimes, virtual machines, and small tools. Based in Germany." "github.com/shawarma10" "https://github.com/shawarma10/" "Alles Gute zum Geburtstag, shawarma10!" "Ordnung muss sein."
             ]
         ]
 

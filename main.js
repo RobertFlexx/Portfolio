@@ -5916,7 +5916,7 @@ var $author$project$Main$viewBirthdayNotes = A2(
 		[
 			A6($author$project$Main$birthdayNote, 'robert', 'November 21', 'It\u0027s my birthday.', 'Yes, I put my own birthday on my website. Let me have this.', '#about', 'Who\u0027s this idiot?'),
 			A6($author$project$Main$birthdayNote, 'kokonico', 'October 24', 'Happy birthday, Kokonico.', 'A little corner of the internet for a good friend.', 'https://kokonico.me', 'Visit Kokonico'),
-			A6($author$project$Main$birthdayNote, 'moritisimor', 'July 28', 'Happy birthday, Moritisimor.', 'Here\u0027s to another year of making things.', 'https://github.com/Moritisimor/', 'Visit Moritisimor')
+			A6($author$project$Main$birthdayNote, 'moritisimor', 'July 28', 'Happy birthday, shawarma10.', 'Here\u0027s to another year of making things.', 'https://github.com/shawarma10/', 'Visit shawarma10')
 		]));
 var $author$project$Main$viewContact = A2(
 	$elm$html$Html$section,
@@ -7694,7 +7694,7 @@ var $author$project$Main$viewWebFriends = A2(
 			_List_fromArray(
 				[
 					A7($author$project$Main$friendCard, 'friend-reference--kokonico', 'Kokonico', 'Python, backend systems, databases, and web design.', 'kokonico.me', 'https://kokonico.me', 'Happy birthday, Kokonico!', 'Please don\u0027t invoice me.'),
-					A7($author$project$Main$friendCard, 'friend-reference--moritisimor', 'Moritisimor', 'Runtimes, virtual machines, and small tools. Based in Germany.', 'github.com/Moritisimor', 'https://github.com/Moritisimor/', 'Alles Gute zum Geburtstag, Moritisimor!', 'Ordnung muss sein.')
+					A7($author$project$Main$friendCard, 'friend-reference--moritisimor', 'shawarma10', 'Runtimes, virtual machines, and small tools. Based in Germany.', 'github.com/shawarma10', 'https://github.com/shawarma10/', 'Alles Gute zum Geburtstag, shawarma10!', 'Ordnung muss sein.')
 				]))
 		]));
 var $author$project$Main$view = function (model) {
